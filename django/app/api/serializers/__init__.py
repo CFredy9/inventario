@@ -1,0 +1,8 @@
+from .categoria import CategoriaSerializer, CategoriaRegistroSerializer
+from .gasto import GastoSerializer, GastoRegistroSerializer
+from .usuario import UsuarioSerializer, UsuarioRegistroSerializer
+from .ubicacion import UbicacionSerializer, UbicacionRegistroSerializer
+from .estanteria import EstanteriaSerializer, EstanteriaRegistroSerializer
+from .producto import ProductoSerializer, ProductoRegistroSerializer, VentaProductoSerializer
+from .detalleProducto import DetalleProductoSerializer, DetalleProductoRegistroSerializer
+from .venta import VentaSerializer, VentaRegistroSerializer
