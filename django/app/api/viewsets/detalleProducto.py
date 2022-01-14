@@ -66,7 +66,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
 
                     producto = Producto.objects.get(pk=data.get('producto'))
                     almacen = Ubicacion.objects.get(pk=data.get('almacen'))
-                    estanteria = Estanteria.objects.get(pk=data.get('estanteria'))
+                    #estanteria = Estanteria.objects.get(pk=data.get('estanteria'))
                     #print(request.data.get('profesion'))
 
                     detalleproducto = DetalleProducto.objects.create(
@@ -76,7 +76,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                         existencias=data.get('existencias'),
                         vencimiento=data.get('vencimiento'),
                         almacen=almacen,
-                        estanteria=estanteria
+                        #estanteria=estanteria
                     )
 
                 else:
@@ -99,8 +99,8 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                     producto = Producto.objects.get(pk=id_producto)
                     id_almacen = data.get('almacen')
                     almacen = Ubicacion.objects.get(pk=id_almacen)
-                    id_estanteria = data.get('estanteria')
-                    estanteria = Estanteria.objects.get(pk=id_estanteria)
+                    #id_estanteria = data.get('estanteria')
+                    #estanteria = Estanteria.objects.get(pk=id_estanteria)
 
                     detalleproducto.producto = producto
                     detalleproducto.precio_costo = data.get('precio_costo')
@@ -108,7 +108,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                     detalleproducto.existencias = data.get('existencias')
                     detalleproducto.vencimiento = data.get('vencimiento')
                     detalleproducto.almacen = almacen
-                    detalleproducto.estanteria = estanteria
+                    #detalleproducto.estanteria = estanteria
                     detalleproducto.save()
                 else:
                     return Response({"detail":str(verify.errors)}, status=status.HTTP_400_BAD_REQUEST)

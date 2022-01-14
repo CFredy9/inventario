@@ -22,17 +22,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Gasto',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('cantidad', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('descripcion', models.CharField(max_length=100)),
-                ('activo', models.BooleanField(default=True)),
-                ('creado', models.DateTimeField(auto_now_add=True)),
-                ('modificado', models.DateTimeField(auto_now=True)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Usuario',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

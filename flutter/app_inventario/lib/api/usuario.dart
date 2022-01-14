@@ -18,7 +18,7 @@ class UsuarioProvider with ChangeNotifier {
   }
 
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.9';
+  String apiUrl = '192.168.0.10';
   //String apiUrl = '192.168.43.83';
 
   void addUsuario(UsuarioModel usuario) async {
@@ -109,7 +109,7 @@ class MeProvider with ChangeNotifier {
     return [..._usuario];
   }
 
-  String apiUrl = '192.168.0.9';
+  String apiUrl = '192.168.0.10';
   //String apiUrl = '192.168.43.83';
 
   getUsuario() async {

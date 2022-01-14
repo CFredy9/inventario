@@ -38,7 +38,16 @@ class _ListViewGastosState extends State<ListViewGastos> {
         appBar: AppBar(
           title: Text('GASTOS'),
           centerTitle: true,
-          backgroundColor: Colors.blueAccent,
+          //backgroundColor: Colors.blueAccent,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.green],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+              ),
+            ),
+          ),
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
@@ -66,16 +75,9 @@ class _ListViewGastosState extends State<ListViewGastos> {
                             Expanded(
                               child: ListTile(
                                   title: Text(
-                                    '${gastoT.todosGasto[position].cantidad}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 21.0,
-                                    ),
-                                  ),
-                                  subtitle: Text(
                                     '${gastoT.todosGasto[position].descripcion}',
                                     style: TextStyle(
-                                      color: Colors.grey,
+                                      color: Colors.black,
                                       fontSize: 21.0,
                                     ),
                                   ),
@@ -90,14 +92,6 @@ class _ListViewGastosState extends State<ListViewGastos> {
                                 ),
                                 onPressed: () => _navigateToGasto(
                                     context, gastoT.todosGasto[position])),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ),
-                              onPressed: () => _showDialog(context,
-                                  gastoT.todosGasto[position], position),
-                            ),
                           ],
                         ),
                         color: Colors.white,

@@ -12,9 +12,9 @@ class DetalleProducto(models.Model):
     almacen = models.ForeignKey('Ubicacion', 
                                 on_delete=models.CASCADE,
                                 related_name="ubi")
-    estanteria = models.ForeignKey('Estanteria', 
+    """estanteria = models.ForeignKey('Estanteria', 
                                 on_delete=models.CASCADE,
-                                related_name="estan")
+                                related_name="estan", blank=True)"""
 
     activo = models.BooleanField(default=True)
     creado = models.DateTimeField(auto_now_add=True)

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class ReportesProvider with ChangeNotifier {
   ReportesProvider() {
-    getVentaProducto();
+    //getVentaProducto('', '');
   }
 
   List<ProductoModel> _ventaproducto = [];
@@ -21,16 +21,20 @@ class ReportesProvider with ChangeNotifier {
   }*/
 
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.9';
+  String apiUrl = '192.168.0.10';
   //String apiUrl = '192.168.43.83';
 
-  getVentaProducto() async {
+  getVentaProducto(String start, String end) async {
     _ventaproducto = [];
     var token = storage.getItem('token');
     final url = Uri.parse('http://${apiUrl}:8000/api/ventaproducto/');
     final response = await http.get(
       url,
-      headers: {'Authorization': 'token $token'},
+      headers: {
+        'Authorization': 'token $token',
+        'start': start,
+        'end': end,
+      },
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
@@ -43,13 +47,17 @@ class ReportesProvider with ChangeNotifier {
     }
   }
 
-  getTotales() async {
+  getTotales(String start, String end) async {
     totales = {'total_costo': 0, 'total_venta': 0, 'ganancia': 0};
     var token = storage.getItem('token');
     final url = Uri.parse('http://${apiUrl}:8000/api/ventaproducto/totales');
     final response = await http.get(
       url,
-      headers: {'Authorization': 'token $token'},
+      headers: {
+        'Authorization': 'token $token',
+        'start': start,
+        'end': end,
+      },
     );
     print(response.statusCode);
     print(response.body);

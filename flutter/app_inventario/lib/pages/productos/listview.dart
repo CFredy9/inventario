@@ -38,7 +38,16 @@ class _ListViewProductosState extends State<ListViewProductos> {
         appBar: AppBar(
           title: Text('PRODUCTOS'),
           centerTitle: true,
-          backgroundColor: Colors.blueAccent,
+          //backgroundColor: Colors.blueAccent,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.deepPurple],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+              ),
+            ),
+          ),
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {

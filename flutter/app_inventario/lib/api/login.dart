@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class LoginProvider with ChangeNotifier {
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.9';
+  String apiUrl = '192.168.0.10';
   //String apiUrl = '192.168.43.83';
 
   Future<bool> login(String email, String password) async {
@@ -27,7 +27,7 @@ class LoginProvider with ChangeNotifier {
   Future<bool> logOut() async {
     var token = storage.getItem('token');
     final response = await http.post(
-      Uri.parse("http://192.168.43.83:8000/api/usuario/logout/"),
+      Uri.parse("http://${apiUrl}:8000/api/usuario/logout/"),
       headers: {'Authorization': 'token $token'},
     );
     storage.deleteItem('token');

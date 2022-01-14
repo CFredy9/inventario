@@ -3,6 +3,7 @@ import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'api/categoria.dart';
 import 'api/gastos.dart';
+import 'api/detalle_gastos.dart';
 import 'api/ubicacion.dart';
 import 'api/estanteria.dart';
 import 'api/producto.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => CategoriaProvider()),
         ChangeNotifierProvider(create: (context) => GastosProvider()),
+        ChangeNotifierProvider(create: (context) => DetalleGastosProvider()),
         ChangeNotifierProvider(create: (context) => UbicacionProvider()),
         ChangeNotifierProvider(create: (context) => EstanteriaProvider()),
         ChangeNotifierProvider(create: (context) => ProductoProvider()),

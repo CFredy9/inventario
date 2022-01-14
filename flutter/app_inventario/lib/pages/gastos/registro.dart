@@ -19,14 +19,12 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
   // our form key
   final _formKey = GlobalKey<FormState>();
   // editing Controller
-  TextEditingController cantidadController = TextEditingController();
+  //TextEditingController cantidadController = TextEditingController();
   TextEditingController descripcionController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    cantidadController =
-        TextEditingController(text: widget.gastoModel.cantidad);
     descripcionController =
         TextEditingController(text: widget.gastoModel.descripcion);
   }
@@ -34,7 +32,7 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
   @override
   Widget build(BuildContext context) {
     //Campo Cantidad
-    final cantidadField = TextFormField(
+    /*final cantidadField = TextFormField(
         autofocus: false,
         controller: cantidadController,
         keyboardType: TextInputType.number,
@@ -59,7 +57,8 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-        ));
+        ));*/
+
     //Campo Descripcion
     final descripcionField = TextFormField(
         autofocus: false,
@@ -77,7 +76,7 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
           return null;
         },
         onSaved: (value) {
-          cantidadController.text = value!;
+          descripcionController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
@@ -147,8 +146,8 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 45),
-                    cantidadField,
+                    /*SizedBox(height: 45),
+                    cantidadField,*/
                     SizedBox(height: 45),
                     descripcionField,
                     SizedBox(height: 20),
@@ -165,11 +164,8 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
   }
 
   void onAdd() {
-    if (cantidadController.text.isNotEmpty &&
-        descripcionController.text.isNotEmpty) {
-      GastoModel gasto = GastoModel(
-          cantidad: cantidadController.text,
-          descripcion: descripcionController.text);
+    if (descripcionController.text.isNotEmpty) {
+      GastoModel gasto = GastoModel(descripcion: descripcionController.text);
       Provider.of<GastosProvider>(context, listen: false).addGasto(gasto);
       Fluttertoast.showToast(msg: "Gasto creado exitosamente :) ");
       Navigator.pushAndRemoveUntil(
@@ -180,11 +176,8 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
   }
 
   void onUpdate(int id) {
-    if (cantidadController.text.isNotEmpty &&
-        descripcionController.text.isNotEmpty) {
-      GastoModel gasto = GastoModel(
-          cantidad: cantidadController.text,
-          descripcion: descripcionController.text);
+    if (descripcionController.text.isNotEmpty) {
+      GastoModel gasto = GastoModel(descripcion: descripcionController.text);
       Provider.of<GastosProvider>(context, listen: false)
           .updateGasto(gasto, id);
       Fluttertoast.showToast(msg: "Gasto actualizado exitosamente :) ");

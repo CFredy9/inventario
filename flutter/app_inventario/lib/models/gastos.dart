@@ -1,22 +1,17 @@
 class GastoModel {
   int? id;
-  String? cantidad;
   String? descripcion;
-  String? fecha;
+  String? total;
 
-  GastoModel({this.id, this.cantidad, this.descripcion, this.fecha});
+  GastoModel({this.id, this.descripcion, this.total});
 
   factory GastoModel.fromJson(Map<String, dynamic> json) {
     return GastoModel(
-        id: json['id'],
-        cantidad: json['cantidad'],
-        descripcion: json['descripcion'],
-        fecha: json['creado']);
+        id: json['id'], descripcion: json['descripcion'], total: json['total']);
   }
 
   int? get Id => id;
-  String? get Cantidad => cantidad;
+  String? get Descripcion => descripcion;
 
-  dynamic toJson() =>
-      {'id': id, 'cantidad': cantidad, 'descripcion': descripcion};
+  dynamic toJson() => {'id': id, 'descripcion': descripcion, 'total': total};
 }

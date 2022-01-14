@@ -131,7 +131,16 @@ class _ProductoInformationState extends State<ProductoInformation> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Información de Producto'),
-        backgroundColor: Colors.blueAccent,
+        //backgroundColor: Colors.blueAccent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue, Colors.deepPurple],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
@@ -249,11 +258,11 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                       "Almacén : ${itemsDetalle.todosdetalleProducto[position].almacen['almacen']}",
                                       style: TextStyle(fontSize: 18.0),
                                     ),
-                                    Divider(),
+                                    /*Divider(),
                                     Text(
                                       "Estanteria : ${itemsDetalle.todosdetalleProducto[position].estanteria['estanteria']}",
                                       style: TextStyle(fontSize: 18.0),
-                                    ),
+                                    ),*/
                                     Divider(),
                                     //onPressed: () => _deleteProduct(context, items[position],position)),
                                     IconButton(

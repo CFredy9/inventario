@@ -8,6 +8,7 @@ from api import viewsets
 router = DefaultRouter()
 router.register(r'categoria', viewsets.CategoriaViewset)
 router.register(r'gasto', viewsets.GastoViewset)
+router.register(r'detallegasto', viewsets.DetalleGastoViewset)
 router.register(r'usuario', viewsets.UserViewset)
 router.register(r'ubicacion', viewsets.UbicacionViewset)
 router.register(r'estanteria', viewsets.EstanteriaViewset)

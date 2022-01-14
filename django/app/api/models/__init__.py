@@ -1,5 +1,5 @@
 from .categoria import Categoria
-from .gasto import Gasto
+from .gasto import Gasto, DetalleGasto
 from .usuario import Usuario
 from .ubicacion import Ubicacion
 from .estanteria import Estanteria

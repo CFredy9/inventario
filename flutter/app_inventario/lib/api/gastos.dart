@@ -17,8 +17,10 @@ class GastosProvider with ChangeNotifier {
     return [..._gasto];
   }
 
+  var total;
+  var saldo;
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.9';
+  String apiUrl = '192.168.0.10';
   //String apiUrl = '192.168.43.83';
 
   void addGasto(GastoModel gasto) async {
@@ -80,13 +82,82 @@ class GastosProvider with ChangeNotifier {
     final url = Uri.parse('http://${apiUrl}:8000/api/gasto/');
     final response = await http.get(
       url,
-      headers: {'Authorization': 'token $token'},
+      headers: {
+        'Authorization': 'token $token',
+        'start': '',
+      },
     );
     if (response.statusCode == 200) {
       var data = json.decode(response.body) as List;
       print(data);
       _gasto =
           data.map<GastoModel>((json) => GastoModel.fromJson(json)).toList();
+      notifyListeners();
+    }
+  }
+
+  getGastoBalance(String start, String end) async {
+    var token = storage.getItem('token');
+    final url = Uri.parse('http://${apiUrl}:8000/api/gasto/');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'token $token',
+        'start': start,
+        'end': end,
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body) as List;
+      print(data);
+      _gasto =
+          data.map<GastoModel>((json) => GastoModel.fromJson(json)).toList();
+      notifyListeners();
+    }
+  }
+
+  getTotalBalance(String start, String end) async {
+    total = {'total': 0};
+    var token = storage.getItem('token');
+    final url = Uri.parse('http://${apiUrl}:8000/api/gasto/totalBalance');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'token $token',
+        'start': start,
+        'end': end,
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      print(data);
+      total = data;
+      notifyListeners();
+    }
+  }
+
+  getSaldoBalance(String start, String end) async {
+    saldo = {'total': 0};
+    var token = storage.getItem('token');
+    final url = Uri.parse('http://${apiUrl}:8000/api/gasto/saldoBalance');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'token $token',
+        'start': start,
+        'end': end,
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      print(data);
+      double valor = double.parse(data['total']);
+      data['total'] = valor.toStringAsFixed(2);
+      saldo = data;
       notifyListeners();
     }
   }

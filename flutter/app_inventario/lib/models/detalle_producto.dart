@@ -6,28 +6,29 @@ class DetalleProductoModel {
   int? existencias;
   String? vencimiento;
   var almacen;
-  var estanteria;
+  //var estanteria;
 
-  DetalleProductoModel(
-      {this.id,
-      this.producto,
-      this.precio_costo,
-      this.precio_venta,
-      this.existencias,
-      this.vencimiento,
-      this.almacen,
-      this.estanteria});
+  DetalleProductoModel({
+    this.id,
+    this.producto,
+    this.precio_costo,
+    this.precio_venta,
+    this.existencias,
+    this.vencimiento,
+    this.almacen,
+  });
 
   factory DetalleProductoModel.fromJson(Map<String, dynamic> json) {
     return DetalleProductoModel(
-        id: json['id'],
-        producto: json['producto'],
-        precio_costo: json['precio_costo'],
-        precio_venta: json['precio_venta'],
-        existencias: json['existencias'],
-        vencimiento: json['vencimiento'],
-        almacen: json['almacen'],
-        estanteria: json['estanteria']);
+      id: json['id'],
+      producto: json['producto'],
+      precio_costo: json['precio_costo'],
+      precio_venta: json['precio_venta'],
+      existencias: json['existencias'],
+      vencimiento: json['vencimiento'],
+      almacen: json['almacen'],
+      //estanteria: json['estanteria']
+    );
   }
 
   int? get Id => id;
@@ -44,6 +45,6 @@ class DetalleProductoModel {
         'existencias': existencias,
         'vencimiento': vencimiento,
         'almacen': almacen,
-        'estanteria': estanteria
+        //'estanteria': estanteria
       };
 }

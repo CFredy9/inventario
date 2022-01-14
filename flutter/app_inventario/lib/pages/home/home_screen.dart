@@ -12,6 +12,7 @@ import '../ubicacion/listview.dart';
 import '../login/login_screen.dart';
 import '../venta/listview.dart';
 import '../reportes/listview.dart';
+import '../reportes/balance/listview.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -91,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const Icon(Icons.add_location), "Ubicación", ListViewUbicacion()),
         _getItem(const Icon(Icons.add_location), "Reportes",
             ListViewVentaProductos()),
+        _getItem(const Icon(Icons.add_location), "Balance", ListViewBalance()),
         info,
       ],
     );
@@ -111,6 +113,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Welcome"),
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue, Colors.deepPurple],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
       ),
       drawer: _getDrawer(context),
       body: Center(

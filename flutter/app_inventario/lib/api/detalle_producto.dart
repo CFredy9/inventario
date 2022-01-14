@@ -18,7 +18,7 @@ class DetalleProductoProvider with ChangeNotifier {
   }
 
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.9';
+  String apiUrl = '192.168.0.10';
   //String apiUrl = '192.168.43.83';
 
   Future<bool> addDetalleProducto(

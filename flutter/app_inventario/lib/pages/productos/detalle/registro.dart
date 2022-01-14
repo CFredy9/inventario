@@ -5,11 +5,11 @@ import '../information.dart';
 import '../../../models/producto.dart';
 import '../../../models/categoria.dart';
 import '../../../models/ubicacion.dart';
-import '../../../models/estanteria.dart';
+//import '../../../models/estanteria.dart';
 import '../../../models/detalle_producto.dart';
 import '../../../api/detalle_producto.dart';
 import '../../../api/ubicacion.dart';
-import '../../../api/estanteria.dart';
+//import '../../../api/estanteria.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -47,7 +47,7 @@ class _RegistrationDetalleProductoState
   //List<EstanteriaModel> items3 = <EstanteriaModel>[];
 
   UbicacionProvider items2 = UbicacionProvider();
-  EstanteriaProvider items3 = EstanteriaProvider();
+  //EstanteriaProvider items3 = EstanteriaProvider();
 
   @override
   void initState() {
@@ -75,7 +75,7 @@ class _RegistrationDetalleProductoState
 
       //control = true;
 
-      valoresEstan = widget._detalleproductoModel.estanteria['id'].toString();
+      //valoresEstan = widget._detalleproductoModel.estanteria['id'].toString();
     } else {
       print(widget._detalleproductoModel.Id);
       existenciasController = TextEditingController(text: contador.toString());
@@ -85,7 +85,7 @@ class _RegistrationDetalleProductoState
   @override
   Widget build(BuildContext context) {
     items2 = Provider.of<UbicacionProvider>(context);
-    items3 = Provider.of<EstanteriaProvider>(context);
+    //items3 = Provider.of<EstanteriaProvider>(context);
 
     //Campo Precio Costo
     final precioCostoField = TextFormField(
@@ -159,7 +159,7 @@ class _RegistrationDetalleProductoState
           onChanged: (valorNuevo) {
             setState(() {
               valoresUbi = valorNuevo.toString();
-              control = true;
+              /*control = true;
               valoresUbi = valorNuevo.toString();
               items3.getEstanteria(valoresUbi);
               print("Antes");
@@ -171,8 +171,8 @@ class _RegistrationDetalleProductoState
                 print(items3.todosEstanteria.length);
                 if (items3.todosEstanteria.isNotEmpty) {
                   valoresEstan = items3.todosEstanteria[0].Id.toString();
-                }
-              }
+                } 
+              }*/
             });
           },
           items: items2.todosUbicacion.map((map) {
@@ -186,7 +186,7 @@ class _RegistrationDetalleProductoState
         ));
 
     //Campo Estanteria
-    final estanteriaField = Container(
+    /*final estanteriaField = Container(
         padding: EdgeInsets.only(left: 0, right: 16),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey, width: 1),
@@ -214,7 +214,7 @@ class _RegistrationDetalleProductoState
               ),
             );
           }).toList(),
-        ));
+        ));*/
     //Campo Existencias
     final existenciasField = Container(
         color: Colors.white,
@@ -375,8 +375,8 @@ class _RegistrationDetalleProductoState
                     vencimientoField,
                     SizedBox(height: 20),
                     ubicacionField,
-                    SizedBox(height: 20),
-                    estanteriaField,
+                    /*SizedBox(height: 20),
+                    estanteriaField,*/
                     SizedBox(height: 20),
                     existenciasField,
                     SizedBox(height: 20),
@@ -395,6 +395,7 @@ class _RegistrationDetalleProductoState
   _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
+      //initialDatePickerMode: DatePickerMode.year,
       initialDate: selectedDate,
       firstDate: DateTime(2021),
       lastDate: DateTime(2025),
@@ -422,13 +423,14 @@ class _RegistrationDetalleProductoState
         existenciasController.text.isNotEmpty &&
         vencimientoController.text.isNotEmpty) {
       DetalleProductoModel detalleproducto = DetalleProductoModel(
-          producto: widget.__productModel.Id,
-          precio_costo: precioCostoController.text,
-          precio_venta: precioVentaController.text,
-          existencias: int.parse(existenciasController.text),
-          vencimiento: vencimientoController.text,
-          almacen: valoresUbi,
-          estanteria: valoresEstan);
+        producto: widget.__productModel.Id,
+        precio_costo: precioCostoController.text,
+        precio_venta: precioVentaController.text,
+        existencias: int.parse(existenciasController.text),
+        vencimiento: vencimientoController.text,
+        almacen: valoresUbi,
+        //estanteria: valoresEstan
+      );
       bool istoken =
           await Provider.of<DetalleProductoProvider>(context, listen: false)
               .addDetalleProducto(
@@ -456,13 +458,14 @@ class _RegistrationDetalleProductoState
         existenciasController.text.isNotEmpty &&
         vencimientoController.text.isNotEmpty) {
       DetalleProductoModel detalleproducto = DetalleProductoModel(
-          producto: widget.__productModel.Id,
-          precio_costo: precioCostoController.text,
-          precio_venta: precioVentaController.text,
-          existencias: int.parse(existenciasController.text),
-          vencimiento: vencimientoController.text,
-          almacen: valoresUbi,
-          estanteria: valoresEstan);
+        producto: widget.__productModel.Id,
+        precio_costo: precioCostoController.text,
+        precio_venta: precioVentaController.text,
+        existencias: int.parse(existenciasController.text),
+        vencimiento: vencimientoController.text,
+        almacen: valoresUbi,
+        //estanteria: valoresEstan
+      );
       bool istoken =
           await Provider.of<DetalleProductoProvider>(context, listen: false)
               .updateDetalleProducto(

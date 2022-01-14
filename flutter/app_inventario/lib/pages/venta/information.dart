@@ -22,7 +22,16 @@ class _VentaInformationState extends State<VentaInformation> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Información de Venta'),
-        backgroundColor: Colors.blueAccent,
+        //backgroundColor: Colors.blueAccent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue, Colors.deepPurple],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+        ),
       ),
       body: Center(
         child: Container(

@@ -1,5 +1,5 @@
 from .categoria import CategoriaSerializer, CategoriaRegistroSerializer
-from .gasto import GastoSerializer, GastoRegistroSerializer
+from .gasto import GastoSerializer, GastoRegistroSerializer, DetalleGastoSerializer, DetalleGastoRegistroSerializer
 from .usuario import UsuarioSerializer, UsuarioRegistroSerializer
 from .ubicacion import UbicacionSerializer, UbicacionRegistroSerializer
 from .estanteria import EstanteriaSerializer, EstanteriaRegistroSerializer

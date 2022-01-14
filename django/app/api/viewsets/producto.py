@@ -1,5 +1,7 @@
+import datetime
 from decimal import Rounded
 from unicodedata import decimal
+from xmlrpc.client import DateTime
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, filters, viewsets
 from rest_framework.decorators import action
@@ -113,9 +115,22 @@ class VentaProductoViewset(viewsets.ModelViewSet):
 
     def list (self, request, *args, **kwargs):
         #user = request.user
-        data = request.query_params
+        data = request.headers
+
+        
+        
+        first_date = datetime.datetime.strptime(data['start'], "%Y/%m/%d").date()
+        last_date = datetime.datetime.strptime(data['end'], "%Y/%m/%d").date()
+
+        first_date = first_date.strftime('%Y-%m-%d %H:%M:%S')
+        last_date = last_date.strftime('%Y-%m-%d %H:%M:%S')
+
+        print('Fecha Producto')
+        print(first_date)
+        print(last_date)
         #Filtración de calificacion de tareas del estudiante (Calificadas)
-        queryset = Producto.objects.filter(activo=True).annotate(
+        queryset = Producto.objects.filter(producto__producto_venta__creado__range=(first_date, last_date), 
+        activo=True).annotate(
             existenciasT=Sum('producto__producto_venta__fardos'),
             total_costo=Sum('producto__producto_venta__total_costo'),
             total_venta=Sum('producto__producto_venta__total_venta'),
@@ -147,14 +162,30 @@ class VentaProductoViewset(viewsets.ModelViewSet):
     @action(methods=["get"], detail=False)
     def totales(self, request, *args, **kwargs):
         user = request.user
-        data = request.query_params
-        queryset = Venta.objects.filter( 
+        data = request.headers
+        
+        first_date = datetime.datetime.strptime(data['start'], "%Y/%m/%d").date()
+        last_date = datetime.datetime.strptime(data['end'], "%Y/%m/%d").date()
+
+        first_date = first_date.strftime('%Y-%m-%d %H:%M:%S')
+        last_date = last_date.strftime('%Y-%m-%d %H:%M:%S')
+
+        print('Fecha Totales')
+        print(first_date)
+        print(last_date)
+
+        queryset = Venta.objects.filter(creado__range=(first_date, last_date), 
             activo=True
             ).aggregate(
                 total_costo=Sum('total_costo'),
                 total_venta=Sum('total_venta'),
                 ganancia=Sum('ganancia'), 
                 ) 
+        if(queryset['ganancia'] == None):
+            queryset['total_costo'] = 0
+            queryset['total_venta'] = 0
+            queryset['ganancia'] = 0
+
         queryset['total_costo'] = str(round(queryset['total_costo'], 2))
         queryset['total_venta'] = str(round(queryset['total_venta'], 2))
         queryset['ganancia'] = str(round(queryset['ganancia'], 2))

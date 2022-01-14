@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '/pages/home/home_screen.dart';
 import 'dart:async';
 import 'registro.dart';
-import './estanteria/listview.dart';
+//import './estanteria/listview.dart';
 import '../../models/ubicacion.dart';
 import '../../api/ubicacion.dart';
 
@@ -63,23 +63,24 @@ class _ListViewUbicacionState extends State<ListViewUbicacion> {
                           children: <Widget>[
                             Expanded(
                               child: ListTile(
-                                  title: Text(
-                                    '${ubicacionT.todosUbicacion[position].almacen}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 21.0,
-                                    ),
+                                title: Text(
+                                  '${ubicacionT.todosUbicacion[position].almacen}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 21.0,
                                   ),
-                                  /*subtitle: Text(
+                                ),
+                                /*subtitle: Text(
                                     '${items[position].Almacen}',
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 21.0,
                                     ),
                                   ), */
-                                  onTap: () => _navigateToUbicacionEstanteria(
+                                /*onTap: () => _navigateToUbicacionEstanteria(
                                       context,
-                                      ubicacionT.todosUbicacion[position])),
+                                      ubicacionT.todosUbicacion[position])*/
+                              ),
                             ),
                             //onPressed: () => _deleteProduct(context, items[position],position)),
                             IconButton(
@@ -157,13 +158,13 @@ class _ListViewUbicacionState extends State<ListViewUbicacion> {
     );
   }
 
-  void _navigateToUbicacionEstanteria(
+  /*void _navigateToUbicacionEstanteria(
       BuildContext context, UbicacionModel ubicacion) async {
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ListViewEstanteria(ubicacion)),
     );
-  }
+  }*/
 
   void _createNewUbicacion(BuildContext context) async {
     await Navigator.push(
