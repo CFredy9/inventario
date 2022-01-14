@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'api/categoria.dart';
 import 'api/gastos.dart';
 import 'api/detalle_gastos.dart';
-import 'api/ubicacion.dart';
-import 'api/estanteria.dart';
+//import 'api/ubicacion.dart';
+//import 'api/estanteria.dart';
 import 'api/producto.dart';
 import 'api/detalle_producto.dart';
 import 'api/usuario.dart';
@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CategoriaProvider()),
         ChangeNotifierProvider(create: (context) => GastosProvider()),
         ChangeNotifierProvider(create: (context) => DetalleGastosProvider()),
-        ChangeNotifierProvider(create: (context) => UbicacionProvider()),
-        ChangeNotifierProvider(create: (context) => EstanteriaProvider()),
+        //ChangeNotifierProvider(create: (context) => UbicacionProvider()),
+        //ChangeNotifierProvider(create: (context) => EstanteriaProvider()),
         ChangeNotifierProvider(create: (context) => ProductoProvider()),
         ChangeNotifierProvider(create: (context) => DetalleProductoProvider()),
         ChangeNotifierProvider(create: (context) => UsuarioProvider()),

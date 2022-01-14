@@ -5,7 +5,7 @@ from api.serializers import ProductoSerializer, UbicacionSerializer, EstanteriaS
 
 class DetalleProductoSerializer(serializers.ModelSerializer):
     producto = ProductoSerializer()
-    almacen = UbicacionSerializer()
+    #almacen = UbicacionSerializer()
     #estanteria = EstanteriaSerializer()
     class Meta:
         model = DetalleProducto
@@ -16,7 +16,7 @@ class DetalleProductoSerializer(serializers.ModelSerializer):
             'precio_venta',
             'existencias',
             'vencimiento',
-            'almacen',
+            #'almacen',
             #'estanteria',
         )
         depth=2
@@ -32,6 +32,6 @@ class DetalleProductoRegistroSerializer(serializers.ModelSerializer):
             'precio_venta',
             'existencias',
             'vencimiento',
-            'almacen',
+            #'almacen',
             #'estanteria',
         )

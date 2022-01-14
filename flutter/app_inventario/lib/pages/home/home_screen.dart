@@ -88,11 +88,12 @@ class _HomeScreenState extends State<HomeScreen> {
         _getItem(const Icon(Icons.money), "Ventas", ListViewVenta()),
         _getItem(const Icon(Icons.production_quantity_limits), "Productos",
             ListViewProductos()),
-        _getItem(
-            const Icon(Icons.add_location), "Ubicación", ListViewUbicacion()),
-        _getItem(const Icon(Icons.add_location), "Reportes",
+        /*_getItem(
+            const Icon(Icons.add_location), "Ubicación", ListViewUbicacion()),*/
+        _getItem(const Icon(Icons.receipt_long_outlined), "Reportes",
             ListViewVentaProductos()),
-        _getItem(const Icon(Icons.add_location), "Balance", ListViewBalance()),
+        _getItem(const Icon(Icons.receipt_long_outlined), "Balance",
+            ListViewBalance()),
         info,
       ],
     );

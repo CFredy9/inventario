@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import '../information.dart';
 import '../../../models/producto.dart';
 import '../../../models/categoria.dart';
-import '../../../models/ubicacion.dart';
+//import '../../../models/ubicacion.dart';
 //import '../../../models/estanteria.dart';
 import '../../../models/detalle_producto.dart';
 import '../../../api/detalle_producto.dart';
-import '../../../api/ubicacion.dart';
+//import '../../../api/ubicacion.dart';
 //import '../../../api/estanteria.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -46,7 +46,7 @@ class _RegistrationDetalleProductoState
   //List<UbicacionModel> items2 = <UbicacionModel>[];
   //List<EstanteriaModel> items3 = <EstanteriaModel>[];
 
-  UbicacionProvider items2 = UbicacionProvider();
+  //UbicacionProvider items2 = UbicacionProvider();
   //EstanteriaProvider items3 = EstanteriaProvider();
 
   @override
@@ -71,7 +71,7 @@ class _RegistrationDetalleProductoState
       existenciasController = TextEditingController(
           text: widget._detalleproductoModel.Existencias.toString());
       contador = widget._detalleproductoModel.Existencias!.toInt();
-      valoresUbi = widget._detalleproductoModel.almacen['id'].toString();
+      //valoresUbi = widget._detalleproductoModel.almacen['id'].toString();
 
       //control = true;
 
@@ -84,7 +84,7 @@ class _RegistrationDetalleProductoState
 
   @override
   Widget build(BuildContext context) {
-    items2 = Provider.of<UbicacionProvider>(context);
+    //items2 = Provider.of<UbicacionProvider>(context);
     //items3 = Provider.of<EstanteriaProvider>(context);
 
     //Campo Precio Costo
@@ -143,7 +143,7 @@ class _RegistrationDetalleProductoState
         ));
 
     //Campo Ubicacion
-    final ubicacionField = Container(
+    /*final ubicacionField = Container(
         padding: EdgeInsets.only(left: 0, right: 16),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey, width: 1),
@@ -183,7 +183,7 @@ class _RegistrationDetalleProductoState
               ),
             );
           }).toList(),
-        ));
+        ));*/
 
     //Campo Estanteria
     /*final estanteriaField = Container(
@@ -373,9 +373,9 @@ class _RegistrationDetalleProductoState
                     precioVentaField,
                     SizedBox(height: 20),
                     vencimientoField,
-                    SizedBox(height: 20),
-                    ubicacionField,
                     /*SizedBox(height: 20),
+                    ubicacionField,
+                    SizedBox(height: 20),
                     estanteriaField,*/
                     SizedBox(height: 20),
                     existenciasField,

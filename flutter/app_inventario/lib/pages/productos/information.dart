@@ -253,12 +253,12 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                       "Vencimiento : ${itemsDetalle.todosdetalleProducto[position].Vencimiento}",
                                       style: TextStyle(fontSize: 18.0),
                                     ),
-                                    Divider(),
+                                    /*Divider(),
                                     Text(
                                       "Almacén : ${itemsDetalle.todosdetalleProducto[position].almacen['almacen']}",
                                       style: TextStyle(fontSize: 18.0),
                                     ),
-                                    /*Divider(),
+                                    Divider(),
                                     Text(
                                       "Estanteria : ${itemsDetalle.todosdetalleProducto[position].estanteria['estanteria']}",
                                       style: TextStyle(fontSize: 18.0),

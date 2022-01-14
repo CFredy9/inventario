@@ -65,7 +65,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                 if verify.is_valid():
 
                     producto = Producto.objects.get(pk=data.get('producto'))
-                    almacen = Ubicacion.objects.get(pk=data.get('almacen'))
+                    #almacen = Ubicacion.objects.get(pk=data.get('almacen'))
                     #estanteria = Estanteria.objects.get(pk=data.get('estanteria'))
                     #print(request.data.get('profesion'))
 
@@ -75,7 +75,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                         precio_venta=data.get('precio_venta'),
                         existencias=data.get('existencias'),
                         vencimiento=data.get('vencimiento'),
-                        almacen=almacen,
+                        #almacen=almacen,
                         #estanteria=estanteria
                     )
 
@@ -97,8 +97,8 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                     detalleproducto = DetalleProducto.objects.get(pk=pk)
                     id_producto = data.get('producto')
                     producto = Producto.objects.get(pk=id_producto)
-                    id_almacen = data.get('almacen')
-                    almacen = Ubicacion.objects.get(pk=id_almacen)
+                    #id_almacen = data.get('almacen')
+                    #almacen = Ubicacion.objects.get(pk=id_almacen)
                     #id_estanteria = data.get('estanteria')
                     #estanteria = Estanteria.objects.get(pk=id_estanteria)
 
@@ -107,7 +107,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                     detalleproducto.precio_venta = data.get('precio_venta')
                     detalleproducto.existencias = data.get('existencias')
                     detalleproducto.vencimiento = data.get('vencimiento')
-                    detalleproducto.almacen = almacen
+                    #detalleproducto.almacen = almacen
                     #detalleproducto.estanteria = estanteria
                     detalleproducto.save()
                 else:

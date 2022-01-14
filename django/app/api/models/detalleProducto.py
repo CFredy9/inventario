@@ -9,10 +9,10 @@ class DetalleProducto(models.Model):
     precio_venta = models.DecimalField(max_digits=8, decimal_places=2)
     existencias = models.IntegerField(default=0)
     vencimiento = models.CharField(max_length=50, blank=True)
-    almacen = models.ForeignKey('Ubicacion', 
+    """almacen = models.ForeignKey('Ubicacion', 
                                 on_delete=models.CASCADE,
-                                related_name="ubi")
-    """estanteria = models.ForeignKey('Estanteria', 
+                                related_name="ubi", blank=True)
+    estanteria = models.ForeignKey('Estanteria', 
                                 on_delete=models.CASCADE,
                                 related_name="estan", blank=True)"""
 
