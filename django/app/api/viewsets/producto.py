@@ -40,7 +40,15 @@ class ProductoViewset(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):
-        queryset = Producto.objects.filter(activo=True).annotate(existenciasT=Sum('producto__existencias'))
+        data = request.headers
+        id = data['Id']
+        print('Valor Categoria' + id)
+        if id == '':
+            print('Entra1')
+            queryset = Producto.objects.filter(activo=True).annotate(existenciasT=Sum('producto__existencias'))
+        else:
+            print('Entra2')
+            queryset = Producto.objects.filter(categoria__id=id, activo=True).annotate(existenciasT=Sum('producto__existencias'))
         #queryset = DetalleProducto.objects.filter(activo=True)
         serializer = ProductoSerializer(queryset, many=True)
 
@@ -51,6 +59,8 @@ class ProductoViewset(viewsets.ModelViewSet):
             serializer = self.get_serializer(page, many=True)
             data = serializer.data
             return self.get_paginated_response(data)
+
+        #print(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

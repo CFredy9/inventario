@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../constants.dart';
 import '/pages/home/home_screen.dart';
 import 'dart:async';
 import 'registro.dart';
@@ -39,77 +40,100 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Lista de Categorias'),
-          centerTitle: true,
-          backgroundColor: Colors.blueAccent,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              // passing this to our root
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()));
-            },
+        backgroundColor: ColorF,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80.0),
+          child: AppBar(
+            elevation: 0,
+            title: Text('Lista de Categorias'),
+            centerTitle: true,
+            backgroundColor: ColorF,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                // passing this to our root
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
+            ),
           ),
         ),
-        body: Center(
-          child: ListView.builder(
-              itemCount: categoriaT.todos.length,
-              padding: EdgeInsets.only(top: 3.0),
-              itemBuilder: (context, position) {
-                return Column(
-                  children: <Widget>[
-                    Divider(
-                      height: 1.0,
-                    ),
-                    Container(
-                      padding: new EdgeInsets.all(3.0),
-                      child: Card(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: ListTile(
-                                  title: Text(
-                                    '${categoriaT.todos[position].nombre}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 21.0,
+        body: Container(
+          padding: EdgeInsets.all(20),
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50),
+              topRight: Radius.circular(50),
+            ),
+          ),
+          child: Center(
+            child: ListView.builder(
+                itemCount: categoriaT.todos.length,
+                padding: EdgeInsets.only(top: 3.0),
+                itemBuilder: (context, position) {
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            )),
+                        padding: new EdgeInsets.all(3.0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: ListTile(
+                                    title: Center(
+                                      child: Text(
+                                        '${categoriaT.todos[position].nombre}',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 21.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  onTap: () => _navigateToCategoria(
-                                      context, categoriaT.todos[position])),
-                            ),
-                            //onPressed: () => _deleteProduct(context, items[position],position)),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Colors.blueAccent,
-                                ),
-                                onPressed: () => _navigateToCategoria(
-                                    context, categoriaT.todos[position])),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
+                                    onTap: () => _navigateToCategoria(
+                                        context, categoriaT.todos[position])),
                               ),
-                              onPressed: () => _showDialog(context,
-                                  categoriaT.todos[position], position),
-                            ),
-                          ],
+                              //onPressed: () => _deleteProduct(context, items[position],position)),
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: ColorF,
+                                  ),
+                                  onPressed: () => _navigateToCategoria(
+                                      context, categoriaT.todos[position])),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: ColorF,
+                                ),
+                                onPressed: () => _showDialog(context,
+                                    categoriaT.todos[position], position),
+                              ),
+                            ],
+                          ),
+                          color: Colors.white,
                         ),
-                        color: Colors.white,
                       ),
-                    ),
-                  ],
-                );
-              }),
+                    ],
+                  );
+                }),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,
             color: Colors.white,
           ),
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: ColorF,
           onPressed: () => _createNewCategoria(context),
         ),
       ),

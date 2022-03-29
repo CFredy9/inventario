@@ -1,5 +1,6 @@
 import 'package:app_inventario/api/reportes.dart';
 import 'package:app_inventario/models/producto.dart';
+import 'package:app_inventario/constants.dart';
 import 'package:app_inventario/pages/reportes/information.dart';
 import 'package:app_inventario/pages/reportes/listview.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,6 +59,7 @@ class _ReporteMensualState extends State<ReporteMensual> {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ButtonWidget(
                   onClicked: () => Utils.showSheet(
@@ -96,16 +98,21 @@ class _ReporteMensualState extends State<ReporteMensual> {
                     },
                   ),
                 ),
-                SizedBox(
-                  width: 8,
+                const SizedBox(
+                  width: 15,
                 ),
-                Text('${valorFecha}', style: TextStyle(fontSize: 20)),
+                Text('${valorFecha}',
+                    style: const TextStyle(
+                        fontSize: 20,
+                        color: ColorF,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold)),
               ],
             ),
             Center(
               child: Container(
-                height: 100,
-                padding: const EdgeInsets.all(5.0),
+                height: 115,
+                padding: const EdgeInsets.all(0.0),
                 child: Card(
                   child: Center(
                     child: Column(
@@ -117,27 +124,49 @@ class _ReporteMensualState extends State<ReporteMensual> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Padding(
-                              padding: EdgeInsets.only(top: 10.0),
+                              padding: EdgeInsets.only(top: 15.0),
                             ),
                             Text(
                               'Saldo: Q.${productoT.totales['ganancia']}',
                               style:
-                                  TextStyle(fontSize: 22.0, color: Colors.blue),
+                                  TextStyle(fontSize: 20.0, color: Colors.blue),
                             ),
                             Column(
                               children: [
-                                Text(
-                                  'Ventas : Q.${productoT.totales['total_venta']}',
-                                  style: TextStyle(
-                                      fontSize: 18.0, color: Colors.green),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        icon: const Icon(
+                                          Icons.arrow_circle_up_outlined,
+                                          color: Colors.green,
+                                          size: 24,
+                                        ),
+                                        onPressed: () {}),
+                                    Text(
+                                      'Q.${productoT.totales['total_venta']}',
+                                      style: TextStyle(
+                                          fontSize: 18.0, color: Colors.green),
+                                    ),
+                                  ],
                                 ),
                                 const Padding(
-                                  padding: EdgeInsets.only(top: 10.0),
+                                  padding: EdgeInsets.only(top: 0.0),
                                 ),
-                                Text(
-                                  'Costos : Q.${productoT.totales['total_costo']}',
-                                  style: TextStyle(
-                                      fontSize: 18.0, color: Colors.red),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        icon: const Icon(
+                                          Icons.arrow_circle_down_sharp,
+                                          color: Colors.red,
+                                          size: 24,
+                                        ),
+                                        onPressed: () {}),
+                                    Text(
+                                      'Q.${productoT.totales['total_costo']}',
+                                      style: TextStyle(
+                                          fontSize: 18.0, color: Colors.red),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -156,29 +185,54 @@ class _ReporteMensualState extends State<ReporteMensual> {
                   itemBuilder: (context, position) {
                     return Column(
                       children: <Widget>[
-                        Divider(
-                          height: 1.0,
-                        ),
                         Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              )),
                           padding: new EdgeInsets.all(3.0),
                           child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
                             child: Row(
                               children: <Widget>[
                                 Expanded(
                                   child: ListTile(
-                                      title: Text(
-                                        '${productoT.todosVentaProducto[position].Nombre}',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 21.0,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        'Ganancia: Q.' +
-                                            '${(productoT.todosVentaProducto[position].ganancia == null) ? productoT.todosVentaProducto[position].ganancia = '0' : productoT.todosVentaProducto[position].ganancia}',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 21.0,
+                                      title: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${productoT.todosVentaProducto[position].Nombre}',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                IconButton(
+                                                    icon: const Icon(
+                                                      Icons
+                                                          .arrow_circle_up_outlined,
+                                                      color: Colors.blue,
+                                                      size: 24,
+                                                    ),
+                                                    onPressed: () {}),
+                                                Text(
+                                                  'Q.' +
+                                                      '${(productoT.todosVentaProducto[position].ganancia == null) ? productoT.todosVentaProducto[position].ganancia = '0' : productoT.todosVentaProducto[position].ganancia}',
+                                                  style: const TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       onTap: () =>
@@ -223,13 +277,25 @@ class _ReporteMensualState extends State<ReporteMensual> {
 
   Widget buildDatePicker() => SizedBox(
         height: 180,
-        child: CupertinoDatePicker(
-          minimumYear: 2015,
-          maximumYear: DateTime.now().year,
-          initialDateTime: dateTime,
-          mode: CupertinoDatePickerMode.date,
-          onDateTimeChanged: (dateTime) =>
-              setState(() => this.dateTime = dateTime),
+        child: CupertinoTheme(
+          data: const CupertinoThemeData(
+            textTheme: CupertinoTextThemeData(
+              dateTimePickerTextStyle: TextStyle(
+                  fontSize: 18,
+                  color: ColorF,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          child: CupertinoDatePicker(
+            backgroundColor: Colors.white,
+            minimumYear: 2015,
+            maximumYear: DateTime.now().year,
+            initialDateTime: dateTime,
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: (dateTime) =>
+                setState(() => this.dateTime = dateTime),
+          ),
         ),
       );
 
@@ -255,11 +321,16 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
-        style: ElevatedButton.styleFrom(minimumSize: Size(50, 42)),
+        style: ElevatedButton.styleFrom(
+            minimumSize: Size(50, 42), primary: Colors.white),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.date_range, size: 35),
+            Icon(
+              Icons.date_range,
+              size: 40,
+              color: ColorF,
+            ),
           ],
         ),
         onPressed: onClicked,

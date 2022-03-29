@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:localstorage/localstorage.dart';
+import '../constants.dart';
 import '../models/usuario.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,8 +19,6 @@ class UsuarioProvider with ChangeNotifier {
   }
 
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.10';
-  //String apiUrl = '192.168.43.83';
 
   void addUsuario(UsuarioModel usuario) async {
     var token = storage.getItem('token');
@@ -108,9 +107,6 @@ class MeProvider with ChangeNotifier {
   List<UsuarioModel> get todosUsuario {
     return [..._usuario];
   }
-
-  String apiUrl = '192.168.0.10';
-  //String apiUrl = '192.168.43.83';
 
   getUsuario() async {
     var token = storage.getItem('token');

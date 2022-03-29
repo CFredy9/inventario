@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 import '../../../models/venta.dart';
 import '../../../models/producto.dart';
+import '../../constants.dart';
 
 class ListViewVenta extends StatefulWidget {
   @override
@@ -40,78 +41,104 @@ class _ListViewVentaState extends State<ListViewVenta> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Ventas'),
-          centerTitle: true,
-          //backgroundColor: Colors.blueAccent,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.deepPurple],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft,
+        backgroundColor: ColorF,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80.0),
+          child: AppBar(
+            elevation: 0,
+            title: Text('Ventas'),
+            centerTitle: true,
+            backgroundColor: ColorF,
+            /*flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.deepPurple],
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft,
+                ),
               ),
+            ),*/
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                // passing this to our root
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
             ),
           ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              // passing this to our root
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()));
-            },
-          ),
         ),
-        body: Center(
-          child: ListView.builder(
-              itemCount: ventaT.todosVenta.length,
-              padding: EdgeInsets.only(top: 3.0),
-              itemBuilder: (context, position) {
-                return Column(
-                  children: <Widget>[
-                    Divider(
-                      height: 1.0,
-                    ),
-                    Container(
-                      padding: new EdgeInsets.all(3.0),
-                      child: Card(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: ListTile(
-                                  title: Text(
-                                    '${ventaT.todosVenta[position].detalleproducto['producto']['nombre']}',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 21.0,
+        body: Container(
+          padding: EdgeInsets.all(20),
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50),
+              topRight: Radius.circular(50),
+            ),
+          ),
+          child: Center(
+            child: ListView.builder(
+                itemCount: ventaT.todosVenta.length,
+                padding: EdgeInsets.only(top: 3.0),
+                itemBuilder: (context, position) {
+                  return Column(
+                    children: <Widget>[
+                      /*Divider(
+                        height: 1.0,
+                      ),*/
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            )),
+                        padding: new EdgeInsets.all(3.0),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: ListTile(
+                                    title: Center(
+                                      child: Text(
+                                        '${ventaT.todosVenta[position].detalleproducto['producto']['nombre']}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 21.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  /*subtitle: Text(
-                                    'Q.${ventaT.todosVenta[position].total}',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 21.0,
-                                    ),
-                                  ),*/
-                                  onTap: () => _navigateToVenta(
-                                      context, ventaT.todosVenta[position])),
-                            ),
-                            Text(
-                              'Q.${ventaT.todosVenta[position].ganancia}',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 21.0,
+                                    /*subtitle: Text(
+                                      'Q.${ventaT.todosVenta[position].total}',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 21.0,
+                                      ),
+                                    ),*/
+                                    onTap: () => _navigateToVenta(
+                                        context, ventaT.todosVenta[position])),
                               ),
-                            ),
-                            //onPressed: () => _deleteProduct(context, items[position],position)),
-                          ],
+                              Text(
+                                'Q.${ventaT.todosVenta[position].ganancia} ',
+                                style: TextStyle(
+                                  color: ColorF,
+                                  fontSize: 21.0,
+                                ),
+                              ),
+                              //onPressed: () => _deleteProduct(context, items[position],position)),
+                            ],
+                          ),
+                          color: Colors.white,
                         ),
-                        color: Colors.white,
                       ),
-                    ),
-                  ],
-                );
-              }),
+                    ],
+                  );
+                }),
+          ),
         ),
       ),
     );

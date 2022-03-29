@@ -3,6 +3,7 @@ import 'package:app_inventario/api/detalle_producto.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
+import '../constants.dart';
 import '../models/venta.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,8 +18,6 @@ class VentaProvider with ChangeNotifier {
   }
 
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.10';
-  //String apiUrl = '192.168.43.83';
 
   Future<bool> addVenta(VentaModel venta) async {
     var token = storage.getItem('token');

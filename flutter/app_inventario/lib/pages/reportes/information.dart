@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:firebase_database/firebase_database.dart';
+import '../../constants.dart';
 import '/models/producto.dart';
 
 class VentaProductoInformation extends StatefulWidget {
@@ -30,61 +31,85 @@ class _VentaProductoInformationState extends State<VentaProductoInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Reportes'),
-        backgroundColor: Colors.blueAccent,
+      backgroundColor: ColorF,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80.0),
+        child: AppBar(
+          elevation: 0,
+          title: Text('Detalle'),
+          backgroundColor: ColorF,
+        ),
       ),
-      body: Center(
-        child: Container(
-          height: 450,
-          padding: const EdgeInsets.all(25.0),
-          child: Card(
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 15.0),
+      body: Container(
+        padding: EdgeInsets.all(20),
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
+          ),
+        ),
+        child: Center(
+          child: Container(
+            height: 300,
+            padding:
+                const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 25.0),
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: ColorF,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  )),
+              padding: new EdgeInsets.all(3.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                      ),
+                      Text(
+                        "Producto : ${widget.ventaproducto.nombre}",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                      ),
+                      Text(
+                        "Fardos : ${widget.ventaproducto.existenciasT}",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                      ),
+                      Text(
+                        "Total Costo: Q.${widget.ventaproducto.total_costo}",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                      ),
+                      Text(
+                        "Total Venta: Q.${widget.ventaproducto.total_venta}",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                      ),
+                      Text(
+                        "Ganancia: Q.${widget.ventaproducto.ganancia}",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 25.0),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Producto : ${widget.ventaproducto.nombre}",
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 15.0),
-                  ),
-                  Divider(),
-                  Text(
-                    "Fardos : ${widget.ventaproducto.existenciasT}",
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 15.0),
-                  ),
-                  Divider(),
-                  Text(
-                    "Total Costo: Q.${widget.ventaproducto.total_costo}",
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 15.0),
-                  ),
-                  Divider(),
-                  Text(
-                    "Total Venta: Q.${widget.ventaproducto.total_venta}",
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 15.0),
-                  ),
-                  Divider(),
-                  Text(
-                    "Ganancia: Q.${widget.ventaproducto.ganancia}",
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 15.0),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

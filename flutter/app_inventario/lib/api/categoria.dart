@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import '../constants.dart';
 import '../models/categoria.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,8 +19,6 @@ class CategoriaProvider with ChangeNotifier {
   }
 
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.10';
-  //String apiUrl = '192.168.43.83';
 
   void addCategoria(CategoriaModel categoria) async {
     var token = storage.getItem('token');

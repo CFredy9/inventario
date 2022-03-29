@@ -7,6 +7,8 @@ class DetalleProducto(models.Model):
                                 related_name="producto")
     precio_costo = models.DecimalField(max_digits=8, decimal_places=2)
     precio_venta = models.DecimalField(max_digits=8, decimal_places=2)
+    existenciasT = models.IntegerField(default=0)
+    existenciasB = models.IntegerField(default=0)
     existencias = models.IntegerField(default=0)
     vencimiento = models.CharField(max_length=50, blank=True)
     """almacen = models.ForeignKey('Ubicacion', 

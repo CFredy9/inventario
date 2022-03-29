@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../../constants.dart';
 import '../../../utils.dart';
 import '../../../api/reportes.dart';
 import '../../../api/gastos.dart';
@@ -22,6 +23,7 @@ class _BalanceMensualState extends State<BalanceMensual> {
   DateTime dateTime = DateTime.now();
   String valorFecha = "";
   int posFecha = DateTime.now().month;
+  //double valorC = 0.0;
 
   @override
   void initState() {
@@ -63,6 +65,7 @@ class _BalanceMensualState extends State<BalanceMensual> {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ButtonWidget(
                   onClicked: () => Utils.showSheet(
@@ -104,17 +107,30 @@ class _BalanceMensualState extends State<BalanceMensual> {
                     },
                   ),
                 ),
-                SizedBox(
-                  width: 8,
+                const SizedBox(
+                  width: 15,
                 ),
-                Text('${valorFecha}', style: TextStyle(fontSize: 20)),
+                Text('${valorFecha}',
+                    style: const TextStyle(
+                        fontSize: 20,
+                        color: ColorF,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold)),
               ],
             ),
             Center(
               child: Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    )),
                 height: 70,
                 padding: const EdgeInsets.all(5.0),
                 child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
                   child: Center(
                     child: Column(
                       children: <Widget>[
@@ -123,7 +139,11 @@ class _BalanceMensualState extends State<BalanceMensual> {
                         ),
                         Text(
                           'Saldo: Q.${gastoT.saldo['total']}',
-                          style: TextStyle(fontSize: 22.0, color: Colors.blue),
+                          style: TextStyle(
+                              fontSize: 22.0,
+                              color: (valorC >= 0.0)
+                                  ? Colors.blue
+                                  : Colors.orange),
                         ),
                       ],
                     ),
@@ -136,18 +156,37 @@ class _BalanceMensualState extends State<BalanceMensual> {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.45,
-                  height: 50,
+                  height: 60,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
+                      )),
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
                     child: Center(
                       child: Column(
                         children: <Widget>[
                           const Padding(
-                            padding: EdgeInsets.only(top: 10.0),
+                            padding: EdgeInsets.only(top: 0.0),
                           ),
-                          Text(
-                            'Ingreso: Q.${productoT.totales['ganancia']}',
-                            style:
-                                TextStyle(fontSize: 18.0, color: Colors.green),
+                          Row(
+                            children: [
+                              IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_circle_up_outlined,
+                                    color: Colors.green,
+                                    size: 24,
+                                  ),
+                                  onPressed: () {}),
+                              Text(
+                                'Q.${productoT.totales['ganancia']}',
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.green),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -156,17 +195,32 @@ class _BalanceMensualState extends State<BalanceMensual> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.45,
-                  height: 50,
+                  height: 60,
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
                     child: Center(
                       child: Column(
                         children: <Widget>[
                           const Padding(
-                            padding: EdgeInsets.only(top: 10.0),
+                            padding: EdgeInsets.only(top: 0.0),
                           ),
-                          Text(
-                            'Gasto: Q.${gastoT.total['total']}',
-                            style: TextStyle(fontSize: 18.0, color: Colors.red),
+                          Row(
+                            children: [
+                              IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_circle_down_sharp,
+                                    color: Colors.red,
+                                    size: 24,
+                                  ),
+                                  onPressed: () {}),
+                              Text(
+                                'Q.${gastoT.total['total']}',
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.red),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -180,7 +234,7 @@ class _BalanceMensualState extends State<BalanceMensual> {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.45,
-                  height: MediaQuery.of(context).size.height * 0.55,
+                  height: MediaQuery.of(context).size.height * 0.50,
                   child: ListView.builder(
                       itemCount: productoT.todosVentaProducto.length,
                       padding: EdgeInsets.only(top: 1.0),
@@ -193,6 +247,9 @@ class _BalanceMensualState extends State<BalanceMensual> {
                             Container(
                               padding: new EdgeInsets.all(1.0),
                               child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(
@@ -207,7 +264,7 @@ class _BalanceMensualState extends State<BalanceMensual> {
                                         subtitle: Text(
                                           '${(productoT.todosVentaProducto[position].ganancia == null) ? productoT.todosVentaProducto[position].ganancia = '0' : productoT.todosVentaProducto[position].ganancia}',
                                           style: TextStyle(
-                                            color: Colors.grey,
+                                            color: Colors.green,
                                             fontSize: 16.0,
                                           ),
                                         ),
@@ -225,7 +282,7 @@ class _BalanceMensualState extends State<BalanceMensual> {
                 //Divider(),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.45,
-                  height: MediaQuery.of(context).size.height * 0.55,
+                  height: MediaQuery.of(context).size.height * 0.50,
                   child: ListView.builder(
                       itemCount: gastoT.todosGasto.length,
                       padding: EdgeInsets.only(top: 1.0),
@@ -238,6 +295,9 @@ class _BalanceMensualState extends State<BalanceMensual> {
                             Container(
                               padding: new EdgeInsets.all(1.0),
                               child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(
@@ -252,7 +312,7 @@ class _BalanceMensualState extends State<BalanceMensual> {
                                         subtitle: Text(
                                           '${gastoT.todosGasto[position].total}',
                                           style: TextStyle(
-                                            color: Colors.grey,
+                                            color: Colors.red,
                                             fontSize: 16.0,
                                           ),
                                         ),
@@ -296,13 +356,25 @@ class _BalanceMensualState extends State<BalanceMensual> {
 
   Widget buildDatePicker() => SizedBox(
         height: 180,
-        child: CupertinoDatePicker(
-          minimumYear: 2015,
-          maximumYear: DateTime.now().year,
-          initialDateTime: dateTime,
-          mode: CupertinoDatePickerMode.date,
-          onDateTimeChanged: (dateTime) =>
-              setState(() => this.dateTime = dateTime),
+        child: CupertinoTheme(
+          data: const CupertinoThemeData(
+            textTheme: CupertinoTextThemeData(
+              dateTimePickerTextStyle: TextStyle(
+                  fontSize: 18,
+                  color: ColorF,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          child: CupertinoDatePicker(
+            backgroundColor: Colors.white,
+            minimumYear: 2015,
+            maximumYear: DateTime.now().year,
+            initialDateTime: dateTime,
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: (dateTime) =>
+                setState(() => this.dateTime = dateTime),
+          ),
         ),
       );
 
@@ -328,11 +400,16 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
-        style: ElevatedButton.styleFrom(minimumSize: Size(50, 42)),
+        style: ElevatedButton.styleFrom(
+            minimumSize: Size(50, 42), primary: Colors.white),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.date_range, size: 35),
+            Icon(
+              Icons.date_range,
+              size: 40,
+              color: ColorF,
+            ),
           ],
         ),
         onPressed: onClicked,

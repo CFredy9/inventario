@@ -1,7 +1,9 @@
 import 'package:app_inventario/api/detalle_gastos.dart';
 import 'package:app_inventario/api/gastos.dart';
+import 'package:app_inventario/widgets/background.dart';
 import 'package:provider/provider.dart';
 
+import '../../../constants.dart';
 import '../information.dart';
 import '../../../models/detalle_gastos.dart';
 import '../../../models/gastos.dart';
@@ -39,6 +41,7 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
         autofocus: false,
         controller: cantidadController,
         keyboardType: TextInputType.number,
+        cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
@@ -53,22 +56,26 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
           cantidadController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.account_circle),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.attach_money_outlined,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Cantidad",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
 
     //crear button
     final registrarButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
-          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
             if (widget.detallegastoModel.Id != null) {
@@ -95,10 +102,11 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
                       fontWeight: FontWeight.bold),
                 )),
     );
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -108,28 +116,57 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
             Navigator.of(context).pop();
           },
         ),
-      ),
-      body: Center(
+      ),*/
+      body: Background(
         child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 45),
-                    cantidadField,
-                    SizedBox(height: 20),
-                    registrarButton,
-                    SizedBox(height: 15),
-                  ],
-                ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(height: size.height * 0.15),
+                  IconButton(
+                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                    onPressed: () {
+                      // passing this to our root
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-            ),
+              SizedBox(height: size.height * 0.08),
+              const Text(
+                'DETALLE DE GASTO',
+                style: TextStyle(
+                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(height: size.height * 0.08),
+              const Text(
+                'Cantidad',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: cantidadField),
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                child: registrarButton,
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 15),
+            ],
           ),
         ),
       ),

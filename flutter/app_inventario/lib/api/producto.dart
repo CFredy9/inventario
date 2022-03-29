@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import '../constants.dart';
 import '../models/producto.dart';
 import 'package:http/http.dart' as http;
 
 class ProductoProvider with ChangeNotifier {
   ProductoProvider() {
-    getProducto();
+    getProducto("");
   }
 
   List<ProductoModel> _producto = [];
@@ -16,8 +17,6 @@ class ProductoProvider with ChangeNotifier {
   }
 
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.10';
-  //String apiUrl = '192.168.43.83';
 
   void addProducto(ProductoModel producto) async {
     var token = storage.getItem('token');
@@ -31,7 +30,7 @@ class ProductoProvider with ChangeNotifier {
     print(response.body);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      getProducto();
+      getProducto("");
       notifyListeners();
     }
   }
@@ -69,12 +68,29 @@ class ProductoProvider with ChangeNotifier {
     }
   }
 
-  getProducto() async {
+  getProducto(String? Id) async {
     var token = storage.getItem('token');
     final url = Uri.parse('http://${apiUrl}:8000/api/producto/');
     final response = await http.get(
       url,
-      headers: {'Authorization': 'token $token'},
+      headers: {'id': Id!, 'Authorization': 'token $token'},
+    );
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body) as List;
+      print(data);
+      _producto = data
+          .map<ProductoModel>((json) => ProductoModel.fromJson(json))
+          .toList();
+      notifyListeners();
+    }
+  }
+
+  getProductoCategoria(String? Id) async {
+    var token = storage.getItem('token');
+    final url = Uri.parse('http://${apiUrl}:8000/api/producto/');
+    final response = await http.get(
+      url,
+      headers: {'id': Id!, 'Authorization': 'token $token'},
     );
     if (response.statusCode == 200) {
       var data = json.decode(response.body) as List;

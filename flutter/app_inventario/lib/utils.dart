@@ -1,3 +1,4 @@
+import 'package:app_inventario/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,13 @@ class Utils {
             child,
           ],
           cancelButton: CupertinoActionSheetAction(
-            child: Text('Aceptar'),
+            child: const Text(
+              'Aceptar',
+              style: TextStyle(
+                  color: ColorF,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold),
+            ),
             onPressed: onClicked,
           ),
         ),

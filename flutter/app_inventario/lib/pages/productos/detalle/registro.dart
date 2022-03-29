@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:app_inventario/api/producto.dart';
+import 'package:app_inventario/widgets/background.dart';
 import 'package:provider/provider.dart';
+import '../../../constants.dart';
 import '../information.dart';
 import '../../../models/producto.dart';
 import '../../../models/categoria.dart';
@@ -16,7 +18,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 class RegistrationDetalleProducto extends StatefulWidget {
   final DetalleProductoModel _detalleproductoModel;
   final ProductoModel __productModel;
-  RegistrationDetalleProducto(this._detalleproductoModel, this.__productModel);
+  int valor;
+  RegistrationDetalleProducto(
+      this._detalleproductoModel, this.__productModel, this.valor);
   @override
   _RegistrationDetalleProductoState createState() =>
       _RegistrationDetalleProductoState();
@@ -31,7 +35,8 @@ class _RegistrationDetalleProductoState
   // editing Controller
   TextEditingController precioCostoController = TextEditingController();
   TextEditingController precioVentaController = TextEditingController();
-  TextEditingController existenciasController = TextEditingController();
+  TextEditingController existenciasTController = TextEditingController();
+  TextEditingController existenciasBController = TextEditingController();
   TextEditingController vencimientoController = TextEditingController();
   String? valoresCat;
   String? valoresUbi;
@@ -39,6 +44,7 @@ class _RegistrationDetalleProductoState
   String? nombreAlmacen;
   String? nombreEstanteria;
   int contador = 0;
+  int contador2 = 0;
   bool control = false;
   DateTime selectedDate = DateTime.now();
 
@@ -68,9 +74,23 @@ class _RegistrationDetalleProductoState
           text: widget._detalleproductoModel.Precio_Venta.toString());
       vencimientoController = TextEditingController(
           text: widget._detalleproductoModel.Vencimiento.toString());
-      existenciasController = TextEditingController(
-          text: widget._detalleproductoModel.Existencias.toString());
-      contador = widget._detalleproductoModel.Existencias!.toInt();
+      if (widget.valor == 1) {
+        existenciasTController = TextEditingController(text: '0');
+        contador = 0;
+      } else {
+        existenciasTController = TextEditingController(
+            text: widget._detalleproductoModel.ExistenciasT.toString());
+        contador = widget._detalleproductoModel.ExistenciasT!.toInt();
+      }
+      if (widget.valor == 2) {
+        existenciasBController = TextEditingController(text: '0');
+        contador2 = 0;
+      } else {
+        existenciasBController = TextEditingController(
+            text: widget._detalleproductoModel.ExistenciasB.toString());
+        contador2 = widget._detalleproductoModel.ExistenciasB!.toInt();
+      }
+
       //valoresUbi = widget._detalleproductoModel.almacen['id'].toString();
 
       //control = true;
@@ -78,7 +98,9 @@ class _RegistrationDetalleProductoState
       //valoresEstan = widget._detalleproductoModel.estanteria['id'].toString();
     } else {
       print(widget._detalleproductoModel.Id);
-      existenciasController = TextEditingController(text: contador.toString());
+      existenciasTController = TextEditingController(text: contador.toString());
+      existenciasBController =
+          TextEditingController(text: contador2.toString());
     }
   }
 
@@ -92,6 +114,7 @@ class _RegistrationDetalleProductoState
         autofocus: false,
         controller: precioCostoController,
         keyboardType: TextInputType.number,
+        cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
@@ -106,19 +129,24 @@ class _RegistrationDetalleProductoState
           precioCostoController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.monetization_on_outlined),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.monetization_on_outlined,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Precio Costo",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
     //Campo Precio Costo
     final precioVentaField = TextFormField(
         autofocus: false,
         controller: precioVentaController,
         keyboardType: TextInputType.number,
+        cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
@@ -133,13 +161,17 @@ class _RegistrationDetalleProductoState
           precioVentaController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.monetization_on_outlined),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.monetization_on_outlined,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Precio Venta",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
 
     //Campo Ubicacion
@@ -215,9 +247,9 @@ class _RegistrationDetalleProductoState
             );
           }).toList(),
         ));*/
-    //Campo Existencias
-    final existenciasField = Container(
-        color: Colors.white,
+    //Campo ExistenciasT
+    final existenciasTField = Container(
+        color: PrimaryLightColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -228,29 +260,30 @@ class _RegistrationDetalleProductoState
                   setState(() {
                     if (contador > 0) {
                       contador--;
-                      existenciasController =
+                      existenciasTController =
                           TextEditingController(text: contador.toString());
                     }
                   });
                 },
                 child: Icon(Icons.remove, color: Colors.black),
                 style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    primary: Colors.white,
-                    side: BorderSide(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  primary: PrimaryLightColor,
+                  /*side: BorderSide(
                       width: 1.0,
                       color: Colors.grey,
-                    )),
+                    )*/
+                ),
               ),
             ),
             Expanded(
                 child: TextFormField(
-              controller: existenciasController,
+              controller: existenciasTController,
               enabled: false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(left: 39.0),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
             )),
@@ -259,7 +292,7 @@ class _RegistrationDetalleProductoState
                 onPressed: () {
                   setState(() {
                     contador++;
-                    existenciasController =
+                    existenciasTController =
                         TextEditingController(text: contador.toString());
                   });
                 },
@@ -268,12 +301,80 @@ class _RegistrationDetalleProductoState
                   color: Colors.black,
                 ),
                 style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    primary: Colors.white,
-                    side: BorderSide(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  primary: PrimaryLightColor,
+
+                  /*side: BorderSide(
                       width: 1.0,
                       color: Colors.grey,
-                    )),
+                    )*/
+                ),
+              ),
+            ),
+          ],
+        ));
+
+    //Campo ExistenciasB
+    final existenciasBField = Container(
+        color: PrimaryLightColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    if (contador2 > 0) {
+                      contador2--;
+                      existenciasBController =
+                          TextEditingController(text: contador2.toString());
+                    }
+                  });
+                },
+                child: Icon(Icons.remove, color: Colors.black),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  primary: PrimaryLightColor,
+                  /*side: BorderSide(
+                      width: 1.0,
+                      color: Colors.grey,
+                    )*/
+                ),
+              ),
+            ),
+            Expanded(
+                child: TextFormField(
+              controller: existenciasBController,
+              enabled: false,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(left: 39.0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            )),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    contador2++;
+                    existenciasBController =
+                        TextEditingController(text: contador2.toString());
+                  });
+                },
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  primary: PrimaryLightColor,
+                  /*side: BorderSide(
+                      width: 1.0,
+                      color: Colors.grey,
+                    )*/
+                ),
               ),
             ),
           ],
@@ -285,24 +386,29 @@ class _RegistrationDetalleProductoState
             autofocus: false,
             controller: vencimientoController,
             keyboardType: TextInputType.none,
+            cursorColor: ColorF,
             onSaved: (value) {
               vencimientoController.text = value!;
             },
             onTap: () => _selectDate(context),
             textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.date_range),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(
+                Icons.date_range,
+                color: ColorF,
+              ),
               contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
               hintText: "Fecha Vencimiento",
-              border: OutlineInputBorder(
+              border: InputBorder.none,
+              /*border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-              ),
+              ),*/
             )));
 
     final registrarButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -331,10 +437,11 @@ class _RegistrationDetalleProductoState
                       fontWeight: FontWeight.bold),
                 )),
     );
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -352,40 +459,159 @@ class _RegistrationDetalleProductoState
             }
           },
         ),
-      ),
-      body: Center(
+      ),*/
+      body: Background(
         child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    //nombreField,
-                    SizedBox(height: 20),
-                    precioCostoField,
-                    SizedBox(height: 20),
-                    precioVentaField,
-                    SizedBox(height: 20),
-                    vencimientoField,
-                    /*SizedBox(height: 20),
-                    ubicacionField,
-                    SizedBox(height: 20),
-                    estanteriaField,*/
-                    SizedBox(height: 20),
-                    existenciasField,
-                    SizedBox(height: 20),
-                    registrarButton,
-                    SizedBox(height: 15),
-                  ],
-                ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                children: [
+                  if (widget.valor == 0 || widget.valor == 10)
+                    SizedBox(height: size.height * 0.06),
+                  if (widget.valor == 10 ||
+                      widget.valor == 1 ||
+                      widget.valor == 2)
+                    SizedBox(height: size.height * 0.15),
+                  IconButton(
+                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                    onPressed: () {
+                      if (widget._detalleproductoModel.Id != null) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProductoInformation(
+                                    widget.__productModel)));
+                      } else {
+                        // passing this to our root
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                ],
               ),
-            ),
+              SizedBox(height: size.height * 0.02),
+              if (widget.valor == 1 || widget.valor == 2)
+                SizedBox(height: size.height * 0.10),
+              const Text(
+                'DETALLE PRODUCTO',
+                style: TextStyle(
+                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(height: size.height * 0.02),
+              if (widget.valor == 0 || widget.valor == 10)
+                const Text(
+                  'Precio Costo',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+              //SizedBox(height: 5),
+              if (widget.valor == 0 || widget.valor == 10)
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: precioCostoField),
+                  width: size.width * 0.75,
+                ),
+              SizedBox(height: 5),
+              if (widget.valor == 0 || widget.valor == 10)
+                const Text(
+                  'Precio Venta',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+              //SizedBox(height: 5),
+              if (widget.valor == 0 || widget.valor == 10)
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: precioVentaField),
+                  width: size.width * 0.75,
+                ),
+              if (widget.valor == 0 || widget.valor == 10)
+                const Text(
+                  'Fecha de Vencimiento',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+              //SizedBox(height: 5),
+              if (widget.valor == 0 || widget.valor == 10)
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: vencimientoField),
+                  width: size.width * 0.75,
+                ),
+              if (widget.valor == 0 || widget.valor == 1)
+                const Text(
+                  'Existencias Tienda',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+              //SizedBox(height: 5),
+              if (widget.valor == 0 || widget.valor == 1)
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: existenciasTField),
+                  width: size.width * 0.75,
+                ),
+              if (widget.valor == 0 || widget.valor == 2)
+                const Text(
+                  'Existencias Bodega',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+              //SizedBox(height: 5),
+              if (widget.valor == 0 || widget.valor == 2)
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: existenciasBField),
+                  width: size.width * 0.75,
+                ),
+              SizedBox(height: 10),
+              SizedBox(
+                child: registrarButton,
+                width: size.width * 0.75,
+              ),
+            ],
           ),
         ),
       ),
@@ -418,17 +644,22 @@ class _RegistrationDetalleProductoState
     } else {
       //detalleModel.vencimiento = "Sin especificar";
     }
+    int existenciasTotal = int.parse(existenciasTController.text) +
+        int.parse(existenciasBController.text);
     if (precioCostoController.text.isNotEmpty &&
         precioVentaController.text.isNotEmpty &&
-        existenciasController.text.isNotEmpty &&
+        existenciasTController.text.isNotEmpty &&
+        existenciasTController.text.isNotEmpty &&
         vencimientoController.text.isNotEmpty) {
       DetalleProductoModel detalleproducto = DetalleProductoModel(
         producto: widget.__productModel.Id,
         precio_costo: precioCostoController.text,
         precio_venta: precioVentaController.text,
-        existencias: int.parse(existenciasController.text),
+        existenciasT: int.parse(existenciasTController.text),
+        existenciasB: int.parse(existenciasBController.text),
+        existencias: existenciasTotal,
         vencimiento: vencimientoController.text,
-        almacen: valoresUbi,
+        //almacen: valoresUbi,
         //estanteria: valoresEstan
       );
       bool istoken =
@@ -436,10 +667,9 @@ class _RegistrationDetalleProductoState
               .addDetalleProducto(
                   detalleproducto, widget.__productModel.Id.toString());
       if (istoken) {
-        Provider.of<ProductoProvider>(context, listen: false).getProducto();
+        Provider.of<ProductoProvider>(context, listen: false).getProducto('');
         widget.__productModel.existenciasT =
-            widget.__productModel.existenciasT! +
-                int.parse(existenciasController.text);
+            widget.__productModel.existenciasT! + existenciasTotal;
         Fluttertoast.showToast(
             msg: "Detalle de Producto creado exitosamente :) ");
         Navigator.pushAndRemoveUntil(
@@ -453,17 +683,37 @@ class _RegistrationDetalleProductoState
   }
 
   Future<void> onUpdate(int id) async {
+    int existenciasT = int.parse(existenciasTController.text);
+    int existenciasB = int.parse(existenciasBController.text);
+    int existenciasTotal = 0;
+    if (widget.valor == 1) {
+      existenciasTotal = int.parse(existenciasTController.text) +
+          int.parse(existenciasBController.text) +
+          widget._detalleproductoModel.ExistenciasT!;
+      existenciasT = existenciasT + widget._detalleproductoModel.ExistenciasT!;
+    } else if (widget.valor == 2) {
+      existenciasTotal = int.parse(existenciasTController.text) +
+          int.parse(existenciasBController.text) +
+          widget._detalleproductoModel.ExistenciasB!;
+      existenciasB = existenciasB + widget._detalleproductoModel.ExistenciasB!;
+    } else {
+      existenciasTotal = int.parse(existenciasTController.text) +
+          int.parse(existenciasBController.text);
+    }
+
     if (precioCostoController.text.isNotEmpty &&
         precioVentaController.text.isNotEmpty &&
-        existenciasController.text.isNotEmpty &&
+        existenciasTController.text.isNotEmpty &&
         vencimientoController.text.isNotEmpty) {
       DetalleProductoModel detalleproducto = DetalleProductoModel(
         producto: widget.__productModel.Id,
         precio_costo: precioCostoController.text,
         precio_venta: precioVentaController.text,
-        existencias: int.parse(existenciasController.text),
+        existenciasT: existenciasT,
+        existenciasB: existenciasB,
+        existencias: existenciasTotal,
         vencimiento: vencimientoController.text,
-        almacen: valoresUbi,
+        //almacen: valoresUbi,
         //estanteria: valoresEstan
       );
       bool istoken =
@@ -471,9 +721,12 @@ class _RegistrationDetalleProductoState
               .updateDetalleProducto(
                   detalleproducto, id, widget.__productModel.Id.toString());
       if (istoken) {
-        Provider.of<ProductoProvider>(context, listen: false).getProducto();
+        Provider.of<ProductoProvider>(context, listen: false).getProducto('');
         widget.__productModel.existenciasT =
-            int.parse(existenciasController.text);
+            widget.__productModel.existenciasT! -
+                widget._detalleproductoModel.Existencias!;
+        widget.__productModel.existenciasT =
+            widget.__productModel.existenciasT! + existenciasTotal;
         Fluttertoast.showToast(
             msg: "Detalle de Producto actualizado exitosamente :) ");
         Navigator.pushAndRemoveUntil(

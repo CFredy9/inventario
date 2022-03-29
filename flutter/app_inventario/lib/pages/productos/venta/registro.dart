@@ -2,16 +2,14 @@ import 'dart:async';
 import 'package:app_inventario/api/producto.dart';
 import 'package:app_inventario/api/venta.dart';
 import 'package:app_inventario/models/venta.dart';
+import 'package:app_inventario/widgets/background.dart';
 import 'package:provider/provider.dart';
+import '../../../constants.dart';
 import '../information.dart';
 import '../../../models/producto.dart';
 import '../../../models/categoria.dart';
-import '../../../models/ubicacion.dart';
-import '../../../models/estanteria.dart';
 import '../../../models/detalle_producto.dart';
 import '../../../api/detalle_producto.dart';
-import '../../../api/ubicacion.dart';
-import '../../../api/estanteria.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -36,9 +34,6 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
   List<CategoriaModel> items = <CategoriaModel>[];
   //List<UbicacionModel> items2 = <UbicacionModel>[];
   //List<EstanteriaModel> items3 = <EstanteriaModel>[];
-
-  UbicacionProvider items2 = UbicacionProvider();
-  EstanteriaProvider items3 = EstanteriaProvider();
 
   @override
   void initState() {
@@ -65,12 +60,9 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
 
   @override
   Widget build(BuildContext context) {
-    items2 = Provider.of<UbicacionProvider>(context);
-    items3 = Provider.of<EstanteriaProvider>(context);
-
     //Campo Existencias
     final existenciasField = Container(
-        color: Colors.white,
+        color: PrimaryLightColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,12 +80,13 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
                 },
                 child: Icon(Icons.remove, color: Colors.black),
                 style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    primary: Colors.white,
-                    side: BorderSide(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  primary: PrimaryLightColor,
+                  /*side: BorderSide(
                       width: 1.0,
                       color: Colors.grey,
-                    )),
+                    )*/
+                ),
               ),
             ),
             Expanded(
@@ -103,7 +96,7 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(left: 39.0),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
             )),
@@ -112,7 +105,7 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
                 onPressed: () {
                   setState(() {
                     if (contador <
-                        widget._detalleproductoModel.existencias!.toInt())
+                        widget._detalleproductoModel.existenciasT!.toInt())
                       contador++;
                     existenciasController =
                         TextEditingController(text: contador.toString());
@@ -123,12 +116,13 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
                   color: Colors.black,
                 ),
                 style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    primary: Colors.white,
-                    side: BorderSide(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  primary: PrimaryLightColor,
+                  /*side: BorderSide(
                       width: 1.0,
                       color: Colors.grey,
-                    )),
+                    )*/
+                ),
               ),
             ),
           ],
@@ -137,21 +131,33 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
     final registrarButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
-          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
             onAdd();
           },
           child: (widget._detalleproductoModel.Id != null)
-              ? const Text(
-                  'Actualizar',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        icon: const Icon(
+                          Icons.add_shopping_cart,
+                          color: Colors.white,
+                          size: 22,
+                        ),
+                        onPressed: () {}),
+                    const Text(
+                      'Vender',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 )
               : const Text(
                   'Registrar',
@@ -162,10 +168,11 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
                       fontWeight: FontWeight.bold),
                 )),
     );
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -183,30 +190,63 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
             }
           },
         ),
-      ),
-      body: Center(
+      ),*/
+      body: Background(
         child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    //nombreField,
-                    SizedBox(height: 20),
-                    existenciasField,
-                    SizedBox(height: 20),
-                    registrarButton,
-                    SizedBox(height: 15),
-                  ],
-                ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(height: size.height * 0.20),
+                  IconButton(
+                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                    onPressed: () {
+                      if (widget._detalleproductoModel.Id != null) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProductoInformation(
+                                    widget.__productModel)));
+                      } else {
+                        // passing this to our root
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                ],
               ),
-            ),
+              SizedBox(height: size.height * 0.07),
+              const Text(
+                'VENTA',
+                style: TextStyle(
+                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(height: size.height * 0.07),
+              const Text(
+                'Existencias',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: existenciasField),
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                child: registrarButton,
+                width: size.width * 0.75,
+              ),
+            ],
           ),
         ),
       ),
@@ -234,7 +274,7 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
       if (istoken) {
         Provider.of<DetalleProductoProvider>(context, listen: false)
             .getdetalleProducto(widget.__productModel.Id.toString());
-        Provider.of<ProductoProvider>(context, listen: false).getProducto();
+        Provider.of<ProductoProvider>(context, listen: false).getProducto('');
         widget.__productModel.existenciasT =
             widget.__productModel.existenciasT! -
                 int.parse(existenciasController.text);

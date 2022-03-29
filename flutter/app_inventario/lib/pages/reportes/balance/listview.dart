@@ -1,4 +1,5 @@
 import 'package:app_inventario/pages/reportes/information.dart';
+import '../../../constants.dart';
 import '../../../utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,11 +60,15 @@ class _ListViewBalanceState extends State<ListViewBalance>
       ],*/
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('BALANCE'),
-            centerTitle: true,
-            //backgroundColor: Colors.blueAccent,
-            flexibleSpace: Container(
+          backgroundColor: ColorF,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(110.0),
+            child: AppBar(
+              elevation: 0,
+              title: Text('BALANCE'),
+              centerTitle: true,
+              backgroundColor: ColorF,
+              /*flexibleSpace: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Colors.blue, Colors.green],
@@ -71,34 +76,58 @@ class _ListViewBalanceState extends State<ListViewBalance>
                   end: Alignment.topLeft,
                 ),
               ),
+            ),*/
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () {
+                  // passing this to our root
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                },
+              ),
+              bottom: TabBar(
+                //isScrollable: true,
+                indicatorColor: Colors.white,
+                indicator: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 4,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+                ),
+                indicatorWeight: 5,
+                controller: tabController,
+                tabs: const <Widget>[
+                  Tab(text: 'Mensual'),
+                  Tab(text: 'Anual'),
+                ],
+              ),
+              //elevation: 20,
+              //titleSpacing: 20,
             ),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () {
-                // passing this to our root
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
-              },
-            ),
-            bottom: TabBar(
-              //isScrollable: true,
-              indicatorColor: Colors.white,
-              indicatorWeight: 5,
-              controller: tabController,
-              tabs: const <Widget>[
-                Tab(text: 'Mensual'),
-                Tab(text: 'Anual'),
-              ],
-            ),
-            //elevation: 20,
-            //titleSpacing: 20,
           ),
-          body: TabBarView(
-            controller: tabController,
-            children: [
-              BalanceMensual(),
-              BalanceAnual(),
-            ],
+          body: Container(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Container(
+              padding: const EdgeInsets.only(
+                  left: 10.0, right: 10.0, top: 25.0, bottom: 10.0),
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
+                ),
+              ),
+              child: TabBarView(
+                controller: tabController,
+                children: [
+                  BalanceMensual(),
+                  BalanceAnual(),
+                ],
+              ),
+            ),
           )),
     );
   }

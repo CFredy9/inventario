@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:app_inventario/api/producto.dart';
+import 'package:app_inventario/widgets/background.dart';
 import 'package:provider/provider.dart';
+import '../../constants.dart';
 import 'listview.dart';
 import './information.dart';
 import '../../models/producto.dart';
@@ -71,6 +73,7 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
         autofocus: false,
         controller: nombreController,
         keyboardType: TextInputType.name,
+        cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
@@ -85,13 +88,17 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
           nombreController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.production_quantity_limits_outlined),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.production_quantity_limits_outlined,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Nombre",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
 
     //Campo unidadesFardo
@@ -99,6 +106,7 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
         autofocus: false,
         controller: unidadesFardoController,
         keyboardType: TextInputType.number,
+        cursorColor: ColorF,
         validator: (value) {
           if (value!.isEmpty) {
             return ("Unidades Fardo no puede estar vacio");
@@ -110,26 +118,35 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
           nombreController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.production_quantity_limits_outlined),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.production_quantity_limits_outlined,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Unidades por Fardo",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
 
     //Campo Categoria
     final categoriaField = Container(
-        padding: EdgeInsets.only(left: 0, right: 16),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1),
-          borderRadius: BorderRadius.circular(10),
-        ),
+        padding: const EdgeInsets.only(left: 0, right: 5),
+        decoration: const BoxDecoration(
+            //border: Border.all(color: Colors.grey, width: 1),
+            //borderRadius: BorderRadius.circular(10),
+            ),
         child: DropdownButtonFormField(
-          decoration:
-              InputDecoration(prefixIcon: Icon(Icons.amp_stories_outlined)),
-          hint: Text("Seleccione una Categoría"),
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            prefixIcon: Icon(
+              Icons.amp_stories_outlined,
+              color: ColorF,
+            ),
+          ),
+          hint: Text("Seleccione Categoría"),
           value: valoresCat,
           isExpanded: true,
           //underline: SizedBox(),
@@ -152,7 +169,7 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
     final registrarButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -181,10 +198,11 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
                       fontWeight: FontWeight.bold),
                 )),
     );
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -202,32 +220,95 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
             }
           },
         ),
-      ),
-      body: Center(
+      ),*/
+      body: Background(
         child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    nombreField,
-                    SizedBox(height: 20),
-                    unidadesFardoField,
-                    SizedBox(height: 20),
-                    categoriaField,
-                    SizedBox(height: 20),
-                    registrarButton,
-                    SizedBox(height: 15),
-                  ],
-                ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(height: size.height * 0.10),
+                  IconButton(
+                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                    onPressed: () {
+                      // passing this to our root
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-            ),
+              SizedBox(height: size.height * 0.05),
+              const Text(
+                'PRODUCTO',
+                style: TextStyle(
+                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(height: size.height * 0.05),
+              const Text(
+                'Nombre',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: nombreField),
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 10),
+              const Text(
+                'Unidades Fardo',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: unidadesFardoField),
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 10),
+              const Text(
+                'Categoria',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: categoriaField),
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                child: registrarButton,
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 15),
+            ],
           ),
         ),
       ),
@@ -264,7 +345,8 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
       Fluttertoast.showToast(msg: "Producto creado exitosamente :) ");
       Navigator.pushAndRemoveUntil(
           (context),
-          MaterialPageRoute(builder: (context) => ListViewProductos()),
+          MaterialPageRoute(
+              builder: (context) => ListViewProductos(CategoriaModel())),
           (route) => false);
     }
   }

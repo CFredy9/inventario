@@ -1,0 +1,77 @@
+import 'package:app_inventario/constants.dart';
+import 'package:flutter/material.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
+//import 'package:meditation_app/constants.dart';
+
+class CategoryCard extends StatelessWidget {
+  final String? image;
+  final String? title;
+  final void Function()? press;
+  const CategoryCard({
+    Key? key,
+    this.image,
+    this.title,
+    this.press,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(13),
+      child: Container(
+        // padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(13),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 17),
+              blurRadius: 17,
+              spreadRadius: -23,
+              color: ColorF,
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: press,
+            child: Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Column(
+                children: <Widget>[
+                  //Spacer(),
+                  /*IconButton(
+                      icon: const Icon(
+                        Icons.fastfood_rounded,
+                        color: ColorF,
+                        size: 24,
+                      ),
+                      onPressed: () {}),*/
+                  //SvgPicture.asset(svgSrc),
+                  //Spacer(),
+                  SizedBox(
+                    height: 50,
+                    child: Image.asset(image!, fit: BoxFit.contain),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    title!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    /*style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(fontSize: 15),*/
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

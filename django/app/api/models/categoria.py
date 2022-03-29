@@ -4,6 +4,7 @@ from django.db import models
 class Categoria(models.Model):
 
     nombre = models.CharField(max_length=100)
+    imagen = models.ImageField(upload_to='Image_Categoria', null=True, blank=True)
 
     activo = models.BooleanField(default=True)
     creado = models.DateTimeField(auto_now_add=True)

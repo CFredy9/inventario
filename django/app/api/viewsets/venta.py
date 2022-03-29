@@ -76,9 +76,10 @@ class VentaViewset(viewsets.ModelViewSet):
                         total_venta=data.get('total_venta'),
                         ganancia=data.get('ganancia')
                     )
-                    existencias = int(detalleproducto.existencias) - int(data.get('fardos'))
+                    existenciasT = int(detalleproducto.existenciasT) - int(data.get('fardos'))
 
-                    detalleproducto.existencias = existencias
+                    detalleproducto.existenciasT = existenciasT
+                    detalleproducto.existencias = detalleproducto.existenciasT + detalleproducto.existenciasB
                     detalleproducto.save()
  
                 else:

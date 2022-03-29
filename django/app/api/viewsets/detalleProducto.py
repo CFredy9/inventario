@@ -73,6 +73,8 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                         producto=producto,
                         precio_costo=data.get('precio_costo'),
                         precio_venta=data.get('precio_venta'),
+                        existenciasT=data.get('existenciasT'),
+                        existenciasB=data.get('existenciasB'),
                         existencias=data.get('existencias'),
                         vencimiento=data.get('vencimiento'),
                         #almacen=almacen,
@@ -105,6 +107,8 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                     detalleproducto.producto = producto
                     detalleproducto.precio_costo = data.get('precio_costo')
                     detalleproducto.precio_venta = data.get('precio_venta')
+                    detalleproducto.existenciasT = data.get('existenciasT')
+                    detalleproducto.existenciasB = data.get('existenciasB')
                     detalleproducto.existencias = data.get('existencias')
                     detalleproducto.vencimiento = data.get('vencimiento')
                     #detalleproducto.almacen = almacen

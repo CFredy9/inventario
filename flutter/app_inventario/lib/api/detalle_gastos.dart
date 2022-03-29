@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import '../constants.dart';
 import '../models/detalle_gastos.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,8 +22,6 @@ class DetalleGastosProvider with ChangeNotifier {
   }
 
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.10';
-  //String apiUrl = '192.168.43.83';
 
   Future<bool> addDetalleGasto(
       DetalleGastoModel detallegasto, String idgasto) async {

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:app_inventario/api/usuario.dart';
+import 'package:app_inventario/constants.dart';
 import 'package:provider/provider.dart';
 
 import '/models/usuario.dart';
@@ -65,6 +66,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
         autofocus: false,
         controller: nameController,
         keyboardType: TextInputType.name,
+        cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
@@ -79,19 +81,24 @@ class _PerfilScreenState extends State<PerfilScreen> {
           nameController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.account_circle),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.account_circle,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Nombre",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
     //Campo apellido
     final lastnameField = TextFormField(
         autofocus: false,
         controller: lastnameController,
         keyboardType: TextInputType.name,
+        cursorColor: ColorF,
         validator: (value) {
           if (value!.isEmpty) {
             return ("Apellido no puede estar vacio");
@@ -102,19 +109,24 @@ class _PerfilScreenState extends State<PerfilScreen> {
           lastnameController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.account_circle),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.account_circle,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Apellido",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
     //Campo telefono
     final phoneField = TextFormField(
         autofocus: false,
         controller: phoneController,
         keyboardType: TextInputType.phone,
+        cursorColor: ColorF,
         validator: (value) {
           if (value!.isEmpty) {
             return ("Telefono no puede estar vacio");
@@ -125,13 +137,17 @@ class _PerfilScreenState extends State<PerfilScreen> {
           phoneController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.account_circle),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.phone,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Telefono",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
     //Campo Email
     final emailField = TextFormField(
@@ -139,6 +155,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
         enabled: false,
         controller: emailController,
         keyboardType: TextInputType.emailAddress,
+        cursorColor: ColorF,
         validator: (value) {
           if (value!.isEmpty) {
             return ("Ingrese su Correo Electrónico");
@@ -154,19 +171,23 @@ class _PerfilScreenState extends State<PerfilScreen> {
           nameController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.mail),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.mail,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Correo Electrónico",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
     //signup button
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -180,64 +201,157 @@ class _PerfilScreenState extends State<PerfilScreen> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        title: Text("Perfil"),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            // passing this to our root
-            Navigator.of(context).pop();
-          },
+      backgroundColor: ColorF,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80.0),
+        child: AppBar(
+          backgroundColor: ColorF,
+          title: Text("Perfil"),
+          centerTitle: true,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              // passing this to our root
+              Navigator.of(context).pop();
+            },
+          ),
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 45),
-                    nameField,
-                    SizedBox(height: 20),
-                    lastnameField,
-                    SizedBox(height: 20),
-                    phoneField,
-                    SizedBox(height: 20),
-                    emailField,
-                    SizedBox(height: 20),
-                    signUpButton,
-                    SizedBox(height: 15),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text("Cambiar Contraseña? "),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CambioPassword()));
-                            },
-                            child: const Text(
-                              "Presiona Aquí",
-                              style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
+      body: Container(
+        padding: EdgeInsets.all(0),
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      //SizedBox(height: 5),
+                      const Center(
+                        child: Text(
+                          'Nombre',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: ColorF,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            width: size.width * 0.8,
+                            decoration: BoxDecoration(
+                              color: PrimaryLightColor,
+                              borderRadius: BorderRadius.circular(29),
                             ),
-                          )
-                        ])
-                  ],
+                            child: nameField),
+                        width: size.width * 1,
+                      ),
+                      SizedBox(height: 5),
+                      const Center(
+                        child: Text(
+                          'Apellido',
+                          style: TextStyle(fontSize: 14, color: ColorF),
+                        ),
+                      ),
+                      SizedBox(
+                        child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            width: size.width * 0.8,
+                            decoration: BoxDecoration(
+                              color: PrimaryLightColor,
+                              borderRadius: BorderRadius.circular(29),
+                            ),
+                            child: lastnameField),
+                        width: size.width * 1,
+                      ),
+                      SizedBox(height: 5),
+                      const Center(
+                        child: Text(
+                          'Teléfono',
+                          style: TextStyle(fontSize: 14, color: ColorF),
+                        ),
+                      ),
+                      SizedBox(
+                        child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            width: size.width * 0.8,
+                            decoration: BoxDecoration(
+                              color: PrimaryLightColor,
+                              borderRadius: BorderRadius.circular(29),
+                            ),
+                            child: phoneField),
+                        width: size.width * 1,
+                      ),
+                      SizedBox(height: 5),
+                      const Center(
+                        child: Text(
+                          'Correo Electrónico',
+                          style: TextStyle(fontSize: 14, color: ColorF),
+                        ),
+                      ),
+                      SizedBox(
+                        child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            width: size.width * 0.8,
+                            decoration: BoxDecoration(
+                              color: PrimaryLightColor,
+                              borderRadius: BorderRadius.circular(29),
+                            ),
+                            child: emailField),
+                        width: size.width * 1,
+                      ),
+                      SizedBox(height: 20),
+                      signUpButton,
+                      SizedBox(height: 15),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("Cambiar Contraseña? "),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CambioPassword()));
+                              },
+                              child: const Text(
+                                "Presiona Aquí",
+                                style: TextStyle(
+                                    color: ColorF,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              ),
+                            )
+                          ])
+                    ],
+                  ),
                 ),
               ),
             ),

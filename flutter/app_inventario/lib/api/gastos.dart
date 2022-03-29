@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import '../constants.dart';
 import '../models/gastos.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,8 +21,6 @@ class GastosProvider with ChangeNotifier {
   var total;
   var saldo;
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.10';
-  //String apiUrl = '192.168.43.83';
 
   void addGasto(GastoModel gasto) async {
     var token = storage.getItem('token');
@@ -158,6 +157,8 @@ class GastosProvider with ChangeNotifier {
       double valor = double.parse(data['total']);
       data['total'] = valor.toStringAsFixed(2);
       saldo = data;
+      valorC = double.parse(data['total']);
+      print('Valor: ' + valorC.toString());
       notifyListeners();
     }
   }

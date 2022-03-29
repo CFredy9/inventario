@@ -2,6 +2,7 @@ import 'package:app_inventario/pages/gastos/listview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:firebase_database/firebase_database.dart';
+import '../../constants.dart';
 import '/models/gastos.dart';
 import '/models/detalle_gastos.dart';
 import '../../api/detalle_gastos.dart';
@@ -33,97 +34,124 @@ class _GastoInformationState extends State<GastoInformation> {
       bandera = true;
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${widget.gasto.descripcion}'),
-        //backgroundColor: Colors.blueAccent,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.blue, Colors.deepPurple],
-              begin: Alignment.bottomRight,
-              end: Alignment.topLeft,
+      backgroundColor: ColorF,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80.0),
+        child: AppBar(
+          elevation: 0,
+          title: Text('${widget.gasto.descripcion}'),
+          backgroundColor: ColorF,
+          /*flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.deepPurple],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+              ),
             ),
+          ),*/
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              // passing this to our root
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ListViewGastos()));
+            },
           ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            // passing this to our root
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ListViewGastos()));
-          },
-        ),
       ),
-      body: Center(
-        child: Container(
-          //height: 250,
-          padding: const EdgeInsets.all(5.0),
-          child: Column(
-            children: [
-              Center(
-                child: Container(
-                  height: 80,
-                  padding: const EdgeInsets.all(5.0),
-                  child: Card(
-                    child: Center(
-                      child: Column(
-                        children: <Widget>[
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10.0),
-                          ),
-                          Text(
-                            'Total: Q.${detallegastoT.total['total']}',
-                            style:
-                                TextStyle(fontSize: 22.0, color: Colors.blue),
-                          ),
-                        ],
+      body: Container(
+        padding: EdgeInsets.all(20),
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
+          ),
+        ),
+        child: Center(
+          child: Container(
+            //height: 250,
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              children: [
+                Center(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(50),
+                        )),
+                    height: 80,
+                    padding: const EdgeInsets.all(5.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Center(
+                        child: Column(
+                          children: <Widget>[
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10.0),
+                            ),
+                            Text(
+                              'Total: Q.${detallegastoT.total['total']}',
+                              style:
+                                  TextStyle(fontSize: 22.0, color: Colors.blue),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Center(
-                  child: ListView.builder(
-                      itemCount: detallegastoT.todosDetalleGasto.length,
-                      padding: EdgeInsets.only(top: 3.0),
-                      itemBuilder: (context, position) {
-                        return Column(
-                          children: <Widget>[
-                            Divider(
-                              height: 1.0,
-                            ),
-                            Container(
-                              padding: new EdgeInsets.all(3.0),
-                              child: Card(
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: ListTile(
-                                        title: Text(
-                                          '${detallegastoT.todosDetalleGasto[position].cantidad}',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 21.0,
+                Expanded(
+                  child: Center(
+                    child: ListView.builder(
+                        itemCount: detallegastoT.todosDetalleGasto.length,
+                        padding: EdgeInsets.only(top: 3.0),
+                        itemBuilder: (context, position) {
+                          return Column(
+                            children: <Widget>[
+                              Container(
+                                height: 60,
+                                padding: new EdgeInsets.all(0.0),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: ListTile(
+                                          title: Center(
+                                            child: Text(
+                                              '${detallegastoT.todosDetalleGasto[position].cantidad}',
+                                              style: const TextStyle(
+                                                color: ColorF,
+                                                fontSize: 20.0,
+                                              ),
+                                            ),
                                           ),
+                                          onTap: () => _navigateUpdateGasto(
+                                              context,
+                                              detallegastoT
+                                                  .todosDetalleGasto[position]),
                                         ),
-                                        onTap: () => _navigateUpdateGasto(
-                                            context,
-                                            detallegastoT
-                                                .todosDetalleGasto[position]),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                  color: Colors.white,
                                 ),
-                                color: Colors.white,
                               ),
-                            ),
-                          ],
-                        );
-                      }),
-                ),
-              )
-            ],
+                            ],
+                          );
+                        }),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -132,7 +160,7 @@ class _GastoInformationState extends State<GastoInformation> {
           Icons.add,
           color: Colors.white,
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: ColorF,
         onPressed: () => _createNewGasto(context),
       ),
     );

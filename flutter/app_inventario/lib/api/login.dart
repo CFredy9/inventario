@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import '../constants.dart';
 import '../models/usuario.dart';
 import 'package:http/http.dart' as http;
 
 class LoginProvider with ChangeNotifier {
   LocalStorage storage = LocalStorage('usertoken');
-  String apiUrl = '192.168.0.10';
-  //String apiUrl = '192.168.43.83';
 
   Future<bool> login(String email, String password) async {
     final response = await http.post(

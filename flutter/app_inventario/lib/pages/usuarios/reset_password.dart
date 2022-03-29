@@ -1,8 +1,10 @@
 import 'package:app_inventario/api/usuario.dart';
 import 'package:app_inventario/pages/login/login_screen.dart';
+import 'package:app_inventario/widgets/background.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import '../../constants.dart';
 import './verificacion_codigo.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 
@@ -24,6 +26,7 @@ class _VerificarCorreoState extends State<VerificarCorreo> {
         autofocus: false,
         controller: emailController,
         keyboardType: TextInputType.emailAddress,
+        cursorColor: ColorF,
         validator: (value) {
           if (value!.isEmpty) {
             return ("Please Enter Your Email");
@@ -39,19 +42,23 @@ class _VerificarCorreoState extends State<VerificarCorreo> {
           emailController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.mail,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Email",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
     //Boton
     final ButtonReset = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -67,37 +74,62 @@ class _VerificarCorreoState extends State<VerificarCorreo> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: Text('Restablecer Contraseña'),
-      ),
-      body: Center(
+      ),*/
+      body: Background(
         child: SingleChildScrollView(
-          child: Container(
-            color: Colors.transparent,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                        height: 150,
-                        child: Image.asset(
-                          "assets/logo.png",
-                          fit: BoxFit.contain,
-                        )),
-                    SizedBox(height: 45),
-                    emailField,
-                    SizedBox(height: 25),
-                    ButtonReset,
-                    SizedBox(height: 15),
-                  ],
-                ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(height: size.height * 0.18),
+                  IconButton(
+                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                    onPressed: () {
+                      // passing this to our root
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-            ),
+              SizedBox(height: size.height * 0.08),
+              const Text(
+                'RESTABLECER CONTRASEÑA',
+                style: TextStyle(
+                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(height: size.height * 0.08),
+              const Text(
+                'Email',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: emailField),
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                child: ButtonReset,
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 15),
+            ],
           ),
         ),
       ),

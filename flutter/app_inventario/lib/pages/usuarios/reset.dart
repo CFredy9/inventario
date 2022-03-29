@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:app_inventario/api/usuario.dart';
 import 'package:app_inventario/models/usuario.dart';
 import 'package:app_inventario/pages/login/login_screen.dart';
+import 'package:app_inventario/widgets/background.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
 import '../home/home_screen.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +51,7 @@ class _ResetPasswordState extends State<ResetPassword> {
         autofocus: false,
         controller: emailController,
         keyboardType: TextInputType.name,
+        cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
@@ -63,13 +66,14 @@ class _ResetPasswordState extends State<ResetPassword> {
           emailController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.account_circle),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.account_circle,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Nombre",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          border: InputBorder.none,
         ));
 
     //Campo Contrase
@@ -77,6 +81,7 @@ class _ResetPasswordState extends State<ResetPassword> {
         autofocus: false,
         controller: passwordController,
         obscureText: true,
+        cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{6,}$');
           if (value!.isEmpty) {
@@ -90,19 +95,21 @@ class _ResetPasswordState extends State<ResetPassword> {
           passwordController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.vpn_key),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.vpn_key,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Contraseña Nueva",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          border: InputBorder.none,
         ));
     //Campo de Confirmacion de Contrase
     final confirmPasswordField = TextFormField(
         autofocus: false,
         controller: confirmPasswordController,
         obscureText: true,
+        cursorColor: ColorF,
         validator: (value) {
           if (confirmPasswordController.text != passwordController.text) {
             return "Las contraseñas no coinciden";
@@ -113,19 +120,20 @@ class _ResetPasswordState extends State<ResetPassword> {
           confirmPasswordController.text = value!;
         },
         textInputAction: TextInputAction.done,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.vpn_key),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.vpn_key,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Confirmar Contraseña",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          border: InputBorder.none,
         ));
     //signup button
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -139,9 +147,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: Text("Cambiar Contraseña"),
         elevation: 0,
@@ -152,32 +162,94 @@ class _ResetPasswordState extends State<ResetPassword> {
             Navigator.of(context).pop();
           },
         ),
-      ),
-      body: Center(
+      ),*/
+
+      body: Background(
         child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    emailField,
-                    SizedBox(height: 20),
-                    passwordField,
-                    SizedBox(height: 20),
-                    confirmPasswordField,
-                    SizedBox(height: 20),
-                    signUpButton,
-                    SizedBox(height: 15),
-                  ],
-                ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(height: size.height * 0.10),
+                  IconButton(
+                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                    onPressed: () {
+                      // passing this to our root
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-            ),
+              SizedBox(height: size.height * 0.06),
+              const Text(
+                'CAMBIAR CONTRASEÑA',
+                style: TextStyle(
+                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(height: size.height * 0.06),
+              const Text(
+                'Email',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: emailField),
+                width: size.width * 0.75,
+              ),
+              const Text(
+                'Contraseña Nueva',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: passwordField),
+                width: size.width * 0.75,
+              ),
+              const Text(
+                'Confirmar Contraseña Nueva',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: confirmPasswordField),
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                child: signUpButton,
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 15),
+            ],
           ),
         ),
       ),

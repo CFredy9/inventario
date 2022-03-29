@@ -1,6 +1,8 @@
 import 'package:app_inventario/api/gastos.dart';
+import 'package:app_inventario/widgets/background.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
 import 'listview.dart';
 import '../../models/gastos.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +66,8 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
         autofocus: false,
         controller: descripcionController,
         keyboardType: TextInputType.multiline,
-        maxLines: 3,
+        cursorColor: ColorF,
+        maxLines: 2,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
@@ -79,19 +82,23 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
           descripcionController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.account_circle),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.description,
+            color: ColorF,
+          ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Descripción",
-          border: OutlineInputBorder(
+          border: InputBorder.none,
+          /*border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-          ),
+          ),*/
         ));
     //crear button
     final registrarButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -120,10 +127,11 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
                       fontWeight: FontWeight.bold),
                 )),
     );
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -133,30 +141,57 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
             Navigator.of(context).pop();
           },
         ),
-      ),
-      body: Center(
+      ),*/
+      body: Background(
         child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    /*SizedBox(height: 45),
-                    cantidadField,*/
-                    SizedBox(height: 45),
-                    descripcionField,
-                    SizedBox(height: 20),
-                    registrarButton,
-                    SizedBox(height: 15),
-                  ],
-                ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(height: size.height * 0.15),
+                  IconButton(
+                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                    onPressed: () {
+                      // passing this to our root
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-            ),
+              SizedBox(height: size.height * 0.08),
+              const Text(
+                'GASTO',
+                style: TextStyle(
+                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(height: size.height * 0.08),
+              const Text(
+                'Descripción',
+                style: TextStyle(fontSize: 14, color: ColorF),
+                textAlign: TextAlign.left,
+              ),
+              //SizedBox(height: 5),
+              SizedBox(
+                child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: PrimaryLightColor,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: descripcionField),
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                child: registrarButton,
+                width: size.width * 0.75,
+              ),
+              SizedBox(height: 15),
+            ],
           ),
         ),
       ),
