@@ -30,7 +30,8 @@ class CategoriaProvider with ChangeNotifier {
         },
         body: json.encode(categoria));
     print(response.body);
-    if (response.statusCode == 201) {
+    print(response.statusCode);
+    if (response.statusCode == 200) {
       /*categoria.id = json.decode(response.body)['id'];
       print(categoria.id);
       _categoria.add(categoria);*/
@@ -75,6 +76,7 @@ class CategoriaProvider with ChangeNotifier {
   }
 
   getCategoria() async {
+    _categoria = [];
     var token = storage.getItem('token');
     final url = Uri.parse('http://${apiUrl}:8000/api/categoria/');
     final response = await http.get(

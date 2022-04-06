@@ -16,6 +16,7 @@ router.register(r'producto', viewsets.ProductoViewset)
 router.register(r'detalleproducto', viewsets.DetalleProductoViewset)
 router.register(r'venta', viewsets.VentaViewset)
 router.register(r'ventaproducto', viewsets.VentaProductoViewset)
+router.register(r'vencimientodetalleproducto', viewsets.VencimientoDetalleProductoViewset)
 
 urlpatterns = [
     path('api/', include(router.urls)),

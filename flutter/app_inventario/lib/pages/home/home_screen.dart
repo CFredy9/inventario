@@ -4,6 +4,7 @@ import 'package:app_inventario/api/usuario.dart';
 import 'package:app_inventario/models/categoria.dart';
 import 'package:app_inventario/widgets/carga.dart';
 import 'package:app_inventario/widgets/category.dart';
+import 'package:app_inventario/widgets/select_images.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -18,6 +19,7 @@ import '../login/login_screen.dart';
 import '../venta/listview.dart';
 import '../reportes/listview.dart';
 import '../reportes/balance/listview.dart';
+import '../vencimiento_productos/listview.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -101,12 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ListViewVentaProductos()),
         _getItem(const Icon(Icons.receipt_long_outlined), "Balance",
             ListViewBalance()),
-        _getItem(
-            const Icon(Icons.receipt_long_outlined),
-            "Carga",
-            CardListItem(
-              isLoading: false,
-            )),
+        _getItem(const Icon(Icons.date_range_outlined), "Vencimiento",
+            VencimientoProductos()),
         info,
       ],
     );
@@ -173,7 +171,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (BuildContext ctx, position) {
                         return CategoryCard(
                           title: '${categoriaT.todos[position].Nombre}',
-                          image: "assets/frijol.png",
+                          image: (categoriaT.todos[position].Imagen != null &&
+                                  categoriaT.todos[position].Imagen != "")
+                              ? '${categoriaT.todos[position].Imagen}'
+                              : 'http://${apiUrl}:8000/media/images/random.png',
                           press: () {
                             Navigator.push(
                               context,

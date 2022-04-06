@@ -4,5 +4,5 @@ from .usuario import UserViewset
 from .ubicacion import UbicacionViewset
 from .estanteria import EstanteriaViewset
 from .producto import ProductoViewset, VentaProductoViewset
-from .detalleProducto import DetalleProductoViewset
+from .detalleProducto import DetalleProductoViewset, VencimientoDetalleProductoViewset
 from .venta import VentaViewset

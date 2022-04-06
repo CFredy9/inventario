@@ -12,6 +12,7 @@ import 'api/usuario.dart';
 import 'api/login.dart';
 import 'api/venta.dart';
 import 'api/reportes.dart';
+import 'api/vencimiento.dart';
 import '/pages/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => VentaProvider()),
         ChangeNotifierProvider(create: (context) => ReportesProvider()),
+        ChangeNotifierProvider(create: (context) => VencimientoProvider()),
       ],
       child: MaterialApp(
         title: 'Tienda Kairos',

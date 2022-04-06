@@ -2,6 +2,8 @@
 import 'package:app_inventario/constants.dart';
 import 'package:app_inventario/widgets/background.dart';
 import 'package:app_inventario/widgets/category.dart';
+import 'package:app_inventario/widgets/select_images.dart';
+import 'package:app_inventario/widgets/images_category.dart';
 import 'package:provider/provider.dart';
 import '../../utils.dart';
 import 'listview.dart';
@@ -10,6 +12,7 @@ import '../../models/categoria.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../api/categoria.dart';
+import 'package:scroll_indicator/scroll_indicator.dart';
 
 class RegistrationCategoria extends StatefulWidget {
   final CategoriaModel categoriaModel;
@@ -28,11 +31,16 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
   final _formKey = GlobalKey<FormState>();
   // editing Controller
   TextEditingController nameController = TextEditingController();
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    scrollController = ScrollController();
     nameController = TextEditingController(text: widget.categoriaModel.Nombre);
+    (widget.categoriaModel.Imagen != null)
+        ? imagenubi = widget.categoriaModel.Imagen
+        : imagenubi = "";
   }
 
   @override
@@ -145,7 +153,7 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
               ButtonWidget(
                 onClicked: () => Utils.showSheet(
                   context,
-                  child: Picker(),
+                  child: Home(),
                   onClicked: () {
                     //final value = DateFormat('yyyy/MM/dd').format(dateTime);
                     //Utils.showSnackBar(context, 'Selected "$value"');
@@ -179,6 +187,14 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
                     child: nameField),
                 width: size.width * 0.75,
               ),
+              if (imagenubi != "")
+                SizedBox(
+                  child: Image(
+                    //image: AssetImage(imagenubi!),
+                    image: NetworkImage(imagenubi!),
+                    height: 80,
+                  ),
+                ),
               SizedBox(height: 20),
               SizedBox(
                 child: registrarButton,
@@ -194,9 +210,9 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
 
   void onAdd() {
     final String textVal = nameController.text;
-
     if (nameController.text.isNotEmpty) {
-      CategoriaModel categoria = CategoriaModel(nombre: nameController.text);
+      CategoriaModel categoria =
+          CategoriaModel(nombre: nameController.text, imagen: imagenubi);
       Provider.of<CategoriaProvider>(context, listen: false)
           .addCategoria(categoria);
       Fluttertoast.showToast(msg: "Categoria creada exitosamente :) ");
@@ -210,7 +226,7 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
   void onUpdate(int id) {
     if (nameController.text.isNotEmpty) {
       final CategoriaModel categoria =
-          CategoriaModel(nombre: nameController.text);
+          CategoriaModel(nombre: nameController.text, imagen: imagenubi);
       Provider.of<CategoriaProvider>(context, listen: false)
           .updateCategoria(categoria, id);
       Fluttertoast.showToast(msg: "Categoria actualizada exitosamente :) ");
@@ -224,6 +240,7 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
   create() async {
     CategoriaModel cateModel = CategoriaModel();
     cateModel.nombre = nameController.text;
+    cateModel.imagen = imagenubi;
     /*await categoriaReference.push().set({
       'nombre': cateModel.nombre,
       'id': cateModel.Id,
@@ -238,6 +255,7 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
   update(String Id) async {
     CategoriaModel cateModel = CategoriaModel();
     cateModel.nombre = nameController.text;
+    cateModel.imagen = imagenubi;
     /*await categoriaReference.reference().child(Id).update({
       'nombre': cateModel.nombre,
     }).then((value) => null);*/
@@ -248,7 +266,16 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
         (route) => false);
   }
 
-  Widget Picker() => Container(
+  int optionSelected = 0;
+
+  void checkOption(int index) {
+    setState(() {
+      optionSelected = index;
+      print(index);
+    });
+  }
+
+  /*Widget Picker() => Container(
         //color: Colors.transparent,
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -285,207 +312,44 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
                 ),*/
                 Expanded(
                   child: GridView.count(
+                    controller: scrollController,
                     crossAxisCount: 3,
                     childAspectRatio: 1,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 10,
                     children: <Widget>[
-                      CategoryCard(
-                        title: "Aceite",
-                        image: "assets/aceite.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Arroz",
-                        image: "assets/arroz.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Atoles",
-                        image: "assets/atole.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Azúcar",
-                        image: "assets/azucar.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Jabón",
-                        image: "assets/barra-de-jabon.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Caja",
-                        image: "assets/caja.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Cereal",
-                        image: "assets/cereal.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Chocolate",
-                        image: "assets/chocolate.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Chocolate 2",
-                        image: "assets/chocolate2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Desechable",
-                        image: "assets/desechable.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Detergente",
-                        image: "assets/detergente.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Detergente 2",
-                        image: "assets/detergente2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Fideo",
-                        image: "assets/fideo.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Frijol",
-                        image: "assets/frijol.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Frijol 2",
-                        image: "assets/frijol2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Frutas",
-                        image: "assets/frutas.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Galleta",
-                        image: "assets/galletas2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Galleta 2",
-                        image: "assets/galletas2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Gaseosa",
-                        image: "assets/gaseosa.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Gaseosa 2",
-                        image: "assets/gaseosa2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Golosinas",
-                        image: "assets/golosinas.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Huevos",
-                        image: "assets/huevos.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Jabón",
-                        image: "assets/jabon.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Jugo",
-                        image: "assets/jugo.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Leche",
-                        image: "assets/leche.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Leche2",
-                        image: "assets/leche2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Limpieza",
-                        image: "assets/limpieza.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Maíz",
-                        image: "assets/maiz.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Miel",
-                        image: "assets/miel.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Pañal",
-                        image: "assets/panal.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Pan de Molde",
-                        image: "assets/pan-de-molde.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Papel",
-                        image: "assets/papel-higienico.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Papel 2",
-                        image: "assets/papel-higienico2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Random",
-                        image: "assets/random.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Shampoo",
-                        image: "assets/shampoo.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Verduras",
-                        image: "assets/verdura.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Verduras 2",
-                        image: "assets/verdura2.png",
-                        press: () {},
-                      ),
+                      for (int i = 0; i < images.length; i++)
+                        CategoryCard(
+                          title: images[i]['title'] as String,
+                          image: images[i]['image'] as String,
+                          press: () {
+                            checkOption(i + 1);
+                            imagenubi = images[i]['imagen'];
+                          },
+                          isSelect: i + 1 == optionSelected,
+                        ),
                     ],
                   ),
+                ),
+                ScrollIndicator(
+                  scrollController: scrollController,
+                  width: 150,
+                  height: 5,
+                  indicatorWidth: 40,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[300]),
+                  indicatorDecoration: BoxDecoration(
+                      color: ColorF, borderRadius: BorderRadius.circular(10)),
                 ),
               ],
             ),
           ),
         ),
-      );
+      );*/
 }
 
-class ButtonWidget extends StatelessWidget {
+class ButtonWidget extends StatefulWidget {
   final VoidCallback onClicked;
 
   const ButtonWidget({
@@ -494,12 +358,17 @@ class ButtonWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ButtonWidget> createState() => _ButtonWidgetState();
+}
+
+class _ButtonWidgetState extends State<ButtonWidget> {
+  @override
   Widget build(BuildContext context) => IconButton(
         icon: const Icon(
           Icons.cloud_upload_outlined,
           size: 40,
           color: ColorF,
         ),
-        onPressed: onClicked,
+        onPressed: widget.onClicked,
       );
 }

@@ -3,6 +3,7 @@ from rest_framework import status, filters, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+import datetime
 #from rest_framework.settings import api_settings
 from django.db import transaction
 
@@ -60,6 +61,8 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                 data = request.data
                 print(data)
 
+                vencimiento = datetime.datetime.strptime(data.get('vencimiento'), "%Y/%m/%d").date()
+
                 #serializer = CatedraticoRegistroSerializer(data=request.data)
                 verify = DetalleProductoRegistroSerializer(data=data)
                 if verify.is_valid():
@@ -76,7 +79,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                         existenciasT=data.get('existenciasT'),
                         existenciasB=data.get('existenciasB'),
                         existencias=data.get('existencias'),
-                        vencimiento=data.get('vencimiento'),
+                        vencimiento=vencimiento,
                         #almacen=almacen,
                         #estanteria=estanteria
                     )
@@ -93,6 +96,8 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
             with transaction.atomic():
                 #user = request.data
                 data = request.data
+                vencimiento = datetime.datetime.strptime(data.get('vencimiento'), "%Y/%m/%d").date()
+
                 verify = DetalleProductoRegistroSerializer(data=data)
                 if verify.is_valid():
 
@@ -110,7 +115,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                     detalleproducto.existenciasT = data.get('existenciasT')
                     detalleproducto.existenciasB = data.get('existenciasB')
                     detalleproducto.existencias = data.get('existencias')
-                    detalleproducto.vencimiento = data.get('vencimiento')
+                    detalleproducto.vencimiento = vencimiento
                     #detalleproducto.almacen = almacen
                     #detalleproducto.estanteria = estanteria
                     detalleproducto.save()
@@ -119,3 +124,56 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
             return Response(verify.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'detail':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class VencimientoDetalleProductoViewset(viewsets.ModelViewSet):
+
+    serializer_class = DetalleProductoSerializer
+    queryset = DetalleProducto.objects.filter(activo=True)
+    serializer = serializer_class(queryset)
+
+    def get_permissions(self):
+        """" Define permisos para este recurso """
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def list (self, request, *args, **kwargs):
+        #user = request.user
+        data = request.headers
+
+        print(data['start'])
+        print(data['end'])
+        
+        first_date = datetime.datetime.strptime(data['start'], "%Y/%m/%d").date()
+        last_date = datetime.datetime.strptime(data['end'], "%Y/%m/%d").date()
+
+        first_date = first_date.strftime('%Y-%m-%d %H:%M:%S')
+        last_date = last_date.strftime('%Y-%m-%d %H:%M:%S')
+
+        print('Fecha Producto')
+        print(first_date)
+        print(last_date)
+
+        queryset = DetalleProducto.objects.filter(vencimiento__range=(first_date, last_date), 
+        activo=True, existencias__gt=0).order_by('vencimiento')
+        serializer = DetalleProductoSerializer(queryset, many=True)
+
+        page = request.GET.get('page')
+
+        try: 
+            page = self.paginate_queryset(queryset)
+            print('page', page)
+        except Exception as e:
+            page = []
+            data = page
+            return Response({
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'No more record.',
+                "data" : data
+                })
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            data = serializer.data
+            return self.get_paginated_response(data)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -155,7 +155,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_devel')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_level')
 MEDIA_URL = '/media/'
 
 EMAIL_USE_TLS = True

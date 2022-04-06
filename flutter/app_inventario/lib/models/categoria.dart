@@ -23,18 +23,23 @@ class CategoriaModel {
   }
 } */
 
+import 'dart:ui';
+
 class CategoriaModel {
   int? id;
   String? nombre;
+  String? imagen;
 
-  CategoriaModel({this.id, this.nombre});
+  CategoriaModel({this.id, this.nombre, this.imagen});
 
   factory CategoriaModel.fromJson(Map<String, dynamic> json) {
-    return CategoriaModel(id: json['id'], nombre: json['nombre']);
+    return CategoriaModel(
+        id: json['id'], nombre: json['nombre'], imagen: json['imagen']);
   }
 
   int? get Id => id;
   String? get Nombre => nombre;
+  String? get Imagen => imagen;
 
-  dynamic toJson() => {'id': id, 'nombre': nombre};
+  dynamic toJson() => {'id': id, 'nombre': nombre, 'imagen': imagen};
 }

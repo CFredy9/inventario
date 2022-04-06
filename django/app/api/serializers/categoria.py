@@ -7,7 +7,8 @@ class CategoriaSerializer(serializers.ModelSerializer):
         model = Categoria
         fields = (
             'id',
-            'nombre'
+            'nombre',
+            'imagen'
             )
 
 
@@ -17,4 +18,5 @@ class CategoriaRegistroSerializer(serializers.ModelSerializer):
         model = Categoria
         fields = (
             'nombre',
+            'imagen'
         )

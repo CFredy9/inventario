@@ -200,3 +200,5 @@ class VentaProductoViewset(viewsets.ModelViewSet):
         queryset['total_venta'] = str(round(queryset['total_venta'], 2))
         queryset['ganancia'] = str(round(queryset['ganancia'], 2))
         return Response(queryset, status=status.HTTP_200_OK)
+
+

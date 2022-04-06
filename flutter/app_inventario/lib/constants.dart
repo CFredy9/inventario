@@ -10,8 +10,14 @@ const PrimaryLightColor = Color(0xFFE0E0F8);
 
 const ColorF = Colors.indigo;
 
+var ColorCategoryCard = Colors.transparent;
+
 const apiUrl = '192.168.1.36';
 //const apiUrl = '192.168.0.10';
 //const apiUrl = '192.168.0.23';
 
 double valorC = 0.0;
+
+bool Select = false;
+
+String? imagenubi;
