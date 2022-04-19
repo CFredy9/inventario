@@ -14,6 +14,7 @@ import '../../models/categoria.dart';
 import '../../models/ubicacion.dart';
 import '../../models/estanteria.dart';
 import '../../../api/reportes.dart';
+import 'package:animate_do/animate_do.dart';
 
 class VencimientoProductos extends StatefulWidget {
   @override
@@ -62,50 +63,53 @@ class _VencimientoProductosState extends State<VencimientoProductos>
           backgroundColor: ColorF,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(110.0),
-            child: AppBar(
-              elevation: 0,
-              title: Text('PRODUCTOS A VENCER EN:'),
-              centerTitle: true,
-              backgroundColor: ColorF,
-              /*flexibleSpace: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blue, Colors.green],
-                    begin: Alignment.bottomRight,
-                    end: Alignment.topLeft,
+            child: SlideInDown(
+              duration: const Duration(seconds: 1),
+              child: AppBar(
+                elevation: 0,
+                title: Text('PRODUCTOS A VENCER EN:'),
+                centerTitle: true,
+                backgroundColor: ColorF,
+                /*flexibleSpace: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blue, Colors.green],
+                      begin: Alignment.bottomRight,
+                      end: Alignment.topLeft,
+                    ),
                   ),
+                ),*/
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    // passing this to our root
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  },
                 ),
-              ),*/
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  // passing this to our root
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
-                },
-              ),
-              bottom: TabBar(
-                padding: const EdgeInsets.only(top: 15.0),
-                //isScrollable: true,
-                indicatorColor: Colors.white,
-                indicator: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 4,
+                bottom: TabBar(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  //isScrollable: true,
+                  indicatorColor: Colors.white,
+                  indicator: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 4,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(30.0)),
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+                  indicatorWeight: 5,
+                  controller: tabController,
+                  tabs: const <Widget>[
+                    Tab(text: '1 Semana'),
+                    Tab(text: '2 Semanas'),
+                    Tab(text: '1 mes'),
+                  ],
                 ),
-                indicatorWeight: 5,
-                controller: tabController,
-                tabs: const <Widget>[
-                  Tab(text: '1 Semana'),
-                  Tab(text: '2 Semanas'),
-                  Tab(text: '1 mes'),
-                ],
+                //elevation: 20,
+                //titleSpacing: 20,
               ),
-              //elevation: 20,
-              //titleSpacing: 20,
             ),
           ),
           body: Container(

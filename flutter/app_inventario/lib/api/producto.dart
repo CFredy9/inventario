@@ -68,9 +68,30 @@ class ProductoProvider with ChangeNotifier {
     }
   }
 
-  getProducto(String? Id) async {
+  Future<bool> getProducto(String? Id) async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/producto/');
+    final url =
+        Uri.parse('http://${apiUrl}:8000/api/producto/?ordering=nombre');
+    final response = await http.get(
+      url,
+      headers: {'id': Id!, 'Authorization': 'token $token'},
+    );
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body) as List;
+      print(data);
+      _producto = data
+          .map<ProductoModel>((json) => ProductoModel.fromJson(json))
+          .toList();
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  searchProducto(String? Id, String? query, String? ordering) async {
+    var token = storage.getItem('token');
+    final url = Uri.parse(
+        'http://${apiUrl}:8000/api/producto/?search=$query&ordering=$ordering');
     final response = await http.get(
       url,
       headers: {'id': Id!, 'Authorization': 'token $token'},
@@ -87,7 +108,8 @@ class ProductoProvider with ChangeNotifier {
 
   getProductoCategoria(String? Id) async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/producto/');
+    final url =
+        Uri.parse('http://${apiUrl}:8000/api/producto/?ordering=nombre');
     final response = await http.get(
       url,
       headers: {'id': Id!, 'Authorization': 'token $token'},

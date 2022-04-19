@@ -21,3 +21,8 @@ double valorC = 0.0;
 bool Select = false;
 
 String? imagenubi;
+
+const Color primaryColorShimmer = Color(0xFF2967FF);
+const Color grayColorShimmer = Color(0xFF8D8D8E);
+
+const double defaultPadding = 16.0;

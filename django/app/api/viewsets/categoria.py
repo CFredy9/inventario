@@ -35,12 +35,12 @@ class CategoriaViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        permission_classes = [IsAuthenticated]
+        permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
 
     def list(self, request, *args, **kwargs):
-        queryset = Categoria.objects.filter(activo=True)
+        queryset = self.filter_queryset(Categoria.objects.filter(activo=True))
         #queryset = DetalleProducto.objects.filter(activo=True)
         serializer = CategoriaSerializer(queryset, many=True)
 

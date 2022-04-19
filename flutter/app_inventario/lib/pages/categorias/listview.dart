@@ -5,6 +5,7 @@ import '/pages/home/home_screen.dart';
 import 'dart:async';
 import 'registro.dart';
 import '../../api/categoria.dart';
+import 'package:animate_do/animate_do.dart';
 
 //import 'package:crud_firebase/ui/product_information.dart';
 import '../../models/categoria.dart';
@@ -18,6 +19,9 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
   List<CategoriaModel> items = <CategoriaModel>[];
   //final categoriaT = Provider.of<CategoriaProvider>;
   CategoriaProvider categoriaT = CategoriaProvider();
+  String? SearchC = '';
+  String orderC = '';
+  int orderCNumber = 2;
   @override
   void initState() {
     super.initState();
@@ -37,24 +41,82 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
   @override
   Widget build(BuildContext context) {
     categoriaT = Provider.of<CategoriaProvider>(context);
+
+    final Buscador = Container(
+      height: 40,
+      margin: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(29.5),
+      ),
+      child: TextFormField(
+        decoration: const InputDecoration(
+          hintText: "Buscar",
+          //icon: SvgPicture.asset("assets/icons/search.svg"),
+          prefixIcon: Icon(Icons.search),
+          border: InputBorder.none,
+        ),
+        onChanged: (value) {
+          categoriaT.searchCategoria(value, 'nombre');
+          SearchC = value;
+        },
+      ),
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: ColorF,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.0),
-          child: AppBar(
-            elevation: 0,
-            title: Text('Lista de Categorias'),
-            centerTitle: true,
-            backgroundColor: ColorF,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () {
-                // passing this to our root
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
-              },
+          preferredSize: Size.fromHeight(125.0),
+          child: SlideInDown(
+            duration: const Duration(seconds: 1),
+            child: Column(
+              children: [
+                AppBar(
+                  elevation: 0,
+                  title: Text('Lista de Categorias'),
+                  centerTitle: true,
+                  backgroundColor: ColorF,
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      categoriaT.getCategoria();
+                      // passing this to our root
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()));
+                    },
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        //child: SearchBar()),
+                        child: Buscador),
+                    IconButton(
+                        icon: const Icon(
+                          Icons.filter_list,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        onPressed: () {
+                          if (orderCNumber == 1) {
+                            orderC = 'nombre';
+                            orderCNumber = 2;
+                          } else if (orderCNumber == 2) {
+                            orderC = '-nombre';
+                            orderCNumber = 1;
+                          }
+
+                          categoriaT.searchCategoria(SearchC, orderC);
+                        }),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -69,63 +131,66 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
             ),
           ),
           child: Center(
-            child: ListView.builder(
-                itemCount: categoriaT.todos.length,
-                padding: EdgeInsets.only(top: 3.0),
-                itemBuilder: (context, position) {
-                  return Column(
-                    children: <Widget>[
-                      Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50),
-                            )),
-                        padding: new EdgeInsets.all(3.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ListTile(
-                                    title: Center(
-                                      child: Text(
-                                        '${categoriaT.todos[position].nombre}',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 21.0,
+            child: SlideInUp(
+              duration: const Duration(seconds: 1),
+              child: ListView.builder(
+                  itemCount: categoriaT.todos.length,
+                  padding: EdgeInsets.only(top: 3.0),
+                  itemBuilder: (context, position) {
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              )),
+                          padding: new EdgeInsets.all(3.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: ListTile(
+                                      title: Center(
+                                        child: Text(
+                                          '${categoriaT.todos[position].nombre}',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 21.0,
+                                          ),
                                         ),
                                       ),
+                                      onTap: () => _navigateToCategoria(
+                                          context, categoriaT.todos[position])),
+                                ),
+                                //onPressed: () => _deleteProduct(context, items[position],position)),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: ColorF,
                                     ),
-                                    onTap: () => _navigateToCategoria(
+                                    onPressed: () => _navigateToCategoria(
                                         context, categoriaT.todos[position])),
-                              ),
-                              //onPressed: () => _deleteProduct(context, items[position],position)),
-                              IconButton(
+                                IconButton(
                                   icon: Icon(
-                                    Icons.edit,
+                                    Icons.delete,
                                     color: ColorF,
                                   ),
-                                  onPressed: () => _navigateToCategoria(
-                                      context, categoriaT.todos[position])),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: ColorF,
+                                  onPressed: () => _showDialog(context,
+                                      categoriaT.todos[position], position),
                                 ),
-                                onPressed: () => _showDialog(context,
-                                    categoriaT.todos[position], position),
-                              ),
-                            ],
+                              ],
+                            ),
+                            color: Colors.white,
                           ),
-                          color: Colors.white,
                         ),
-                      ),
-                    ],
-                  );
-                }),
+                      ],
+                    );
+                  }),
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(

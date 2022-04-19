@@ -10,6 +10,7 @@ import './listview.dart';
 import 'cambio_password.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:animate_do/animate_do.dart';
 
 class PerfilScreen extends StatefulWidget {
   final UsuarioModel usuarioModel;
@@ -207,17 +208,20 @@ class _PerfilScreenState extends State<PerfilScreen> {
       backgroundColor: ColorF,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80.0),
-        child: AppBar(
-          backgroundColor: ColorF,
-          title: Text("Perfil"),
-          centerTitle: true,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              // passing this to our root
-              Navigator.of(context).pop();
-            },
+        child: SlideInDown(
+          duration: const Duration(seconds: 1),
+          child: AppBar(
+            backgroundColor: ColorF,
+            title: Text("Perfil"),
+            centerTitle: true,
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                // passing this to our root
+                Navigator.of(context).pop();
+              },
+            ),
           ),
         ),
       ),
@@ -232,125 +236,128 @@ class _PerfilScreenState extends State<PerfilScreen> {
           ),
         ),
         child: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    //crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      //SizedBox(height: 5),
-                      const Center(
-                        child: Text(
-                          'Nombre',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: ColorF,
+          child: SlideInUp(
+            duration: const Duration(seconds: 1),
+            child: SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        //SizedBox(height: 5),
+                        const Center(
+                          child: Text(
+                            'Nombre',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: ColorF,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: PrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: nameField),
-                        width: size.width * 1,
-                      ),
-                      SizedBox(height: 5),
-                      const Center(
-                        child: Text(
-                          'Apellido',
-                          style: TextStyle(fontSize: 14, color: ColorF),
-                        ),
-                      ),
-                      SizedBox(
-                        child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: PrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: lastnameField),
-                        width: size.width * 1,
-                      ),
-                      SizedBox(height: 5),
-                      const Center(
-                        child: Text(
-                          'Teléfono',
-                          style: TextStyle(fontSize: 14, color: ColorF),
-                        ),
-                      ),
-                      SizedBox(
-                        child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: PrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: phoneField),
-                        width: size.width * 1,
-                      ),
-                      SizedBox(height: 5),
-                      const Center(
-                        child: Text(
-                          'Correo Electrónico',
-                          style: TextStyle(fontSize: 14, color: ColorF),
-                        ),
-                      ),
-                      SizedBox(
-                        child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: PrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: emailField),
-                        width: size.width * 1,
-                      ),
-                      SizedBox(height: 20),
-                      signUpButton,
-                      SizedBox(height: 15),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text("Cambiar Contraseña? "),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            CambioPassword()));
-                              },
-                              child: const Text(
-                                "Presiona Aquí",
-                                style: TextStyle(
-                                    color: ColorF,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
+                        SizedBox(
+                          child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              width: size.width * 0.8,
+                              decoration: BoxDecoration(
+                                color: PrimaryLightColor,
+                                borderRadius: BorderRadius.circular(29),
                               ),
-                            )
-                          ])
-                    ],
+                              child: nameField),
+                          width: size.width * 1,
+                        ),
+                        SizedBox(height: 5),
+                        const Center(
+                          child: Text(
+                            'Apellido',
+                            style: TextStyle(fontSize: 14, color: ColorF),
+                          ),
+                        ),
+                        SizedBox(
+                          child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              width: size.width * 0.8,
+                              decoration: BoxDecoration(
+                                color: PrimaryLightColor,
+                                borderRadius: BorderRadius.circular(29),
+                              ),
+                              child: lastnameField),
+                          width: size.width * 1,
+                        ),
+                        SizedBox(height: 5),
+                        const Center(
+                          child: Text(
+                            'Teléfono',
+                            style: TextStyle(fontSize: 14, color: ColorF),
+                          ),
+                        ),
+                        SizedBox(
+                          child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              width: size.width * 0.8,
+                              decoration: BoxDecoration(
+                                color: PrimaryLightColor,
+                                borderRadius: BorderRadius.circular(29),
+                              ),
+                              child: phoneField),
+                          width: size.width * 1,
+                        ),
+                        SizedBox(height: 5),
+                        const Center(
+                          child: Text(
+                            'Correo Electrónico',
+                            style: TextStyle(fontSize: 14, color: ColorF),
+                          ),
+                        ),
+                        SizedBox(
+                          child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              width: size.width * 0.8,
+                              decoration: BoxDecoration(
+                                color: PrimaryLightColor,
+                                borderRadius: BorderRadius.circular(29),
+                              ),
+                              child: emailField),
+                          width: size.width * 1,
+                        ),
+                        SizedBox(height: 20),
+                        signUpButton,
+                        SizedBox(height: 15),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text("Cambiar Contraseña? "),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CambioPassword()));
+                                },
+                                child: const Text(
+                                  "Presiona Aquí",
+                                  style: TextStyle(
+                                      color: ColorF,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                              )
+                            ])
+                      ],
+                    ),
                   ),
                 ),
               ),

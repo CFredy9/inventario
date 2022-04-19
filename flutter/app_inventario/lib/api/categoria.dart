@@ -75,10 +75,31 @@ class CategoriaProvider with ChangeNotifier {
     }
   }
 
-  getCategoria() async {
+  Future<bool> getCategoria() async {
     _categoria = [];
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/categoria/');
+    final url = Uri.parse(
+        'http://${apiUrl}:8000/api/categoria/?search=&ordering=nombre');
+    final response = await http.get(
+      url,
+      headers: {'Authorization': 'token $token'},
+    );
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body) as List;
+      print(data);
+      _categoria = data
+          .map<CategoriaModel>((json) => CategoriaModel.fromJson(json))
+          .toList();
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  searchCategoria(String? query, String? ordering) async {
+    var token = storage.getItem('token');
+    final url = Uri.parse(
+        'http://${apiUrl}:8000/api/categoria/?search=$query&ordering=$ordering');
     final response = await http.get(
       url,
       headers: {'Authorization': 'token $token'},

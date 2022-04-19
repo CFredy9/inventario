@@ -15,6 +15,7 @@ import 'api/reportes.dart';
 import 'api/vencimiento.dart';
 import '/pages/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 /*Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,10 +48,19 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Tienda Kairos',
-        theme: ThemeData(
+        theme: ThemeData.from(
+          colorScheme: const ColorScheme.light(),
+        ).copyWith(
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: <TargetPlatform, PageTransitionsBuilder>{
+              TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            },
+          ),
+        ),
+        /*theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+        ),*/
         debugShowCheckedModeBanner: false,
         home: FutureBuilder(
           future: storage.ready,

@@ -15,6 +15,7 @@ import '../../../models/estanteria.dart';
 import '../../../api/reportes.dart';
 import './mensual.dart';
 import './anual.dart';
+import 'package:animate_do/animate_do.dart';
 
 class ListViewBalance extends StatefulWidget {
   @override
@@ -63,48 +64,51 @@ class _ListViewBalanceState extends State<ListViewBalance>
           backgroundColor: ColorF,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(110.0),
-            child: AppBar(
-              elevation: 0,
-              title: Text('BALANCE'),
-              centerTitle: true,
-              backgroundColor: ColorF,
-              /*flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue, Colors.green],
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
-                ),
-              ),
-            ),*/
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  // passing this to our root
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
-                },
-              ),
-              bottom: TabBar(
-                //isScrollable: true,
-                indicatorColor: Colors.white,
-                indicator: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 4,
+            child: SlideInDown(
+              duration: Duration(seconds: 2),
+              child: AppBar(
+                elevation: 0,
+                title: Text('BALANCE'),
+                centerTitle: true,
+                backgroundColor: ColorF,
+                /*flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.blue, Colors.green],
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft,
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(30.0)),
                 ),
-                indicatorWeight: 5,
-                controller: tabController,
-                tabs: const <Widget>[
-                  Tab(text: 'Mensual'),
-                  Tab(text: 'Anual'),
-                ],
+              ),*/
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    // passing this to our root
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  },
+                ),
+                bottom: TabBar(
+                  //isScrollable: true,
+                  indicatorColor: Colors.white,
+                  indicator: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 4,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+                  ),
+                  indicatorWeight: 5,
+                  controller: tabController,
+                  tabs: const <Widget>[
+                    Tab(text: 'Mensual'),
+                    Tab(text: 'Anual'),
+                  ],
+                ),
+                //elevation: 20,
+                //titleSpacing: 20,
               ),
-              //elevation: 20,
-              //titleSpacing: 20,
             ),
           ),
           body: Container(

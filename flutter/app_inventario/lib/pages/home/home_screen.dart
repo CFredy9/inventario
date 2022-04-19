@@ -1,10 +1,14 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'package:animations/animations.dart';
 import 'package:app_inventario/api/categoria.dart';
+import 'package:app_inventario/api/producto.dart';
 import 'package:app_inventario/api/usuario.dart';
 import 'package:app_inventario/models/categoria.dart';
+import 'package:app_inventario/widgets/animations.dart';
 import 'package:app_inventario/widgets/carga.dart';
 import 'package:app_inventario/widgets/category.dart';
 import 'package:app_inventario/widgets/select_images.dart';
+import 'package:app_inventario/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -20,6 +24,9 @@ import '../venta/listview.dart';
 import '../reportes/listview.dart';
 import '../reportes/balance/listview.dart';
 import '../vencimiento_productos/listview.dart';
+import '../../widgets/paginaCarga.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:flutter/scheduler.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,14 +40,22 @@ class _HomeScreenState extends State<HomeScreen> {
   MeProvider usuarioT = MeProvider();
   List<CategoriaModel> items = <CategoriaModel>[];
   CategoriaProvider categoriaT = CategoriaProvider();
+  late bool _isLoading;
   //bool bandera = false;
   //final User? user = FirebaseAuth.instance.currentUser;
   //UserModel loggedInUser = UserModel();
   //LoginProvider loginT = LoginProvider();
   @override
   void initState() {
+    _isLoading = true;
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     super.initState();
     bandera = false;
+
     /*FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -105,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ListViewBalance()),
         _getItem(const Icon(Icons.date_range_outlined), "Vencimiento",
             VencimientoProductos()),
+        //_getItem(const Icon(Icons.date_range_outlined), "Carga", Animations()),
         info,
       ],
     );
@@ -159,108 +175,72 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Expanded(
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 100,
-                              childAspectRatio: 1,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10),
-                      itemCount: categoriaT.todos.length,
-                      itemBuilder: (BuildContext ctx, position) {
-                        return CategoryCard(
-                          title: '${categoriaT.todos[position].Nombre}',
-                          image: (categoriaT.todos[position].Imagen != null &&
-                                  categoriaT.todos[position].Imagen != "")
-                              ? '${categoriaT.todos[position].Imagen}'
-                              : 'http://${apiUrl}:8000/media/images/random.png',
-                          press: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ListViewProductos(
-                                      categoriaT.todos[position])),
-                            );
-                          },
-                        );
-                      }),
-                  /*GridView.count(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 10,
-                    children: <Widget>[
-                      CategoryCard(
-                        title: "Frijol",
-                        image: "assets/frijol.png",
-                        press: () {},
+                _isLoading
+                    ? Expanded(
+                        child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 100,
+                                    childAspectRatio: 1,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10),
+                            itemCount: 12,
+                            itemBuilder: (BuildContext ctx, position) {
+                              return const NewsCardSkelton();
+                            }
+                            /*separatorBuilder: (context, index) =>
+                              const SizedBox(height: defaultPadding),*/
+                            ),
+                      )
+                    : Expanded(
+                        child: SlideInLeft(
+                          duration: Duration(seconds: 1),
+                          child: GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 100,
+                                      childAspectRatio: 1,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10),
+                              itemCount: categoriaT.todos.length,
+                              itemBuilder: (BuildContext ctx, position) {
+                                return CategoryCard(
+                                  title: '${categoriaT.todos[position].Nombre}',
+                                  image: (categoriaT.todos[position].Imagen !=
+                                              null &&
+                                          categoriaT.todos[position].Imagen !=
+                                              "")
+                                      ? '${categoriaT.todos[position].Imagen}'
+                                      : 'http://${apiUrl}:8000/media/images/random.png',
+                                  press: () {
+                                    /*Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ListViewProductos(
+                                                  categoriaT.todos[position])),
+                                    );*/
+                                    navigateToProduct(
+                                        categoriaT.todos[position].Id
+                                            .toString(),
+                                        position);
+                                  },
+                                );
+                              }),
+                        ),
                       ),
-                      CategoryCard(
-                        title: "Arroz",
-                        image: "assets/arroz.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Pañal",
-                        image: "assets/panal.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Fideo",
-                        image: "assets/fideo.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Aceite",
-                        image: "assets/aceite.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Leche",
-                        image: "assets/leche.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Logo",
-                        image: "assets/logo.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Leche 2",
-                        image: "assets/leche2.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Random",
-                        image: "assets/random.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Random",
-                        image: "assets/random.png",
-                        press: () {},
-                      ),
-                      CategoryCard(
-                        title: "Arroz",
-                        image: "assets/arroz.png",
-                        press: () {},
-                      ),
-                    ],
-                  ),*/
-                ),
                 /*SizedBox(
                   height: 150,
                   child: Image.asset("assets/logo.png", fit: BoxFit.contain),
                 ),*/
-                Text(
+                const Text(
                   "Welcome Back",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 /*Text("${loggedInUser.firstName} ${loggedInUser.secondName}",
@@ -289,6 +269,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<void> navigateToProduct(String id, int position) async {
+    bool istoken = await Provider.of<ProductoProvider>(context, listen: false)
+        .getProducto(id);
+    if (istoken) {
+      //Provider.of<GastosProvider>(context, listen: false).getGasto();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ListViewProductos(categoriaT.todos[position])),
+      );
+    }
+  }
+
   // the logout function
   Future<void> logout(BuildContext context) async {
     bool logout =
@@ -296,5 +290,20 @@ class _HomeScreenState extends State<HomeScreen> {
     //await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+}
+
+class NewsCardSkelton extends StatelessWidget {
+  const NewsCardSkelton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Skeleton(height: 100, width: 100),
+      ],
+    );
   }
 }

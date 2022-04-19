@@ -8,6 +8,7 @@ import 'information.dart';
 //import 'package:crud_firebase/ui/product_information.dart';
 import '../../models/gastos.dart';
 import '../../api/gastos.dart';
+import 'package:animate_do/animate_do.dart';
 
 class ListViewGastos extends StatefulWidget {
   @override
@@ -39,27 +40,30 @@ class _ListViewGastosState extends State<ListViewGastos> {
         backgroundColor: ColorF,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80.0),
-          child: AppBar(
-            elevation: 0,
-            title: Text('GASTOS'),
-            centerTitle: true,
-            backgroundColor: ColorF,
-            /*flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue, Colors.green],
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
+          child: SlideInDown(
+            duration: const Duration(seconds: 1),
+            child: AppBar(
+              elevation: 0,
+              title: Text('GASTOS'),
+              centerTitle: true,
+              backgroundColor: ColorF,
+              /*flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.blue, Colors.green],
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft,
+                  ),
                 ),
+              ),*/
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () {
+                  // passing this to our root
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                },
               ),
-            ),*/
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () {
-                // passing this to our root
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
-              },
             ),
           ),
         ),
@@ -74,55 +78,59 @@ class _ListViewGastosState extends State<ListViewGastos> {
             ),
           ),
           child: Center(
-            child: ListView.builder(
-                itemCount: gastoT.todosGasto.length,
-                padding: EdgeInsets.only(top: 3.0),
-                itemBuilder: (context, position) {
-                  return Column(
-                    children: <Widget>[
-                      Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50),
-                            )),
-                        padding: new EdgeInsets.all(3.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ListTile(
-                                    title: Center(
-                                      child: Text(
-                                        '${gastoT.todosGasto[position].descripcion}',
-                                        style: const TextStyle(
-                                          color: ColorF,
-                                          fontSize: 21.0,
+            child: SlideInUp(
+              duration: const Duration(seconds: 1),
+              child: ListView.builder(
+                  itemCount: gastoT.todosGasto.length,
+                  padding: EdgeInsets.only(top: 3.0),
+                  itemBuilder: (context, position) {
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              )),
+                          padding: new EdgeInsets.all(3.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: ListTile(
+                                      title: Center(
+                                        child: Text(
+                                          '${gastoT.todosGasto[position].descripcion}',
+                                          style: const TextStyle(
+                                            color: ColorF,
+                                            fontSize: 21.0,
+                                          ),
                                         ),
                                       ),
+                                      onTap: () => _navigateToGastoInformation(
+                                          context,
+                                          gastoT.todosGasto[position])),
+                                ),
+                                //onPressed: () => _deleteProduct(context, items[position],position)),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: ColorF,
                                     ),
-                                    onTap: () => _navigateToGastoInformation(
+                                    onPressed: () => _navigateToGasto(
                                         context, gastoT.todosGasto[position])),
-                              ),
-                              //onPressed: () => _deleteProduct(context, items[position],position)),
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.edit,
-                                    color: ColorF,
-                                  ),
-                                  onPressed: () => _navigateToGasto(
-                                      context, gastoT.todosGasto[position])),
-                            ],
+                              ],
+                            ),
+                            color: Colors.white,
                           ),
-                          color: Colors.white,
                         ),
-                      ),
-                    ],
-                  );
-                }),
+                      ],
+                    );
+                  }),
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(

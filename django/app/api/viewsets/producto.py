@@ -4,6 +4,7 @@ from unicodedata import decimal
 from xmlrpc.client import DateTime
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, filters, viewsets
+#from django_filters import rest_framework as filters
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -17,14 +18,19 @@ from django.db.models import Sum, Count, Avg
 from api.models import Producto, Categoria, Venta
 from api.serializers import ProductoSerializer, ProductoRegistroSerializer, VentaProductoSerializer
 
+"""class ProductFilter(filters.FilterSet):
+    class Meta:
+        model = Producto
+        fields = ('nombre', 'id')"""
 
 class ProductoViewset(viewsets.ModelViewSet):
     queryset = Producto.objects.filter(activo=True)
     #permission_classes = (IsStaff,)
 
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    filter_fields = ("nombre",)
-    search_fields = ("nombre",)
+    #filterset_fields = ProductFilter
+    filter_fields = ('nombre',)
+    search_fields = ('nombre', 'categoria__nombre')
     ordering_fields = ("nombre",)
 
     def get_serializer_class(self):
@@ -36,34 +42,48 @@ class ProductoViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        permission_classes = [IsAuthenticated]
+        permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):
         data = request.headers
+
         id = data['Id']
+        #id = ''
         print('Valor Categoria' + id)
         if id == '':
             print('Entra1')
-            queryset = Producto.objects.filter(activo=True).annotate(existenciasT=Sum('producto__existencias'))
+            queryset = self.filter_queryset(Producto.objects.filter(activo=True).annotate(existenciasT=Sum('producto__existencias')))
         else:
             print('Entra2')
-            queryset = Producto.objects.filter(categoria__id=id, activo=True).annotate(existenciasT=Sum('producto__existencias'))
+            queryset = self.filter_queryset(Producto.objects.filter(categoria__id=id, activo=True).annotate(existenciasT=Sum('producto__existencias')))
         #queryset = DetalleProducto.objects.filter(activo=True)
         serializer = ProductoSerializer(queryset, many=True)
 
-        page = request.GET.get('page')
-
+        #page = request.GET.get('page')
         
-        if page is not None:
+        """try: 
+            page = self.paginate_queryset(queryset)
+            print('page', page)
+        except Exception as e:
+            page = []
+            data = page
+            return Response({
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'No more record.',
+                "data" : data
+                })"""
+        
+        """if page is not None:
             serializer = self.get_serializer(page, many=True)
             data = serializer.data
-            return self.get_paginated_response(data)
+            return self.get_paginated_response(data)"""
 
         #print(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+        
     def create(self, request):
         try:
             with transaction.atomic():

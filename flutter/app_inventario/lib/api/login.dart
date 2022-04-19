@@ -9,10 +9,19 @@ class LoginProvider with ChangeNotifier {
   LocalStorage storage = LocalStorage('usertoken');
 
   Future<bool> login(String email, String password) async {
-    final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/usuario/token/"),
-        headers: {"Content-Type": "application/json"},
-        body: json.encode({"email": email, "password": password}));
+    final response =
+        await http.post(Uri.parse("http://${apiUrl}:8000/api/usuario/token/"),
+            headers: {
+              "Access-Control-Allow-Origin":
+                  "*", // Required for CORS support to work
+              "Access-Control-Allow-Credentials":
+                  "true", // Required for cookies, authorization headers with HTTPS
+              "Access-Control-Allow-Headers":
+                  "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+              "Access-Control-Allow-Methods": "POST, OPTIONS",
+              "Content-Type": "application/json"
+            },
+            body: json.encode({"email": email, "password": password}));
     var data = json.decode(response.body) as Map;
     print(data);
     if (data.containsKey("token")) {

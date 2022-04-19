@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:animate_do/animate_do.dart';
 
 class rangoFecha extends StatefulWidget {
   int rango;
@@ -67,75 +68,79 @@ class _rangoFechaState extends State<rangoFecha> {
       child: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-                itemCount: vencimientoProducto.todosVencimientoProducto.length,
-                padding: EdgeInsets.only(top: 3.0),
-                itemBuilder: (context, position) {
-                  return Column(
-                    children: <Widget>[
-                      Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50),
-                            )),
-                        padding: new EdgeInsets.all(3.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ListTile(
-                                    title: Center(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '${vencimientoProducto.todosVencimientoProducto[position].producto['nombre']}',
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18.0,
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              IconButton(
-                                                  icon: const Icon(
-                                                    Icons.date_range_outlined,
-                                                    color: Colors.blue,
-                                                    size: 24,
-                                                  ),
-                                                  onPressed: () {}),
-                                              Text(
-                                                '${vencimientoProducto.todosVencimientoProducto[position].Vencimiento}',
-                                                style: const TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 16.0,
-                                                ),
+            child: SlideInUp(
+              duration: const Duration(seconds: 1),
+              child: ListView.builder(
+                  itemCount:
+                      vencimientoProducto.todosVencimientoProducto.length,
+                  padding: EdgeInsets.only(top: 3.0),
+                  itemBuilder: (context, position) {
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              )),
+                          padding: new EdgeInsets.all(3.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: ListTile(
+                                      title: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${vencimientoProducto.todosVencimientoProducto[position].producto['nombre']}',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18.0,
                                               ),
-                                            ],
-                                          ),
-                                        ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                IconButton(
+                                                    icon: const Icon(
+                                                      Icons.date_range_outlined,
+                                                      color: Colors.blue,
+                                                      size: 24,
+                                                    ),
+                                                    onPressed: () {}),
+                                                Text(
+                                                  '${vencimientoProducto.todosVencimientoProducto[position].Vencimiento}',
+                                                  style: const TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    onTap: () =>
-                                        _navigateToVencimientoProductoInformation(
-                                            context,
-                                            vencimientoProducto
-                                                    .todosVencimientoProducto[
-                                                position])),
-                              ),
-                            ],
+                                      onTap: () =>
+                                          _navigateToVencimientoProductoInformation(
+                                              context,
+                                              vencimientoProducto
+                                                      .todosVencimientoProducto[
+                                                  position])),
+                                ),
+                              ],
+                            ),
+                            color: Colors.white,
                           ),
-                          color: Colors.white,
                         ),
-                      ),
-                    ],
-                  );
-                }),
+                      ],
+                    );
+                  }),
+            ),
           ),
         ],
       ),

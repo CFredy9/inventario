@@ -2,6 +2,7 @@ import 'package:app_inventario/api/reportes.dart';
 import 'package:app_inventario/models/producto.dart';
 import 'package:app_inventario/pages/reportes/information.dart';
 import 'package:app_inventario/pages/reportes/listview.dart';
+import 'package:app_inventario/widgets/skeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../utils.dart';
 import '../../../api/gastos.dart';
+import 'package:animate_do/animate_do.dart';
 
 class BalanceAnual extends StatefulWidget {
   @override
@@ -25,9 +27,16 @@ class _BalanceAnualState extends State<BalanceAnual> {
   String valorFecha = "";
   int index = 0;
   //double valorC = 0;
+  late bool _isLoading;
 
   @override
   void initState() {
+    _isLoading = true;
+    Future.delayed(const Duration(milliseconds: 600), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     super.initState();
     items = <ProductoModel>[];
     valorFecha = dateTime.year.toString();
@@ -60,260 +69,284 @@ class _BalanceAnualState extends State<BalanceAnual> {
     return Center(
         child: Container(
       padding: const EdgeInsets.all(5.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 24),
-              ButtonWidget(
-                onClicked: () => Utils.showSheet(
-                  context,
-                  child: buildCustomPicker(),
-                  onClicked: () {
-                    final value = values[index];
-                    //Utils.showSnackBar(context, 'Selected "$value"');
-                    setState(() {
-                      print(index);
-                      valorFecha = values[index];
-                    });
-                    var fechaInicio =
-                        values[index].toString() + '/' + '1' + '/' + '1';
-                    var fechaFinal = (int.parse(values[index]) + 1).toString() +
-                        '/' +
-                        '1' +
-                        '/' +
-                        '1';
-                    productoT.getVentaProducto(
-                        fechaInicio, fechaFinal.toString());
-                    productoT.getTotales(fechaInicio, fechaFinal.toString());
-                    gastoT.getGastoBalance(fechaInicio, fechaFinal.toString());
-                    gastoT.getTotalBalance(fechaInicio, fechaFinal.toString());
-                    gastoT.getSaldoBalance(fechaInicio, fechaFinal.toString());
-                    index = 0;
-                    //Navigator.pop(context);
-                    Navigator.of(context, rootNavigator: true).pop('dialog');
-                  },
+      child: _isLoading
+          ? Center(
+              child: Expanded(
+                child: ListView.separated(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => const NewsCardSkelton(),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: defaultPadding),
                 ),
               ),
-              const SizedBox(
-                width: 15,
-              ),
-              Text('${valorFecha}',
-                  style: const TextStyle(
-                      fontSize: 20,
-                      color: ColorF,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold)),
-            ],
-          ),
-          Center(
-            child: Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  )),
-              height: 70,
-              padding: const EdgeInsets.all(5.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: Center(
-                  child: Column(
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10.0),
+            )
+          : SlideInUp(
+              duration: Duration(seconds: 1),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 24),
+                      ButtonWidget(
+                        onClicked: () => Utils.showSheet(
+                          context,
+                          child: buildCustomPicker(),
+                          onClicked: () {
+                            final value = values[index];
+                            //Utils.showSnackBar(context, 'Selected "$value"');
+                            setState(() {
+                              print(index);
+                              valorFecha = values[index];
+                            });
+                            var fechaInicio = values[index].toString() +
+                                '/' +
+                                '1' +
+                                '/' +
+                                '1';
+                            var fechaFinal =
+                                (int.parse(values[index]) + 1).toString() +
+                                    '/' +
+                                    '1' +
+                                    '/' +
+                                    '1';
+                            productoT.getVentaProducto(
+                                fechaInicio, fechaFinal.toString());
+                            productoT.getTotales(
+                                fechaInicio, fechaFinal.toString());
+                            gastoT.getGastoBalance(
+                                fechaInicio, fechaFinal.toString());
+                            gastoT.getTotalBalance(
+                                fechaInicio, fechaFinal.toString());
+                            gastoT.getSaldoBalance(
+                                fechaInicio, fechaFinal.toString());
+                            index = 0;
+                            //Navigator.pop(context);
+                            Navigator.of(context, rootNavigator: true)
+                                .pop('dialog');
+                          },
+                        ),
                       ),
-                      Text(
-                        'Saldo: Q.${gastoT.saldo['total']}',
-                        style: TextStyle(
-                            fontSize: 22.0,
-                            color:
-                                (valorC >= 0.0) ? Colors.blue : Colors.orange),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Text('${valorFecha}',
+                          style: const TextStyle(
+                              fontSize: 20,
+                              color: ColorF,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  Center(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          )),
+                      height: 70,
+                      padding: const EdgeInsets.all(5.0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: Center(
+                          child: Column(
+                            children: <Widget>[
+                              const Padding(
+                                padding: EdgeInsets.only(top: 10.0),
+                              ),
+                              Text(
+                                'Saldo: Q.${gastoT.saldo['total']}',
+                                style: TextStyle(
+                                    fontSize: 22.0,
+                                    color: (valorC >= 0.0)
+                                        ? Colors.blue
+                                        : Colors.orange),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: 60,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 0.0),
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        icon: const Icon(
+                                          Icons.arrow_circle_up_outlined,
+                                          color: Colors.green,
+                                          size: 24,
+                                        ),
+                                        onPressed: () {}),
+                                    Text(
+                                      'Q.${productoT.totales['ganancia']}',
+                                      style: TextStyle(
+                                          fontSize: 18.0, color: Colors.green),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: 60,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 0.0),
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        icon: const Icon(
+                                          Icons.arrow_circle_down_sharp,
+                                          color: Colors.red,
+                                          size: 24,
+                                        ),
+                                        onPressed: () {}),
+                                    Text(
+                                      'Q.${gastoT.total['total']}',
+                                      style: TextStyle(
+                                          fontSize: 18.0, color: Colors.red),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: MediaQuery.of(context).size.height * 0.50,
+                        child: ListView.builder(
+                            itemCount: productoT.todosVentaProducto.length,
+                            padding: EdgeInsets.only(top: 1.0),
+                            itemBuilder: (context, position) {
+                              return Column(
+                                children: <Widget>[
+                                  /*Divider(
+                                height: 1.0,
+                              ),*/
+                                  Container(
+                                    padding: new EdgeInsets.all(1.0),
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: ListTile(
+                                              title: Text(
+                                                '${productoT.todosVentaProducto[position].Nombre}',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16.0,
+                                                ),
+                                              ),
+                                              subtitle: Text(
+                                                '${(productoT.todosVentaProducto[position].ganancia == null) ? productoT.todosVentaProducto[position].ganancia = '0' : productoT.todosVentaProducto[position].ganancia}',
+                                                style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize: 16.0,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
+                      ),
+                      //Divider(),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: MediaQuery.of(context).size.height * 0.50,
+                        child: ListView.builder(
+                            itemCount: gastoT.todosGasto.length,
+                            padding: EdgeInsets.only(top: 1.0),
+                            itemBuilder: (context, position) {
+                              return Column(
+                                children: <Widget>[
+                                  /*Divider(
+                                height: 1.0,
+                              ),*/
+                                  Container(
+                                    padding: new EdgeInsets.all(1.0),
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: ListTile(
+                                              title: Text(
+                                                '${gastoT.todosGasto[position].Descripcion}',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16.0,
+                                                ),
+                                              ),
+                                              subtitle: Text(
+                                                '${gastoT.todosGasto[position].total}',
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 16.0,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                height: 60,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(top: 0.0),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_circle_up_outlined,
-                                  color: Colors.green,
-                                  size: 24,
-                                ),
-                                onPressed: () {}),
-                            Text(
-                              'Q.${productoT.totales['ganancia']}',
-                              style: TextStyle(
-                                  fontSize: 18.0, color: Colors.green),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                height: 60,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(top: 0.0),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_circle_down_sharp,
-                                  color: Colors.red,
-                                  size: 24,
-                                ),
-                                onPressed: () {}),
-                            Text(
-                              'Q.${gastoT.total['total']}',
-                              style:
-                                  TextStyle(fontSize: 18.0, color: Colors.red),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                height: MediaQuery.of(context).size.height * 0.50,
-                child: ListView.builder(
-                    itemCount: productoT.todosVentaProducto.length,
-                    padding: EdgeInsets.only(top: 1.0),
-                    itemBuilder: (context, position) {
-                      return Column(
-                        children: <Widget>[
-                          /*Divider(
-                              height: 1.0,
-                            ),*/
-                          Container(
-                            padding: new EdgeInsets.all(1.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text(
-                                        '${productoT.todosVentaProducto[position].Nombre}',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        '${(productoT.todosVentaProducto[position].ganancia == null) ? productoT.todosVentaProducto[position].ganancia = '0' : productoT.todosVentaProducto[position].ganancia}',
-                                        style: TextStyle(
-                                          color: Colors.green,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
-              ),
-              //Divider(),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                height: MediaQuery.of(context).size.height * 0.50,
-                child: ListView.builder(
-                    itemCount: gastoT.todosGasto.length,
-                    padding: EdgeInsets.only(top: 1.0),
-                    itemBuilder: (context, position) {
-                      return Column(
-                        children: <Widget>[
-                          /*Divider(
-                              height: 1.0,
-                            ),*/
-                          Container(
-                            padding: new EdgeInsets.all(1.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text(
-                                        '${gastoT.todosGasto[position].Descripcion}',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        '${gastoT.todosGasto[position].total}',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
-              ),
-            ],
-          ),
-        ],
-      ),
     ));
   }
 
@@ -388,4 +421,37 @@ class ButtonWidget extends StatelessWidget {
         ),
         onPressed: onClicked,
       );
+}
+
+class NewsCardSkelton extends StatelessWidget {
+  const NewsCardSkelton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Skeleton(height: 60, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 100, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 40, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 40, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 40, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 40, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 40, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 40, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 40, width: 315),
+        const SizedBox(height: 10),
+        const Skeleton(height: 40, width: 315),
+      ],
+    );
+  }
 }

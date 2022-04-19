@@ -43,6 +43,7 @@ class DetalleProductoProvider with ChangeNotifier {
   Future<bool> updateDetalleProducto(
       DetalleProductoModel detalleproducto, int id, String idproducto) async {
     var token = storage.getItem('token');
+    print(id);
     final response = await http.put(
         Uri.parse("http://${apiUrl}:8000/api/detalleproducto/${id}/"),
         headers: {
