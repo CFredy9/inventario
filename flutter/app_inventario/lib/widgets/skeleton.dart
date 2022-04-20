@@ -11,7 +11,7 @@ class Skeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Shimmer.fromColors(
       baseColor: Colors.grey[400]!,
-      highlightColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[200]!,
       //enabled: _enabled,
       period: const Duration(milliseconds: 1500),
       direction: ShimmerDirection.ltr,
@@ -22,7 +22,7 @@ class Skeleton extends StatelessWidget {
         //color: Colors.grey,
         padding: const EdgeInsets.all(defaultPadding / 2),
         decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.20),
+            color: Colors.black.withOpacity(0.30),
             //color: Colors.grey,
             borderRadius:
                 const BorderRadius.all(Radius.circular(defaultPadding))),

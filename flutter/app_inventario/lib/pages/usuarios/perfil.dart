@@ -74,7 +74,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
             return ("Nombre no puede estar vacio");
           }
           if (!regex.hasMatch(value)) {
-            return ("Ingrese un nombre valido (Minimo 3 caracteres)");
+            return ("Ingrese un nombre válido \n (Minimo 3 caracteres)");
           }
           return null;
         },
@@ -101,8 +101,12 @@ class _PerfilScreenState extends State<PerfilScreen> {
         keyboardType: TextInputType.name,
         cursorColor: ColorF,
         validator: (value) {
+          RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
             return ("Apellido no puede estar vacio");
+          }
+          if (!regex.hasMatch(value)) {
+            return ("Ingrese un apellido válido \n (Minimo 3 caracteres)");
           }
           return null;
         },
@@ -128,12 +132,12 @@ class _PerfilScreenState extends State<PerfilScreen> {
         controller: phoneController,
         keyboardType: TextInputType.phone,
         cursorColor: ColorF,
-        validator: (value) {
+        /*validator: (value) {
           if (value!.isEmpty) {
             return ("Telefono no puede estar vacio");
           }
           return null;
-        },
+        },*/
         onSaved: (value) {
           phoneController.text = value!;
         },
@@ -219,7 +223,8 @@ class _PerfilScreenState extends State<PerfilScreen> {
               icon: Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
                 // passing this to our root
-                Navigator.of(context).pop();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
           ),
@@ -369,6 +374,11 @@ class _PerfilScreenState extends State<PerfilScreen> {
   }
 
   void onUpdate(int id) {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (nameController.text.isNotEmpty) {
       UsuarioModel usuario = UsuarioModel(
         first_name: nameController.text,

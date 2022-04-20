@@ -7,6 +7,7 @@ import '/models/gastos.dart';
 import '/models/detalle_gastos.dart';
 import '../../api/detalle_gastos.dart';
 import './detallegastos/registro.dart';
+import 'package:animate_do/animate_do.dart';
 
 class GastoInformation extends StatefulWidget {
   final GastoModel gasto;
@@ -37,26 +38,29 @@ class _GastoInformationState extends State<GastoInformation> {
       backgroundColor: ColorF,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80.0),
-        child: AppBar(
-          elevation: 0,
-          title: Text('${widget.gasto.descripcion}'),
-          backgroundColor: ColorF,
-          /*flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.deepPurple],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft,
+        child: SlideInLeft(
+          duration: const Duration(seconds: 1),
+          child: AppBar(
+            elevation: 0,
+            title: Text('${widget.gasto.descripcion}'),
+            backgroundColor: ColorF,
+            /*flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.deepPurple],
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft,
+                ),
               ),
+            ),*/
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                // passing this to our root
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ListViewGastos()));
+              },
             ),
-          ),*/
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              // passing this to our root
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ListViewGastos()));
-            },
           ),
         ),
       ),
@@ -71,86 +75,89 @@ class _GastoInformationState extends State<GastoInformation> {
           ),
         ),
         child: Center(
-          child: Container(
-            //height: 250,
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              children: [
-                Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(50),
-                        )),
-                    height: 80,
-                    padding: const EdgeInsets.all(5.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: Center(
-                        child: Column(
-                          children: <Widget>[
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10.0),
-                            ),
-                            Text(
-                              'Total: Q.${detallegastoT.total['total']}',
-                              style:
-                                  TextStyle(fontSize: 22.0, color: Colors.blue),
-                            ),
-                          ],
+          child: SlideInRight(
+            duration: const Duration(seconds: 1),
+            child: Container(
+              //height: 250,
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: [
+                  Center(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          )),
+                      height: 80,
+                      padding: const EdgeInsets.all(5.0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: Center(
+                          child: Column(
+                            children: <Widget>[
+                              const Padding(
+                                padding: EdgeInsets.only(top: 10.0),
+                              ),
+                              Text(
+                                'Total: Q.${detallegastoT.total['total']}',
+                                style: TextStyle(
+                                    fontSize: 22.0, color: Colors.blue),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Center(
-                    child: ListView.builder(
-                        itemCount: detallegastoT.todosDetalleGasto.length,
-                        padding: EdgeInsets.only(top: 3.0),
-                        itemBuilder: (context, position) {
-                          return Column(
-                            children: <Widget>[
-                              Container(
-                                height: 60,
-                                padding: new EdgeInsets.all(0.0),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: ListTile(
-                                          title: Center(
-                                            child: Text(
-                                              '${detallegastoT.todosDetalleGasto[position].cantidad}',
-                                              style: const TextStyle(
-                                                color: ColorF,
-                                                fontSize: 20.0,
+                  Expanded(
+                    child: Center(
+                      child: ListView.builder(
+                          itemCount: detallegastoT.todosDetalleGasto.length,
+                          padding: EdgeInsets.only(top: 3.0),
+                          itemBuilder: (context, position) {
+                            return Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 60,
+                                  padding: new EdgeInsets.all(0.0),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: ListTile(
+                                            title: Center(
+                                              child: Text(
+                                                '${detallegastoT.todosDetalleGasto[position].cantidad}',
+                                                style: const TextStyle(
+                                                  color: ColorF,
+                                                  fontSize: 20.0,
+                                                ),
                                               ),
                                             ),
+                                            onTap: () => _navigateUpdateGasto(
+                                                context,
+                                                detallegastoT.todosDetalleGasto[
+                                                    position]),
                                           ),
-                                          onTap: () => _navigateUpdateGasto(
-                                              context,
-                                              detallegastoT
-                                                  .todosDetalleGasto[position]),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
+                                    color: Colors.white,
                                   ),
-                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
-                          );
-                        }),
-                  ),
-                )
-              ],
+                              ],
+                            );
+                          }),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

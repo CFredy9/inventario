@@ -49,11 +49,8 @@ class _CambioPasswordState extends State<CambioPassword> {
         cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{6,}$');
-          if (value!.isEmpty) {
-            return ("Se requiere contraseña para iniciar sesión");
-          }
-          if (!regex.hasMatch(value)) {
-            return ("Ingrese una contraseña valida (Minimo 6 caracteres)");
+          if (!regex.hasMatch(value!)) {
+            return ("Ingrese una contraseña valida \n (Minimo 6 caracteres)");
           }
         },
         onSaved: (value) {
@@ -136,73 +133,79 @@ class _CambioPasswordState extends State<CambioPassword> {
       ),*/
       body: Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                children: [
-                  SizedBox(height: size.height * 0.15),
-                  IconButton(
-                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
-                    onPressed: () {
-                      // passing this to our root
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.07),
-              const Text(
-                'CAMBIAR CONTRASEÑA',
-                style: TextStyle(
-                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: size.height * 0.08),
-              const Text(
-                'Contraseña Nueva',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              //SizedBox(height: 5),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  children: [
+                    SizedBox(height: size.height * 0.15),
+                    IconButton(
+                      icon:
+                          Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                      onPressed: () {
+                        // passing this to our root
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: passwordField),
-                width: size.width * 0.75,
-              ),
-              //SizedBox(height: size.height * 0.08),
-              const Text(
-                'Confirmar Contraseña Nueva',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              //SizedBox(height: 5),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
-                    ),
-                    child: confirmPasswordField),
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                child: signUpButton,
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 15),
-            ],
+                  ],
+                ),
+                SizedBox(height: size.height * 0.07),
+                const Text(
+                  'CAMBIAR CONTRASEÑA',
+                  style: TextStyle(
+                      fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: size.height * 0.08),
+                const Text(
+                  'Contraseña Nueva',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                //SizedBox(height: 5),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: passwordField),
+                  width: size.width * 0.75,
+                ),
+                //SizedBox(height: size.height * 0.08),
+                const Text(
+                  'Confirmar Contraseña Nueva',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                //SizedBox(height: 5),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: confirmPasswordField),
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  child: signUpButton,
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 15),
+              ],
+            ),
           ),
         ),
       ),
@@ -210,6 +213,11 @@ class _CambioPasswordState extends State<CambioPassword> {
   }
 
   void onUpdatePassword(String contrasenia) {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (contrasenia.isNotEmpty) {
       UsuarioModel usuario = UsuarioModel(
         password: contrasenia,

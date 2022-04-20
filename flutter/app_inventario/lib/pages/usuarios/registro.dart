@@ -11,7 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class RegistrationScreen extends StatefulWidget {
   final UsuarioModel usuarioModel;
-  RegistrationScreen(this.usuarioModel);
+  const RegistrationScreen(this.usuarioModel);
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -76,7 +76,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             color: ColorF,
             //size: 10,
           ),
-          contentPadding: EdgeInsets.fromLTRB(0, 15, 20, 15),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Nombre",
           border: InputBorder.none,
         ));
@@ -111,12 +111,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         controller: phoneController,
         keyboardType: TextInputType.phone,
         cursorColor: ColorF,
-        validator: (value) {
+        /*validator: (value) {
           if (value!.isEmpty) {
             return ("Telefono no puede estar vacio");
           }
           return null;
-        },
+        },*/
         onSaved: (value) {
           phoneController.text = value!;
         },
@@ -163,12 +163,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         cursorColor: ColorF,
         validator: (value) {
           if (value!.isEmpty) {
-            return ("Ingrese su Correo Electrónico");
+            return ("Correo no puede estar vacio");
           }
           // reg expression for email validation
           if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
               .hasMatch(value)) {
-            return ("Ingrese un Correo Electrónico valido");
+            return ("Ingrese un Correo válido");
           }
           return null;
         },
@@ -194,7 +194,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         validator: (value) {
           RegExp regex = new RegExp(r'^.{6,}$');
           if (value!.isEmpty) {
-            return ("Se requiere contraseña para iniciar sesión");
+            return ("Contraseña no puede estar vacía");
           }
           if (!regex.hasMatch(value)) {
             return ("Ingrese una contraseña valida (Minimo 6 caracteres)");
@@ -298,202 +298,214 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),*/
       body: Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                children: [
-                  (widget.usuarioModel.Id != null)
-                      ? SizedBox(height: size.height * 0.12)
-                      : SizedBox(height: size.height * 0.05),
-                  IconButton(
-                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
-                    onPressed: () {
-                      if (widget.usuarioModel.Id != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    UsuarioInformation(widget.usuarioModel)));
-                      } else {
-                        // passing this to our root
-                        Navigator.of(context).pop();
-                      }
-                    },
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  children: [
+                    (widget.usuarioModel.Id != null)
+                        ? SizedBox(height: size.height * 0.12)
+                        : SizedBox(height: size.height * 0.05),
+                    IconButton(
+                      icon:
+                          Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                      onPressed: () {
+                        if (widget.usuarioModel.Id != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      UsuarioInformation(widget.usuarioModel)));
+                        } else {
+                          // passing this to our root
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                (widget.usuarioModel.Id != null)
+                    ? SizedBox(height: size.height * 0.10)
+                    : SizedBox(height: size.height * 0.01),
+                const Text(
+                  'USUARIO',
+                  style: TextStyle(
+                      fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: size.height * 0.02),
+                const Text(
+                  'Nombre',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(
+                  child: Container(
+                      //margin: EdgeInsets.symmetric(vertical: 5),
+                      margin: EdgeInsets.only(bottom: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: nameField),
+                  width: size.width * 0.75,
+                ),
+                const Text(
+                  'Apellido',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: lastnameField),
+                  width: size.width * 0.75,
+                ),
+                const Text(
+                  'Teléfono',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: phoneField),
+                  width: size.width * 0.75,
+                ),
+                Visibility(
+                  visible: bandera,
+                  child: const Text(
+                    'Rol',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
                   ),
-                ],
-              ),
-              (widget.usuarioModel.Id != null)
-                  ? SizedBox(height: size.height * 0.10)
-                  : SizedBox(height: size.height * 0.01),
-              const Text(
-                'USUARIO',
-                style: TextStyle(
-                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: size.height * 0.02),
-              const Text(
-                'Nombre',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(
-                child: Container(
-                    //margin: EdgeInsets.symmetric(vertical: 5),
-                    margin: EdgeInsets.only(bottom: 5),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
-                    ),
-                    child: nameField),
-                width: size.width * 0.75,
-              ),
-              const Text(
-                'Apellido',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
-                    ),
-                    child: lastnameField),
-                width: size.width * 0.75,
-              ),
-              const Text(
-                'Teléfono',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
-                    ),
-                    child: phoneField),
-                width: size.width * 0.75,
-              ),
-              Visibility(
-                visible: bandera,
-                child: const Text(
-                  'Rol',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
                 ),
-              ),
-              Visibility(
-                visible: bandera,
-                child: SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: rolField),
+                Visibility(
+                  visible: bandera,
+                  child: SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: rolField),
+                    width: size.width * 0.75,
+                  ),
+                ),
+                Visibility(
+                  visible: bandera,
+                  child: const Text(
+                    'Email',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Visibility(
+                  visible: bandera,
+                  child: SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: emailField),
+                    width: size.width * 0.75,
+                  ),
+                ),
+                Visibility(
+                  visible: bandera,
+                  child: const Text(
+                    'Contraseña',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Visibility(
+                  visible: bandera,
+                  child: SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: passwordField),
+                    width: size.width * 0.75,
+                  ),
+                ),
+                Visibility(
+                  visible: bandera,
+                  child: const Text(
+                    'Confirmar Contraseña',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Visibility(
+                  visible: bandera,
+                  child: SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: confirmPasswordField),
+                    width: size.width * 0.75,
+                  ),
+                ),
+                SizedBox(height: 15),
+                SizedBox(
+                  child: signUpButton,
                   width: size.width * 0.75,
                 ),
-              ),
-              Visibility(
-                visible: bandera,
-                child: const Text(
-                  'Email',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Visibility(
-                visible: bandera,
-                child: SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: emailField),
-                  width: size.width * 0.75,
-                ),
-              ),
-              Visibility(
-                visible: bandera,
-                child: const Text(
-                  'Contraseña',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Visibility(
-                visible: bandera,
-                child: SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: passwordField),
-                  width: size.width * 0.75,
-                ),
-              ),
-              Visibility(
-                visible: bandera,
-                child: const Text(
-                  'Confirmar Contraseña',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Visibility(
-                visible: bandera,
-                child: SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: confirmPasswordField),
-                  width: size.width * 0.75,
-                ),
-              ),
-              SizedBox(height: 15),
-              SizedBox(
-                child: signUpButton,
-                width: size.width * 0.75,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  void onAdd() {
+  void onAdd() async {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (nameController.text.isNotEmpty &&
         lastnameController.text.isNotEmpty &&
         emailController.text.isNotEmpty &&
@@ -517,6 +529,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   void onUpdate(int id) {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
     if (nameController.text.isNotEmpty) {
       UsuarioModel usuario = UsuarioModel(
         first_name: nameController.text,

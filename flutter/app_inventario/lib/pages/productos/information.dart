@@ -15,6 +15,7 @@ import '../../api/detalle_producto.dart';
 import 'registro.dart';
 import 'listview.dart';
 import 'detalle/registro.dart';
+import 'package:animate_do/animate_do.dart';
 
 class ProductoInformation extends StatefulWidget {
   final ProductoModel producto;
@@ -136,30 +137,33 @@ class _ProductoInformationState extends State<ProductoInformation> {
       backgroundColor: ColorF,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80.0),
-        child: AppBar(
-          elevation: 0,
-          title: Text('Información de Producto'),
-          centerTitle: true,
-          backgroundColor: ColorF,
-          /*flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.deepPurple],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft,
+        child: SlideInLeft(
+          duration: const Duration(seconds: 1),
+          child: AppBar(
+            elevation: 0,
+            title: Text('Información de Producto'),
+            centerTitle: true,
+            backgroundColor: ColorF,
+            /*flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.deepPurple],
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft,
+                ),
               ),
+            ),*/
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                // passing this to our root
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ListViewProductos(CategoriaModel())));
+              },
             ),
-          ),*/
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              // passing this to our root
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ListViewProductos(CategoriaModel())));
-            },
           ),
         ),
       ),
@@ -180,125 +184,133 @@ class _ProductoInformationState extends State<ProductoInformation> {
             child: Column(
               children: [
                 Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(50),
-                        )),
-                    height: 160,
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: Center(
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  " ${widget.producto.Nombre}",
-                                  style: const TextStyle(
-                                      fontSize: 22.0,
-                                      color: ColorF,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                        icon: const Icon(
-                                          Icons.inventory,
-                                          color: ColorF,
-                                          size: 18,
-                                        ),
-                                        onPressed: () {}),
-                                    Text(
-                                      " ${widget.producto.ExistenciasT}",
-                                      style: const TextStyle(
-                                          fontSize: 22.0,
-                                          color: ColorF,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    IconButton(
-                                        padding: EdgeInsets.only(top: 0),
-                                        icon: const Icon(
-                                          Icons.category,
-                                          color: ColorF,
-                                          size: 18,
-                                        ),
-                                        onPressed: () {}),
-                                    Text(
-                                      "${widget.producto.categoria['nombre']}",
-                                      style: const TextStyle(
-                                        fontSize: 18.0,
+                  child: SlideInRight(
+                    duration: const Duration(seconds: 1),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          )),
+                      height: 160,
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: Center(
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    " ${widget.producto.Nombre}",
+                                    style: const TextStyle(
+                                        fontSize: 22.0,
                                         color: ColorF,
-                                        //fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  "U/Fardos: ${widget.producto.UnidadesFardo}   ",
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: ColorF,
-                                    //fontWeight: FontWeight.bold
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                    padding: EdgeInsets.only(top: 0),
-                                    icon: const Icon(
-                                      Icons.edit,
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                          icon: const Icon(
+                                            Icons.inventory,
+                                            color: ColorF,
+                                            size: 18,
+                                          ),
+                                          onPressed: () {}),
+                                      Text(
+                                        " ${widget.producto.ExistenciasT}",
+                                        style: const TextStyle(
+                                            fontSize: 22.0,
+                                            color: ColorF,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      IconButton(
+                                          padding: EdgeInsets.only(top: 0),
+                                          icon: const Icon(
+                                            Icons.category,
+                                            color: ColorF,
+                                            size: 18,
+                                          ),
+                                          onPressed: () {}),
+                                      Text(
+                                        "${widget.producto.categoria['nombre']}",
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          color: ColorF,
+                                          //fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    "U/Fardos: ${widget.producto.UnidadesFardo}   ",
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
                                       color: ColorF,
-                                      size: 22,
+                                      //fontWeight: FontWeight.bold
                                     ),
-                                    onPressed: () {
-                                      _navigateToProducto(
-                                          context, widget.producto);
-                                      print(widget.producto.Id);
-                                    }),
-                                IconButton(
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: ColorF,
-                                      size: 22,
-                                    ),
-                                    onPressed: () {
-                                      _showDialog(context);
-                                    }),
-                              ],
-                            ),
-                          ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                      padding: EdgeInsets.only(top: 0),
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: ColorF,
+                                        size: 22,
+                                      ),
+                                      onPressed: () {
+                                        _navigateToProducto(
+                                            context, widget.producto);
+                                        print(widget.producto.Id);
+                                      }),
+                                  IconButton(
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: ColorF,
+                                        size: 22,
+                                      ),
+                                      onPressed: () {
+                                        _showDialog(context);
+                                      }),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
                 Center(
-                  child: Column(
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 10),
-                      ),
-                      addDetalle,
-                    ],
+                  child: SlideInLeft(
+                    duration: const Duration(seconds: 1),
+                    child: Column(
+                      children: <Widget>[
+                        const Padding(
+                          padding: EdgeInsets.only(top: 5, bottom: 10),
+                        ),
+                        addDetalle,
+                      ],
+                    ),
                   ),
                 ),
                 //SizedBox(height: 20),
@@ -313,212 +325,217 @@ class _ProductoInformationState extends State<ProductoInformation> {
                   ],
                 ),*/
                 Expanded(
-                  child: Center(
-                    child: ListView.builder(
-                        itemCount: itemsDetalle.todosdetalleProducto.length,
-                        padding: EdgeInsets.only(top: 3.0),
-                        itemBuilder: (context, position) {
-                          //callStreamUbicacionEstan();
-                          return Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(3.0),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      const Padding(
-                                        padding: EdgeInsets.only(top: 15.0),
-                                      ),
-                                      Text(
-                                        "Existencias: ${itemsDetalle.todosdetalleProducto[position].Existencias}",
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                          color: ColorF,
-                                          fontWeight: FontWeight.bold,
+                  child: SlideInRight(
+                    duration: const Duration(seconds: 1),
+                    child: Center(
+                      child: ListView.builder(
+                          itemCount: itemsDetalle.todosdetalleProducto.length,
+                          padding: EdgeInsets.only(top: 3.0),
+                          itemBuilder: (context, position) {
+                            //callStreamUbicacionEstan();
+                            return Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(3.0),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40),
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 15.0),
                                         ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text(
-                                                "Tienda: ${itemsDetalle.todosdetalleProducto[position].ExistenciasT}",
-                                                style: const TextStyle(
-                                                  fontSize: 18.0,
-                                                  color: ColorF,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                  icon: const Icon(
-                                                    Icons.add_circle,
+                                        Text(
+                                          "Existencias: ${itemsDetalle.todosdetalleProducto[position].Existencias}",
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            color: ColorF,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  "Tienda: ${itemsDetalle.todosdetalleProducto[position].ExistenciasT}",
+                                                  style: const TextStyle(
+                                                    fontSize: 18.0,
                                                     color: ColorF,
-                                                    size: 30,
                                                   ),
-                                                  onPressed: () =>
-                                                      _navigateToDetalleProducto(
-                                                          context,
-                                                          itemsDetalle
-                                                                  .todosdetalleProducto[
-                                                              position],
-                                                          widget.producto,
-                                                          banderaRegistro = 1)),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text(
-                                                "Bodega: ${itemsDetalle.todosdetalleProducto[position].ExistenciasB}",
-                                                style: const TextStyle(
-                                                  fontSize: 18.0,
-                                                  color: ColorF,
                                                 ),
-                                              ),
-                                              IconButton(
-                                                  icon: const Icon(
-                                                    Icons.add_circle,
-                                                    color: ColorF,
-                                                    size: 30,
-                                                  ),
-                                                  onPressed: () =>
-                                                      _navigateToDetalleProducto(
-                                                          context,
-                                                          itemsDetalle
-                                                                  .todosdetalleProducto[
-                                                              position],
-                                                          widget.producto,
-                                                          banderaRegistro = 2)),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              IconButton(
-                                                  icon: const Icon(
-                                                    Icons
-                                                        .arrow_circle_down_sharp,
-                                                    color: Colors.red,
-                                                    size: 24,
-                                                  ),
-                                                  onPressed: () {}),
-                                              Text(
-                                                "Costo: ${itemsDetalle.todosdetalleProducto[position].Precio_Costo}",
-                                                style: const TextStyle(
-                                                    fontSize: 16.0,
-                                                    color: Colors.red),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              IconButton(
-                                                  icon: const Icon(
-                                                    Icons
-                                                        .arrow_circle_up_outlined,
-                                                    color: Colors.green,
-                                                    size: 24,
-                                                  ),
-                                                  onPressed: () {}),
-                                              Text(
-                                                "Venta: ${itemsDetalle.todosdetalleProducto[position].Precio_Venta}",
-                                                style: const TextStyle(
-                                                    fontSize: 16.0,
-                                                    color: Colors.green),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          IconButton(
-                                              icon: const Icon(
-                                                Icons.date_range,
-                                                color: ColorF,
-                                                size: 24,
-                                              ),
-                                              onPressed: () {}),
-                                          Text(
-                                            "${itemsDetalle.todosdetalleProducto[position].Vencimiento}",
-                                            style: const TextStyle(
-                                              fontSize: 18.0,
-                                              color: ColorF,
+                                                IconButton(
+                                                    icon: const Icon(
+                                                      Icons.add_circle,
+                                                      color: ColorF,
+                                                      size: 30,
+                                                    ),
+                                                    onPressed: () =>
+                                                        _navigateToDetalleProducto(
+                                                            context,
+                                                            itemsDetalle
+                                                                    .todosdetalleProducto[
+                                                                position],
+                                                            widget.producto,
+                                                            banderaRegistro =
+                                                                1)),
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      /*Divider(),
-                                      Text(
-                                        "Almacén : ${itemsDetalle.todosdetalleProducto[position].almacen['almacen']}",
-                                        style: TextStyle(fontSize: 18.0),
-                                      ),
-                                      Divider(),
-                                      Text(
-                                        "Estanteria : ${itemsDetalle.todosdetalleProducto[position].estanteria['estanteria']}",
-                                        style: TextStyle(fontSize: 18.0),
-                                      ),*/
-                                      //onPressed: () => _deleteProduct(context, items[position],position)),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          IconButton(
-                                              icon: const Icon(
-                                                Icons.edit,
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  "Bodega: ${itemsDetalle.todosdetalleProducto[position].ExistenciasB}",
+                                                  style: const TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: ColorF,
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                    icon: const Icon(
+                                                      Icons.add_circle,
+                                                      color: ColorF,
+                                                      size: 30,
+                                                    ),
+                                                    onPressed: () =>
+                                                        _navigateToDetalleProducto(
+                                                            context,
+                                                            itemsDetalle
+                                                                    .todosdetalleProducto[
+                                                                position],
+                                                            widget.producto,
+                                                            banderaRegistro =
+                                                                2)),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                IconButton(
+                                                    icon: const Icon(
+                                                      Icons
+                                                          .arrow_circle_down_sharp,
+                                                      color: Colors.red,
+                                                      size: 24,
+                                                    ),
+                                                    onPressed: () {}),
+                                                Text(
+                                                  "Costo: ${itemsDetalle.todosdetalleProducto[position].Precio_Costo}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16.0,
+                                                      color: Colors.red),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                IconButton(
+                                                    icon: const Icon(
+                                                      Icons
+                                                          .arrow_circle_up_outlined,
+                                                      color: Colors.green,
+                                                      size: 24,
+                                                    ),
+                                                    onPressed: () {}),
+                                                Text(
+                                                  "Venta: ${itemsDetalle.todosdetalleProducto[position].Precio_Venta}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16.0,
+                                                      color: Colors.green),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            IconButton(
+                                                icon: const Icon(
+                                                  Icons.date_range,
+                                                  color: ColorF,
+                                                  size: 24,
+                                                ),
+                                                onPressed: () {}),
+                                            Text(
+                                              "${itemsDetalle.todosdetalleProducto[position].Vencimiento}",
+                                              style: const TextStyle(
+                                                fontSize: 18.0,
                                                 color: ColorF,
                                               ),
-                                              onPressed: () =>
-                                                  _navigateToDetalleProducto(
-                                                      context,
-                                                      itemsDetalle
-                                                              .todosdetalleProducto[
-                                                          position],
-                                                      widget.producto,
-                                                      banderaRegistro = 10)),
-                                          IconButton(
-                                              icon: const Icon(
-                                                Icons.add_shopping_cart_sharp,
-                                                color: ColorF,
-                                              ),
-                                              onPressed: () => _navigateToVenta(
-                                                  context,
-                                                  itemsDetalle
-                                                          .todosdetalleProducto[
-                                                      position],
-                                                  widget.producto)),
-                                        ],
-                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                        /*Divider(),
+                                        Text(
+                                          "Almacén : ${itemsDetalle.todosdetalleProducto[position].almacen['almacen']}",
+                                          style: TextStyle(fontSize: 18.0),
+                                        ),
+                                        Divider(),
+                                        Text(
+                                          "Estanteria : ${itemsDetalle.todosdetalleProducto[position].estanteria['estanteria']}",
+                                          style: TextStyle(fontSize: 18.0),
+                                        ),*/
+                                        //onPressed: () => _deleteProduct(context, items[position],position)),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            IconButton(
+                                                icon: const Icon(
+                                                  Icons.edit,
+                                                  color: ColorF,
+                                                ),
+                                                onPressed: () =>
+                                                    _navigateToDetalleProducto(
+                                                        context,
+                                                        itemsDetalle
+                                                                .todosdetalleProducto[
+                                                            position],
+                                                        widget.producto,
+                                                        banderaRegistro = 10)),
+                                            IconButton(
+                                                icon: const Icon(
+                                                  Icons.add_shopping_cart_sharp,
+                                                  color: ColorF,
+                                                ),
+                                                onPressed: () => _navigateToVenta(
+                                                    context,
+                                                    itemsDetalle
+                                                            .todosdetalleProducto[
+                                                        position],
+                                                    widget.producto)),
+                                          ],
+                                        ),
 
-                                      /*IconButton(
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+                                        /*IconButton(
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () => _showDialog(context, position),
+                                  ),*/
+                                      ],
+                                    ),
+                                    color: Colors.white,
                                   ),
-                                  onPressed: () => _showDialog(context, position),
-                                ),*/
-                                    ],
-                                  ),
-                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
-                          );
-                        }),
+                              ],
+                            );
+                          }),
+                    ),
                   ),
                 ),
               ],

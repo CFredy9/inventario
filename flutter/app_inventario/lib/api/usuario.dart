@@ -20,7 +20,7 @@ class UsuarioProvider with ChangeNotifier {
 
   LocalStorage storage = LocalStorage('usertoken');
 
-  void addUsuario(UsuarioModel usuario) async {
+  Future<bool> addUsuario(UsuarioModel usuario) async {
     var token = storage.getItem('token');
     final response = await http.post(
         Uri.parse("http://${apiUrl}:8000/api/usuario/"),
@@ -34,10 +34,12 @@ class UsuarioProvider with ChangeNotifier {
     if (response.statusCode == 201) {
       getUsuario();
       notifyListeners();
+      return true;
     }
+    return false;
   }
 
-  void updateUsuario(UsuarioModel usuario, int id) async {
+  Future<bool> updateUsuario(UsuarioModel usuario, int id) async {
     var token = storage.getItem('token');
     final response = await http.put(
         Uri.parse("http://${apiUrl}:8000/api/usuario/${id}/"),
@@ -54,7 +56,9 @@ class UsuarioProvider with ChangeNotifier {
       print(_usuario.indexOf(ante));
       _usuario[_usuario.indexOf(ante)] = usuario;
       notifyListeners();
+      return true;
     }
+    return false;
   }
 
   void delete(UsuarioModel usuario) async {

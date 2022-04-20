@@ -43,12 +43,12 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
         keyboardType: TextInputType.number,
         cursorColor: ColorF,
         validator: (value) {
-          RegExp regex = new RegExp(r'^.{3,}$');
+          RegExp regex = RegExp('^[0-9]+');
           if (value!.isEmpty) {
             return ("Cantidad no puede estar vacio");
           }
           if (!regex.hasMatch(value)) {
-            return ("Ingrese una cantidad valida");
+            return ("Ingrese una cantidad válida");
           }
           return null;
         },
@@ -119,54 +119,59 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
       ),*/
       body: Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                children: [
-                  SizedBox(height: size.height * 0.15),
-                  IconButton(
-                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
-                    onPressed: () {
-                      // passing this to our root
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.08),
-              const Text(
-                'DETALLE DE GASTO',
-                style: TextStyle(
-                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: size.height * 0.08),
-              const Text(
-                'Cantidad',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              //SizedBox(height: 5),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  children: [
+                    SizedBox(height: size.height * 0.15),
+                    IconButton(
+                      icon:
+                          Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                      onPressed: () {
+                        // passing this to our root
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: cantidadField),
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                child: registrarButton,
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 15),
-            ],
+                  ],
+                ),
+                SizedBox(height: size.height * 0.08),
+                const Text(
+                  'DETALLE DE GASTO',
+                  style: TextStyle(
+                      fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: size.height * 0.08),
+                const Text(
+                  'Cantidad',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                //SizedBox(height: 5),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: cantidadField),
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  child: registrarButton,
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 15),
+              ],
+            ),
           ),
         ),
       ),
@@ -174,6 +179,11 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
   }
 
   Future<void> onAdd() async {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (cantidadController.text.isNotEmpty) {
       DetalleGastoModel detallegasto = DetalleGastoModel(
           descripcion: widget.__gastoModel.Id,
@@ -197,6 +207,11 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
   }
 
   Future<void> onUpdate(int id) async {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (cantidadController.text.isNotEmpty) {
       DetalleGastoModel detallegasto = DetalleGastoModel(
           descripcion: widget.__gastoModel.Id,

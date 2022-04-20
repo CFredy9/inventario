@@ -5,6 +5,7 @@ import '/models/usuario.dart';
 import '/pages/usuarios/listview.dart';
 import '/pages/usuarios/registro.dart';
 import '../../api/usuario.dart';
+import 'package:animate_do/animate_do.dart';
 
 class UsuarioInformation extends StatefulWidget {
   final UsuarioModel usuario;
@@ -66,17 +67,22 @@ class _UsuarioInformationState extends State<UsuarioInformation> {
       backgroundColor: ColorF,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80.0),
-        child: AppBar(
-          elevation: 0,
-          title: Text('Información Usuario'),
-          backgroundColor: ColorF,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              // passing this to our root
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ListViewUsuarios()));
-            },
+        child: SlideInLeft(
+          duration: const Duration(seconds: 1),
+          child: AppBar(
+            elevation: 0,
+            title: Text('Información Usuario'),
+            backgroundColor: ColorF,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                // passing this to our root
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ListViewUsuarios()));
+              },
+            ),
           ),
         ),
       ),
@@ -91,80 +97,83 @@ class _UsuarioInformationState extends State<UsuarioInformation> {
           ),
         ),
         child: Center(
-          child: Container(
-            height: 500,
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                      color: ColorF,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
-                      )),
-                  padding: new EdgeInsets.all(3.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    child: Center(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                          ),
-                          Text(
-                            "Nombre : ${widget.usuario.First_Name}",
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                          ),
-                          Text(
-                            "Apellido : ${widget.usuario.Last_Name}",
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                          ),
-                          Text(
-                            "Telefono : ${widget.usuario.Phone}",
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                          ),
-                          Text(
-                            "Email : ${widget.usuario.Email}",
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                          ),
-                          Text(
-                            "Rol : ${widget.usuario.Rol}",
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                          ),
-                        ],
+          child: SlideInRight(
+            duration: const Duration(seconds: 1),
+            child: Container(
+              height: 500,
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: ColorF,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(50),
+                        )),
+                    padding: new EdgeInsets.all(3.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Center(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(top: 25.0),
+                            ),
+                            Text(
+                              "Nombre : ${widget.usuario.First_Name}",
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 25.0),
+                            ),
+                            Text(
+                              "Apellido : ${widget.usuario.Last_Name}",
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 25.0),
+                            ),
+                            Text(
+                              "Telefono : ${widget.usuario.Phone}",
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 25.0),
+                            ),
+                            Text(
+                              "Email : ${widget.usuario.Email}",
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 25.0),
+                            ),
+                            Text(
+                              "Rol : ${widget.usuario.Rol}",
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 25.0),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    editar,
-                    const Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                    ),
-                    eliminar,
-                  ],
-                ),
-              ],
+                  SizedBox(height: 50),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      editar,
+                      const Padding(
+                        padding: EdgeInsets.only(left: 10.0),
+                      ),
+                      eliminar,
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

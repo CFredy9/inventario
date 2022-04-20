@@ -80,7 +80,7 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
             return ("Nombre no puede estar vacio");
           }
           if (!regex.hasMatch(value)) {
-            return ("Ingrese una nombre valido (Minimo 3 caracteres) ");
+            return ("Ingrese una nombre válido \n (Minimo 3 caracteres) ");
           }
           return null;
         },
@@ -108,10 +108,13 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
         keyboardType: TextInputType.number,
         cursorColor: ColorF,
         validator: (value) {
+          RegExp regex = RegExp('^[0-9]+');
           if (value!.isEmpty) {
-            return ("Unidades Fardo no puede estar vacio");
+            return ("Unidades Fardo no puede \n estar vacio");
           }
-
+          if (!regex.hasMatch(value)) {
+            return ("Ingrese una cantidad válida");
+          }
           return null;
         },
         onSaved: (value) {
@@ -223,92 +226,99 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
       ),*/
       body: Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                children: [
-                  SizedBox(height: size.height * 0.10),
-                  IconButton(
-                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
-                    onPressed: () {
-                      // passing this to our root
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.05),
-              const Text(
-                'PRODUCTO',
-                style: TextStyle(
-                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: size.height * 0.05),
-              const Text(
-                'Nombre',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              //SizedBox(height: 5),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  children: [
+                    SizedBox(height: size.height * 0.10),
+                    IconButton(
+                      icon:
+                          Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                      onPressed: () {
+                        // passing this to our root
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: nombreField),
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 10),
-              const Text(
-                'Unidades Fardo',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              //SizedBox(height: 5),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
-                    ),
-                    child: unidadesFardoField),
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 10),
-              const Text(
-                'Categoria',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              //SizedBox(height: 5),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
-                    ),
-                    child: categoriaField),
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                child: registrarButton,
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 15),
-            ],
+                  ],
+                ),
+                SizedBox(height: size.height * 0.05),
+                const Text(
+                  'PRODUCTO',
+                  style: TextStyle(
+                      fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: size.height * 0.05),
+                const Text(
+                  'Nombre',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                //SizedBox(height: 5),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: nombreField),
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 10),
+                const Text(
+                  'Unidades Fardo',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                //SizedBox(height: 5),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: unidadesFardoField),
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 10),
+                const Text(
+                  'Categoria',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                //SizedBox(height: 5),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: categoriaField),
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  child: registrarButton,
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 15),
+              ],
+            ),
           ),
         ),
       ),
@@ -334,6 +344,11 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
   } */
 
   void onAdd() {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (nombreController.text.isNotEmpty &&
         unidadesFardoController.text.isNotEmpty) {
       ProductoModel producto = ProductoModel(
@@ -352,6 +367,11 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
   }
 
   void onUpdate(int id) {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (nombreController.text.isNotEmpty &&
         unidadesFardoController.text.isNotEmpty) {
       ProductoModel producto = ProductoModel(

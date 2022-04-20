@@ -262,7 +262,7 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
 
     double ganancia = total_venta - total_costo;
 
-    if (existenciasController.text.isNotEmpty) {
+    if (int.parse(existenciasController.text) != 0) {
       VentaModel venta = VentaModel(
           detalleproducto: widget._detalleproductoModel.Id,
           fardos: int.parse(existenciasController.text),
@@ -286,6 +286,9 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
                     ProductoInformation(widget.__productModel)),
             (route) => false);
       }
+    } else {
+      print("Valor 0");
+      Fluttertoast.showToast(msg: "Ingrese un cantidad mayor a 0 ");
     }
   }
 }

@@ -54,10 +54,10 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
-            return ("Nombre no puede estar vacio");
+            return ("Categoría no puede estar vacio");
           }
           if (!regex.hasMatch(value)) {
-            return ("Ingrese un nombre valido (Minimo 3 caracteres)");
+            return ("Ingrese un nombre válido \n (Minimo 3 caracteres)");
           }
           return null;
         },
@@ -128,80 +128,85 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
       ),*/
       body: Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                children: [
-                  SizedBox(height: size.height * 0.18),
-                  IconButton(
-                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
-                    onPressed: () {
-                      // passing this to our root
-                      Navigator.of(context).pop();
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  children: [
+                    SizedBox(height: size.height * 0.18),
+                    IconButton(
+                      icon:
+                          Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                      onPressed: () {
+                        // passing this to our root
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: size.height * 0.08),
+                const Text(
+                  'CATEGORIA',
+                  style: TextStyle(
+                      fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                ButtonWidget(
+                  onClicked: () => Utils.showSheet(
+                    context,
+                    child: Home(),
+                    onClicked: () {
+                      //final value = DateFormat('yyyy/MM/dd').format(dateTime);
+                      //Utils.showSnackBar(context, 'Selected "$value"');
+
+                      var fechaFinal;
+                      setState(() {});
+
+                      //productoT.getVentaProducto(value, fechaFinal.toString());
+                      //productoT.getTotales(value, fechaFinal.toString());
+
+                      Navigator.of(context, rootNavigator: true).pop('dialog');
                     },
                   ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.08),
-              const Text(
-                'CATEGORIA',
-                style: TextStyle(
-                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              ButtonWidget(
-                onClicked: () => Utils.showSheet(
-                  context,
-                  child: Home(),
-                  onClicked: () {
-                    //final value = DateFormat('yyyy/MM/dd').format(dateTime);
-                    //Utils.showSnackBar(context, 'Selected "$value"');
-
-                    var fechaFinal;
-                    setState(() {});
-
-                    //productoT.getVentaProducto(value, fechaFinal.toString());
-                    //productoT.getTotales(value, fechaFinal.toString());
-
-                    Navigator.of(context, rootNavigator: true).pop('dialog');
-                  },
                 ),
-              ),
-              SizedBox(height: size.height * 0.08),
-              const Text(
-                'Nombre de Categoria',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              //SizedBox(height: 5),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
-                    ),
-                    child: nameField),
-                width: size.width * 0.75,
-              ),
-              if (imagenubi != "")
+                SizedBox(height: size.height * 0.08),
+                const Text(
+                  'Nombre de Categoria',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                //SizedBox(height: 5),
                 SizedBox(
-                  child: Image(
-                    //image: AssetImage(imagenubi!),
-                    image: NetworkImage(imagenubi!),
-                    height: 80,
-                  ),
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: nameField),
+                  width: size.width * 0.75,
                 ),
-              SizedBox(height: 20),
-              SizedBox(
-                child: registrarButton,
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 15),
-            ],
+                if (imagenubi != "")
+                  SizedBox(
+                    child: Image(
+                      //image: AssetImage(imagenubi!),
+                      image: NetworkImage(imagenubi!),
+                      height: 80,
+                    ),
+                  ),
+                SizedBox(height: 20),
+                SizedBox(
+                  child: registrarButton,
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 15),
+              ],
+            ),
           ),
         ),
       ),
@@ -209,6 +214,11 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
   }
 
   void onAdd() {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     final String textVal = nameController.text;
     if (nameController.text.isNotEmpty) {
       CategoriaModel categoria =
@@ -224,6 +234,11 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
   }
 
   void onUpdate(int id) {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (nameController.text.isNotEmpty) {
       final CategoriaModel categoria =
           CategoriaModel(nombre: nameController.text, imagen: imagenubi);
@@ -238,6 +253,11 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
   }
 
   create() async {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     CategoriaModel cateModel = CategoriaModel();
     cateModel.nombre = nameController.text;
     cateModel.imagen = imagenubi;
@@ -253,6 +273,11 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
   }
 
   update(String Id) async {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     CategoriaModel cateModel = CategoriaModel();
     cateModel.nombre = nameController.text;
     cateModel.imagen = imagenubi;

@@ -116,12 +116,12 @@ class _RegistrationDetalleProductoState
         keyboardType: TextInputType.number,
         cursorColor: ColorF,
         validator: (value) {
-          RegExp regex = new RegExp(r'^.{3,}$');
+          RegExp regex = RegExp('^[0-9]+');
           if (value!.isEmpty) {
             return ("Precio Costo no puede estar vacio");
           }
           if (!regex.hasMatch(value)) {
-            return ("Ingrese una precio costo valido");
+            return ("Ingrese una precio costo válido");
           }
           return null;
         },
@@ -148,12 +148,16 @@ class _RegistrationDetalleProductoState
         keyboardType: TextInputType.number,
         cursorColor: ColorF,
         validator: (value) {
-          RegExp regex = new RegExp(r'^.{3,}$');
+          RegExp regex = RegExp('^[0-9]+');
           if (value!.isEmpty) {
             return ("Precio Venta no puede estar vacio");
           }
           if (!regex.hasMatch(value)) {
-            return ("Ingrese una precio venta valido");
+            return ("Ingrese un precio venta válido");
+          }
+          if (double.parse(precioCostoController.text) >
+              double.parse(precioVentaController.text)) {
+            return "Precio Venta no puede ser \n menor a Precio Costo";
           }
           return null;
         },
@@ -462,156 +466,160 @@ class _RegistrationDetalleProductoState
       ),*/
       body: Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                children: [
-                  if (widget.valor == 0 || widget.valor == 10)
-                    SizedBox(height: size.height * 0.06),
-                  if (widget.valor == 10 ||
-                      widget.valor == 1 ||
-                      widget.valor == 2)
-                    SizedBox(height: size.height * 0.15),
-                  IconButton(
-                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
-                    onPressed: () {
-                      if (widget._detalleproductoModel.Id != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProductoInformation(
-                                    widget.__productModel)));
-                      } else {
-                        // passing this to our root
-                        Navigator.of(context).pop();
-                      }
-                    },
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  children: [
+                    if (widget.valor == 0 || widget.valor == 10)
+                      SizedBox(height: size.height * 0.06),
+                    if (widget.valor == 10 ||
+                        widget.valor == 1 ||
+                        widget.valor == 2)
+                      SizedBox(height: size.height * 0.15),
+                    IconButton(
+                      icon:
+                          Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                      onPressed: () {
+                        if (widget._detalleproductoModel.Id != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductoInformation(
+                                      widget.__productModel)));
+                        } else {
+                          // passing this to our root
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: size.height * 0.02),
+                if (widget.valor == 1 || widget.valor == 2)
+                  SizedBox(height: size.height * 0.10),
+                const Text(
+                  'DETALLE PRODUCTO',
+                  style: TextStyle(
+                      fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: size.height * 0.02),
+                if (widget.valor == 0 || widget.valor == 10)
+                  const Text(
+                    'Precio Costo',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
                   ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.02),
-              if (widget.valor == 1 || widget.valor == 2)
-                SizedBox(height: size.height * 0.10),
-              const Text(
-                'DETALLE PRODUCTO',
-                style: TextStyle(
-                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: size.height * 0.02),
-              if (widget.valor == 0 || widget.valor == 10)
-                const Text(
-                  'Precio Costo',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
-                ),
-              //SizedBox(height: 5),
-              if (widget.valor == 0 || widget.valor == 10)
+                //SizedBox(height: 5),
+                if (widget.valor == 0 || widget.valor == 10)
+                  SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: precioCostoField),
+                    width: size.width * 0.75,
+                  ),
+                SizedBox(height: 5),
+                if (widget.valor == 0 || widget.valor == 10)
+                  const Text(
+                    'Precio Venta',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
+                  ),
+                //SizedBox(height: 5),
+                if (widget.valor == 0 || widget.valor == 10)
+                  SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: precioVentaField),
+                    width: size.width * 0.75,
+                  ),
+                if (widget.valor == 0 || widget.valor == 10)
+                  const Text(
+                    'Fecha de Vencimiento',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
+                  ),
+                //SizedBox(height: 5),
+                if (widget.valor == 0 || widget.valor == 10)
+                  SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: vencimientoField),
+                    width: size.width * 0.75,
+                  ),
+                if (widget.valor == 0 || widget.valor == 1)
+                  const Text(
+                    'Existencias Tienda',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
+                  ),
+                //SizedBox(height: 5),
+                if (widget.valor == 0 || widget.valor == 1)
+                  SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: existenciasTField),
+                    width: size.width * 0.75,
+                  ),
+                if (widget.valor == 0 || widget.valor == 2)
+                  const Text(
+                    'Existencias Bodega',
+                    style: TextStyle(fontSize: 14, color: ColorF),
+                    textAlign: TextAlign.left,
+                  ),
+                //SizedBox(height: 5),
+                if (widget.valor == 0 || widget.valor == 2)
+                  SizedBox(
+                    child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        width: size.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: PrimaryLightColor,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: existenciasBField),
+                    width: size.width * 0.75,
+                  ),
+                SizedBox(height: 10),
                 SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: precioCostoField),
+                  child: registrarButton,
                   width: size.width * 0.75,
                 ),
-              SizedBox(height: 5),
-              if (widget.valor == 0 || widget.valor == 10)
-                const Text(
-                  'Precio Venta',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
-                ),
-              //SizedBox(height: 5),
-              if (widget.valor == 0 || widget.valor == 10)
-                SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: precioVentaField),
-                  width: size.width * 0.75,
-                ),
-              if (widget.valor == 0 || widget.valor == 10)
-                const Text(
-                  'Fecha de Vencimiento',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
-                ),
-              //SizedBox(height: 5),
-              if (widget.valor == 0 || widget.valor == 10)
-                SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: vencimientoField),
-                  width: size.width * 0.75,
-                ),
-              if (widget.valor == 0 || widget.valor == 1)
-                const Text(
-                  'Existencias Tienda',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
-                ),
-              //SizedBox(height: 5),
-              if (widget.valor == 0 || widget.valor == 1)
-                SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: existenciasTField),
-                  width: size.width * 0.75,
-                ),
-              if (widget.valor == 0 || widget.valor == 2)
-                const Text(
-                  'Existencias Bodega',
-                  style: TextStyle(fontSize: 14, color: ColorF),
-                  textAlign: TextAlign.left,
-                ),
-              //SizedBox(height: 5),
-              if (widget.valor == 0 || widget.valor == 2)
-                SizedBox(
-                  child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      width: size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: PrimaryLightColor,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: existenciasBField),
-                  width: size.width * 0.75,
-                ),
-              SizedBox(height: 10),
-              SizedBox(
-                child: registrarButton,
-                width: size.width * 0.75,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -638,6 +646,11 @@ class _RegistrationDetalleProductoState
   }
 
   Future<void> onAdd() async {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (vencimientoController.text != "null" &&
         vencimientoController.text != "") {
       //detalleModel.vencimiento = vencimientoController.text;
@@ -683,6 +696,11 @@ class _RegistrationDetalleProductoState
   }
 
   Future<void> onUpdate(int id) async {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     int existenciasT = int.parse(existenciasTController.text);
     int existenciasB = int.parse(existenciasBController.text);
     int existenciasTotal = 0;
