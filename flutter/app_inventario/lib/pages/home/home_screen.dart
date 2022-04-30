@@ -7,6 +7,7 @@ import 'package:app_inventario/models/categoria.dart';
 import 'package:app_inventario/widgets/animations.dart';
 import 'package:app_inventario/widgets/carga.dart';
 import 'package:app_inventario/widgets/category.dart';
+import 'package:app_inventario/widgets/login.dart';
 import 'package:app_inventario/widgets/select_images.dart';
 import 'package:app_inventario/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
@@ -67,16 +68,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Drawer _getDrawer(BuildContext context) {
-    var header = DrawerHeader(
-      child: ListTile(
-          title: Text("Perfil"),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PerfilScreen(usuarioT.Me)));
-          }),
-    );
+    Size size = MediaQuery.of(context).size;
+    var header = Container(
+        height: 130,
+        child: DrawerHeader(
+          child: Positioned(
+            top: 20,
+            right: 20,
+            child: Image.asset("assets/logoF.png", width: size.width * 0.15),
+          ), /*SizedBox(
+              height: 80,
+              child: Image.asset(
+                "assets/logoF.png",
+                fit: BoxFit.cover,
+              )),*/
+        ));
     var info = const AboutListTile(
         child: Text("Información App"),
         applicationIcon: Icon(Icons.favorite),
@@ -85,8 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icon(Icons.info));
     ListTile _getItem(Icon icon, String description, Widget route) {
       return ListTile(
+        tileColor: Colors.white,
         leading: icon,
-        title: Text(description),
+        title: Text(description,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            )),
         onTap: () {
           setState(() {
             Navigator.push(
@@ -103,29 +114,126 @@ class _HomeScreenState extends State<HomeScreen> {
         //  title: Text("Configuracin"),
         //),
         header,
-        _getItem(const Icon(Icons.home), "Página Principal", HomeScreen()),
+        /*_getItem(
+            const Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+            "Página Principal",
+            HomeScreen()),*/
         _getItem(
-            const Icon(Icons.account_circle), "Usuarios", ListViewUsuarios()),
+            const Icon(
+              Icons.account_circle,
+              color: Colors.white,
+            ),
+            "Usuarios",
+            ListViewUsuarios()),
+        //LoginScreen2()),
         _getItem(
-            const Icon(Icons.category), "Categorias", ListViewCategorias()),
-        _getItem(const Icon(Icons.money), "Gastos", ListViewGastos()),
-        _getItem(const Icon(Icons.money), "Ventas", ListViewVenta()),
-        _getItem(const Icon(Icons.production_quantity_limits), "Productos",
+            const Icon(
+              Icons.category,
+              color: Colors.white,
+            ),
+            "Categorias",
+            ListViewCategorias()),
+        _getItem(
+            const Icon(
+              Icons.monetization_on_outlined,
+              color: Colors.white,
+            ),
+            "Gastos",
+            ListViewGastos()),
+        _getItem(
+            const Icon(
+              Icons.monetization_on_outlined,
+              color: Colors.white,
+            ),
+            "Ventas",
+            ListViewVenta()),
+        _getItem(
+            const Icon(
+              Icons.inventory_rounded,
+              color: Colors.white,
+            ),
+            "Productos",
             ListViewProductos(CategoriaModel())),
         /*_getItem(
             const Icon(Icons.add_location), "Ubicación", ListViewUbicacion()),*/
-        _getItem(const Icon(Icons.receipt_long_outlined), "Reportes",
+        _getItem(
+            const Icon(
+              Icons.receipt_long_outlined,
+              color: Colors.white,
+            ),
+            "Reportes - Ventas",
             ListViewVentaProductos()),
-        _getItem(const Icon(Icons.receipt_long_outlined), "Balance",
+        _getItem(
+            const Icon(
+              Icons.receipt_long_outlined,
+              color: Colors.white,
+            ),
+            "Reportes - Balance",
             ListViewBalance()),
-        _getItem(const Icon(Icons.date_range_outlined), "Vencimiento",
+        _getItem(
+            const Icon(
+              Icons.date_range_outlined,
+              color: Colors.white,
+            ),
+            "Vencimiento",
             VencimientoProductos()),
+        Divider(
+          height: 50,
+        ),
+        Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: ColorF,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              border: Border.all(color: Colors.white, width: 2)),
+          child: Column(
+            children: [
+              Text(
+                "PERFIL",
+                style: TextStyle(
+                  color: Colors.black45,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+              ),
+              ListTile(
+                  leading: const Icon(
+                    Icons.account_circle_rounded,
+                    color: Colors.black45,
+                  ),
+                  title:
+                      Text("${usuarioT.Me.First_Name} ${usuarioT.Me.Last_Name}",
+                          style: const TextStyle(
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          )),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PerfilScreen(usuarioT.Me)));
+                  }),
+            ],
+          ),
+        ),
         //_getItem(const Icon(Icons.date_range_outlined), "Carga", Animations()),
-        info,
+        //info,
       ],
     );
     return Drawer(
-      child: listView,
+      child: Container(
+        color: ColorF,
+        child: listView,
+      ),
     );
   }
 
@@ -162,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
-          color: Colors.indigo,
+          color: ColorF,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50),
             topRight: Radius.circular(50),

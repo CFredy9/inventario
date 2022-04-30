@@ -75,11 +75,11 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
               children: [
                 AppBar(
                   elevation: 0,
-                  title: Text('Lista de Categorias'),
+                  title: const Text('Lista de Categorias'),
                   centerTitle: true,
                   backgroundColor: ColorF,
                   leading: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    icon: const Icon(Icons.home, color: Colors.white),
                     onPressed: () {
                       categoriaT.getCategoria();
                       // passing this to our root

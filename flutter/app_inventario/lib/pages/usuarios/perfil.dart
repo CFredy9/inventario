@@ -216,11 +216,11 @@ class _PerfilScreenState extends State<PerfilScreen> {
           duration: const Duration(seconds: 1),
           child: AppBar(
             backgroundColor: ColorF,
-            title: Text("Perfil"),
+            title: const Text("Perfil"),
             centerTitle: true,
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.home, color: Colors.white),
               onPressed: () {
                 // passing this to our root
                 Navigator.push(context,

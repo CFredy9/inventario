@@ -67,7 +67,7 @@ class _VencimientoProductosState extends State<VencimientoProductos>
               duration: const Duration(seconds: 1),
               child: AppBar(
                 elevation: 0,
-                title: Text('PRODUCTOS A VENCER EN:'),
+                title: const Text('PRODUCTOS A VENCER EN:'),
                 centerTitle: true,
                 backgroundColor: ColorF,
                 /*flexibleSpace: Container(
@@ -80,7 +80,7 @@ class _VencimientoProductosState extends State<VencimientoProductos>
                   ),
                 ),*/
                 leading: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  icon: const Icon(Icons.home, color: Colors.white),
                   onPressed: () {
                     // passing this to our root
                     Navigator.push(context,

@@ -44,11 +44,11 @@ class _ListViewUsuariosState extends State<ListViewUsuarios> {
             duration: const Duration(seconds: 1),
             child: AppBar(
               elevation: 0,
-              title: Text('Lista de Usuarios'),
+              title: const Text('Lista de Usuarios'),
               centerTitle: true,
               backgroundColor: ColorF,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
+                icon: const Icon(Icons.home, color: Colors.white),
                 onPressed: () {
                   // passing this to our root
                   Navigator.push(context,

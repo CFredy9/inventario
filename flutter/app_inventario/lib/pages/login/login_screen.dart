@@ -1,4 +1,6 @@
 import 'package:app_inventario/api/login.dart';
+import 'package:app_inventario/constants.dart';
+import 'package:app_inventario/widgets/background2.dart';
 import 'package:provider/provider.dart';
 
 import '/pages/home/home_screen.dart';
@@ -46,13 +48,14 @@ class _LoginScreenState extends State<LoginScreen> {
           emailController.text = value!;
         },
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.mail),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Email",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          //hintText: "Email",
+          labelText: "Email",
+          //border: OutlineInputBorder(
+          //  borderRadius: BorderRadius.circular(10),
+          //),
         ));
     //password field
     final passwordField = TextFormField(
@@ -72,18 +75,19 @@ class _LoginScreenState extends State<LoginScreen> {
           passwordController.text = value!;
         },
         textInputAction: TextInputAction.done,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           prefixIcon: Icon(Icons.vpn_key),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Password",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          //hintText: "Password",
+          labelText: "Password",
+          //border: OutlineInputBorder(
+          //  borderRadius: BorderRadius.circular(10),
+          //),
         ));
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: ColorF,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -98,9 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
+
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
+      //backgroundColor: Colors.white,
+      body: Background2(
         child: SingleChildScrollView(
           child: Container(
             color: Colors.transparent,
@@ -112,13 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
+                    /*SizedBox(
                         height: 200,
                         child: Image.asset(
                           "assets/logo.png",
                           fit: BoxFit.contain,
-                        )),
-                    SizedBox(height: 45),
+                        )),*/
+                    SizedBox(height: size.height * 0.30),
                     emailField,
                     SizedBox(height: 25),
                     passwordField,
@@ -139,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: const Text(
                               "Presiona Aquí",
                               style: TextStyle(
-                                  color: Colors.blueAccent,
+                                  color: ColorF,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15),
                             ),

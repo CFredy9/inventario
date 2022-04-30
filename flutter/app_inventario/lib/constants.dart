@@ -8,7 +8,8 @@ const kTextLightColor = Color(0xFF6A727D);
 const PrimaryColor = Color(0xFF6F35A5);
 const PrimaryLightColor = Color(0xFFE0E0F8);
 
-const ColorF = Colors.indigo;
+//const ColorF = Colors.indigo;
+const ColorF = Color(0xFF517edc);
 
 var ColorCategoryCard = Colors.transparent;
 

@@ -33,7 +33,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        permission_classes = [IsAuthenticated]
+        permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):

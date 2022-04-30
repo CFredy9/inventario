@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:app_inventario/api/producto.dart';
 import 'package:app_inventario/widgets/background.dart';
+import 'package:app_inventario/widgets/background2.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import 'listview.dart';

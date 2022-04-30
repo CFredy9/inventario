@@ -69,7 +69,7 @@ class _ListViewVentaProductosState extends State<ListViewVentaProductos>
               duration: Duration(seconds: 2),
               child: AppBar(
                 elevation: 0,
-                title: Text('VENTAS DE PRODUCTOS'),
+                title: const Text('VENTAS DE PRODUCTOS'),
                 centerTitle: true,
                 backgroundColor: ColorF,
                 /*flexibleSpace: Container(
@@ -82,7 +82,7 @@ class _ListViewVentaProductosState extends State<ListViewVentaProductos>
                   ),
                 ),*/
                 leading: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  icon: const Icon(Icons.home, color: Colors.white),
                   onPressed: () {
                     // passing this to our root
                     Navigator.push(context,
