@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CreditoProvider()),
         ChangeNotifierProvider(create: (context) => DetalleCreditoProvider()),
         ChangeNotifierProvider(create: (context) => AbonoCreditoProvider()),
+        ChangeNotifierProvider(create: (context) => CapitalProvider()),
       ],
       child: MaterialApp(
         title: 'Tienda Kairos',

@@ -13,7 +13,7 @@ from django.db.models import Sum, Count
 
 #from api.permission import IsStaff
 
-from api.models import DetalleProducto, DetalleCredito
+from api.models import DetalleProducto, Credito
 from api.serializers import DetalleProductoSerializer
 
 
@@ -37,12 +37,12 @@ class ReporteCapitalViewset(viewsets.ModelViewSet):
                 total=Sum(F('precio_costo') * F('existencias'), output_field=DecimalField()),
                 ) 
 
-        queryset2 = DetalleCredito.objects.filter(
+        queryset2 = Credito.objects.filter(
             activo=True
             ).aggregate(
-                total_credito=Sum('cantidad'),
+                total_credito=Sum('total'),
                 ) 
-                
+
         query = {
             'capital': str(round(queryset['total'] - queryset2['total_credito'], 2)),
             'total_costo': str(round(queryset['total'], 2)),

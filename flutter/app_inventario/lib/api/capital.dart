@@ -13,7 +13,7 @@ class CapitalProvider with ChangeNotifier {
 
   LocalStorage storage = LocalStorage('usertoken');
 
-  getTotales(String start, String end) async {
+  getTotales() async {
     totales = {'total_costo': 0, 'total_credito': 0, 'capital': 0};
     var token = storage.getItem('token');
     final url = Uri.parse('http://${apiUrl}:8000/api/reportecapital/capital');

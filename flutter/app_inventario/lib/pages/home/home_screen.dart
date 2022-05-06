@@ -26,6 +26,7 @@ import '../reportes/listview.dart';
 import '../reportes/balance/listview.dart';
 import '../vencimiento_productos/listview.dart';
 import '../credito/listview.dart';
+import '../reportes/capital/listview.dart';
 import '../../widgets/paginaCarga.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/scheduler.dart';
@@ -181,6 +182,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             "Reportes - Balance",
             ListViewBalance()),
+        _getItem(
+            const Icon(
+              Icons.request_page_outlined,
+              color: Colors.white,
+            ),
+            "Reportes - Capital",
+            ListviewCapital()),
         _getItem(
             const Icon(
               Icons.date_range_outlined,
