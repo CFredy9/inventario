@@ -43,6 +43,7 @@ dependencies:
   shimmer: ^2.0.0
   animations: ^2.0.2
   animate_do: ^2.1.0
+  unicorndial: ^1.1.5
 
   # format date time
   intl: ^0.17.0

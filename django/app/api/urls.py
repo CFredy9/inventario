@@ -17,6 +17,10 @@ router.register(r'detalleproducto', viewsets.DetalleProductoViewset)
 router.register(r'venta', viewsets.VentaViewset)
 router.register(r'ventaproducto', viewsets.VentaProductoViewset)
 router.register(r'vencimientodetalleproducto', viewsets.VencimientoDetalleProductoViewset)
+router.register(r'credito', viewsets.CreditoViewset)
+router.register(r'detallecredito', viewsets.DetalleCreditoViewset)
+router.register(r'abonocredito', viewsets.AbonoCreditoViewset)
+router.register(r'reportecapital', viewsets.ReporteCapitalViewset)
 
 urlpatterns = [
     path('api/', include(router.urls)),

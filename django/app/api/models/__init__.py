@@ -6,3 +6,6 @@ from .estanteria import Estanteria
 from .producto import Producto
 from .detalleProducto import DetalleProducto
 from .venta import Venta
+from .credito import Credito
+from .detalleCredito import DetalleCredito
+from .abonoCredito import AbonoCredito

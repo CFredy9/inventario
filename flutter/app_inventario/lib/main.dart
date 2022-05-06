@@ -13,6 +13,10 @@ import 'api/login.dart';
 import 'api/venta.dart';
 import 'api/reportes.dart';
 import 'api/vencimiento.dart';
+import 'api/credito.dart';
+import 'api/detalle_credito.dart';
+import 'api/abono_credito.dart';
+import 'api/capital.dart';
 import '/pages/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -45,6 +49,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => VentaProvider()),
         ChangeNotifierProvider(create: (context) => ReportesProvider()),
         ChangeNotifierProvider(create: (context) => VencimientoProvider()),
+        ChangeNotifierProvider(create: (context) => CreditoProvider()),
+        ChangeNotifierProvider(create: (context) => DetalleCreditoProvider()),
+        ChangeNotifierProvider(create: (context) => AbonoCreditoProvider()),
       ],
       child: MaterialApp(
         title: 'Tienda Kairos',

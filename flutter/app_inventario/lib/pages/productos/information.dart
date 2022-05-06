@@ -126,7 +126,7 @@ class _ProductoInformationState extends State<ProductoInformation> {
                 context, detalle, widget.producto, banderaRegistro);
           },
           child: const Text(
-            'Añadir Detalle',
+            'Añadir Compra',
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),

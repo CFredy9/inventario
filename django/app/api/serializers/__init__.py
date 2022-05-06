@@ -6,3 +6,6 @@ from .estanteria import EstanteriaSerializer, EstanteriaRegistroSerializer
 from .producto import ProductoSerializer, ProductoRegistroSerializer, VentaProductoSerializer
 from .detalleProducto import DetalleProductoSerializer, DetalleProductoRegistroSerializer
 from .venta import VentaSerializer, VentaRegistroSerializer
+from .credito import CreditoSerializer, CreditoRegistroSerializer
+from .detalleCredito import DetalleCreditoSerializer, DetalleCreditoRegistroSerializer
+from .abonoCredito import AbonoCreditoSerializer, AbonoCreditoRegistroSerializer

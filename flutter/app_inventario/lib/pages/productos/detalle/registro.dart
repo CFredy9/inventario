@@ -425,7 +425,7 @@ class _RegistrationDetalleProductoState
           },
           child: (widget._detalleproductoModel.Id != null)
               ? const Text(
-                  'Actualizar',
+                  'Actualizar Compra',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 20,
@@ -433,7 +433,7 @@ class _RegistrationDetalleProductoState
                       fontWeight: FontWeight.bold),
                 )
               : const Text(
-                  'Registrar',
+                  'Registrar Compra',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 20,

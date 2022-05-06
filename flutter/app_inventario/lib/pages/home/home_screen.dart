@@ -25,6 +25,7 @@ import '../venta/listview.dart';
 import '../reportes/listview.dart';
 import '../reportes/balance/listview.dart';
 import '../vencimiento_productos/listview.dart';
+import '../credito/listview.dart';
 import '../../widgets/paginaCarga.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/scheduler.dart';
@@ -157,6 +158,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             "Productos",
             ListViewProductos(CategoriaModel())),
+        _getItem(
+            const Icon(
+              Icons.money_off,
+              color: Colors.white,
+            ),
+            "Créditos",
+            ListViewCredito()),
         /*_getItem(
             const Icon(Icons.add_location), "Ubicación", ListViewUbicacion()),*/
         _getItem(
@@ -181,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "Vencimiento",
             VencimientoProductos()),
         Divider(
-          height: 50,
+          height: 30,
         ),
         Container(
           padding: EdgeInsets.all(10),
