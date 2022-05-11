@@ -167,6 +167,8 @@ class MeProvider with ChangeNotifier {
       me.phone = data['phone'];
       me.email = data['email'];
       me.id = data['id'];
+      me.rol = data['rol'];
+      rol = data['rol'];
       notifyListeners();
     }
   }

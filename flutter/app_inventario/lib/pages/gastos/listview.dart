@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '/pages/home/home_screen.dart';
@@ -120,8 +121,15 @@ class _ListViewGastosState extends State<ListViewGastos> {
                                       Icons.edit,
                                       color: ColorF,
                                     ),
-                                    onPressed: () => _navigateToGasto(
-                                        context, gastoT.todosGasto[position])),
+                                    onPressed: () => (rol == "Administrador")
+                                        ? _navigateToGasto(context,
+                                            gastoT.todosGasto[position])
+                                        : Fluttertoast.showToast(
+                                            msg:
+                                                "No tiene los permisos requeridos\n para realizar esta acción",
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0)),
                               ],
                             ),
                             color: Colors.white,
@@ -139,7 +147,14 @@ class _ListViewGastosState extends State<ListViewGastos> {
             color: Colors.white,
           ),
           backgroundColor: ColorF,
-          onPressed: () => _createNewGasto(context),
+          onPressed: () => (rol == "Administrador")
+              ? _createNewGasto(context)
+              : Fluttertoast.showToast(
+                  msg:
+                      "No tiene los permisos requeridos\n para realizar esta acción",
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0),
         ),
       ),
     );

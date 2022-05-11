@@ -123,13 +123,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             "Página Principal",
             HomeScreen()),*/
-        _getItem(
-            const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-            ),
-            "Usuarios",
-            ListViewUsuarios()),
+        if (rol == "Administrador")
+          _getItem(
+              const Icon(
+                Icons.account_circle,
+                color: Colors.white,
+              ),
+              "Usuarios",
+              ListViewUsuarios()),
         //LoginScreen2()),
         _getItem(
             const Icon(
@@ -197,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "Vencimiento",
             VencimientoProductos()),
         Divider(
-          height: 30,
+          height: 15,
         ),
         Container(
           padding: EdgeInsets.all(10),
@@ -412,6 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
     bool logout =
         await Provider.of<LoginProvider>(context, listen: false).logOut();
     //await FirebaseAuth.instance.signOut();
+    rol = "";
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => LoginScreen()));
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '/pages/home/home_screen.dart';
@@ -163,8 +164,15 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
                                           ),
                                         ),
                                       ),
-                                      onTap: () => _navigateToCategoria(
-                                          context, categoriaT.todos[position])),
+                                      onTap: () => (rol == "Administrador")
+                                          ? _navigateToCategoria(context,
+                                              categoriaT.todos[position])
+                                          : Fluttertoast.showToast(
+                                              msg:
+                                                  "No tiene los permisos requeridos\n para realizar esta acción",
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0)),
                                 ),
                                 //onPressed: () => _deleteProduct(context, items[position],position)),
                                 IconButton(
@@ -172,15 +180,29 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
                                       Icons.edit,
                                       color: ColorF,
                                     ),
-                                    onPressed: () => _navigateToCategoria(
-                                        context, categoriaT.todos[position])),
+                                    onPressed: () => (rol == "Administrador")
+                                        ? _navigateToCategoria(
+                                            context, categoriaT.todos[position])
+                                        : Fluttertoast.showToast(
+                                            msg:
+                                                "No tiene los permisos requeridos\n para realizar esta acción",
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0)),
                                 IconButton(
                                   icon: Icon(
                                     Icons.delete,
                                     color: ColorF,
                                   ),
-                                  onPressed: () => _showDialog(context,
-                                      categoriaT.todos[position], position),
+                                  onPressed: () => (rol == "Administrador")
+                                      ? _showDialog(context,
+                                          categoriaT.todos[position], position)
+                                      : Fluttertoast.showToast(
+                                          msg:
+                                              "No tiene los permisos requeridos\n para realizar esta acción",
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0),
                                 ),
                               ],
                             ),
@@ -199,7 +221,14 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
             color: Colors.white,
           ),
           backgroundColor: ColorF,
-          onPressed: () => _createNewCategoria(context),
+          onPressed: () => (rol == "Administrador")
+              ? _createNewCategoria(context)
+              : Fluttertoast.showToast(
+                  msg:
+                      "No tiene los permisos requeridos\n para realizar esta acción",
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0),
         ),
       ),
     );

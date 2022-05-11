@@ -1,5 +1,6 @@
 import 'package:app_inventario/pages/gastos/listview.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 //import 'package:firebase_database/firebase_database.dart';
 import '../../constants.dart';
@@ -140,10 +141,18 @@ class _GastoInformationState extends State<GastoInformation> {
                                                 ),
                                               ),
                                             ),
-                                            onTap: () => _navigateUpdateGasto(
-                                                context,
-                                                detallegastoT.todosDetalleGasto[
-                                                    position]),
+                                            onTap: () => (rol == "Administrador")
+                                                ? _navigateUpdateGasto(
+                                                    context,
+                                                    detallegastoT
+                                                            .todosDetalleGasto[
+                                                        position])
+                                                : Fluttertoast.showToast(
+                                                    msg:
+                                                        "No tiene los permisos requeridos\n para realizar esta acción",
+                                                    backgroundColor: Colors.red,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0),
                                           ),
                                         ),
                                       ],
@@ -168,7 +177,14 @@ class _GastoInformationState extends State<GastoInformation> {
           color: Colors.white,
         ),
         backgroundColor: ColorF,
-        onPressed: () => _createNewGasto(context),
+        onPressed: () => (rol == "Administrador")
+            ? _createNewGasto(context)
+            : Fluttertoast.showToast(
+                msg:
+                    "No tiene los permisos requeridos\n para realizar esta acción",
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0),
       ),
     );
   }

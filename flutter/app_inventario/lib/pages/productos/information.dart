@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:app_inventario/pages/productos/venta/registro.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../models/producto.dart';
@@ -122,8 +123,15 @@ class _ProductoInformationState extends State<ProductoInformation> {
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           minWidth: MediaQuery.of(context).size.width / 2,
           onPressed: () {
-            _navigateToDetalleProducto(
-                context, detalle, widget.producto, banderaRegistro);
+            (rol == "Administrador")
+                ? _navigateToDetalleProducto(
+                    context, detalle, widget.producto, banderaRegistro)
+                : Fluttertoast.showToast(
+                    msg:
+                        "No tiene los permisos requeridos\n para realizar esta acción",
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
           },
           child: const Text(
             'Añadir Compra',
@@ -278,9 +286,15 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                         size: 22,
                                       ),
                                       onPressed: () {
-                                        _navigateToProducto(
-                                            context, widget.producto);
-                                        print(widget.producto.Id);
+                                        (rol == "Administrador")
+                                            ? _navigateToProducto(
+                                                context, widget.producto)
+                                            : Fluttertoast.showToast(
+                                                msg:
+                                                    "No tiene los permisos requeridos\n para realizar esta acción",
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
                                       }),
                                   IconButton(
                                       icon: const Icon(
@@ -289,7 +303,14 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                         size: 22,
                                       ),
                                       onPressed: () {
-                                        _showDialog(context);
+                                        (rol == "Administrador")
+                                            ? _showDialog(context)
+                                            : Fluttertoast.showToast(
+                                                msg:
+                                                    "No tiene los permisos requeridos\n para realizar esta acción",
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
                                       }),
                                 ],
                               ),
@@ -376,15 +397,23 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                                       color: ColorF,
                                                       size: 30,
                                                     ),
-                                                    onPressed: () =>
-                                                        _navigateToDetalleProducto(
+                                                    onPressed: () => (rol ==
+                                                            "Administrador")
+                                                        ? _navigateToDetalleProducto(
                                                             context,
                                                             itemsDetalle
                                                                     .todosdetalleProducto[
                                                                 position],
                                                             widget.producto,
-                                                            banderaRegistro =
-                                                                1)),
+                                                            banderaRegistro = 1)
+                                                        : Fluttertoast.showToast(
+                                                            msg:
+                                                                "No tiene los permisos requeridos\n para realizar esta acción",
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            textColor:
+                                                                Colors.white,
+                                                            fontSize: 16.0)),
                                               ],
                                             ),
                                             Row(
@@ -405,15 +434,23 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                                       color: ColorF,
                                                       size: 30,
                                                     ),
-                                                    onPressed: () =>
-                                                        _navigateToDetalleProducto(
+                                                    onPressed: () => (rol ==
+                                                            "Administrador")
+                                                        ? _navigateToDetalleProducto(
                                                             context,
                                                             itemsDetalle
                                                                     .todosdetalleProducto[
                                                                 position],
                                                             widget.producto,
-                                                            banderaRegistro =
-                                                                2)),
+                                                            banderaRegistro = 2)
+                                                        : Fluttertoast.showToast(
+                                                            msg:
+                                                                "No tiene los permisos requeridos\n para realizar esta acción",
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            textColor:
+                                                                Colors.white,
+                                                            fontSize: 16.0)),
                                               ],
                                             ),
                                           ],
@@ -498,25 +535,42 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                                   Icons.edit,
                                                   color: ColorF,
                                                 ),
-                                                onPressed: () =>
-                                                    _navigateToDetalleProducto(
+                                                onPressed: () => (rol ==
+                                                        "Administrador")
+                                                    ? _navigateToDetalleProducto(
                                                         context,
                                                         itemsDetalle
                                                                 .todosdetalleProducto[
                                                             position],
                                                         widget.producto,
-                                                        banderaRegistro = 10)),
+                                                        banderaRegistro = 10)
+                                                    : Fluttertoast.showToast(
+                                                        msg:
+                                                            "No tiene los permisos requeridos\n para realizar esta acción",
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        textColor: Colors.white,
+                                                        fontSize: 16.0)),
                                             IconButton(
                                                 icon: const Icon(
                                                   Icons.add_shopping_cart_sharp,
                                                   color: ColorF,
                                                 ),
-                                                onPressed: () => _navigateToVenta(
-                                                    context,
-                                                    itemsDetalle
-                                                            .todosdetalleProducto[
-                                                        position],
-                                                    widget.producto)),
+                                                onPressed: () => (rol ==
+                                                        "Administrador")
+                                                    ? _navigateToVenta(
+                                                        context,
+                                                        itemsDetalle
+                                                                .todosdetalleProducto[
+                                                            position],
+                                                        widget.producto)
+                                                    : Fluttertoast.showToast(
+                                                        msg:
+                                                            "No tiene los permisos requeridos\n para realizar esta acción",
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        textColor: Colors.white,
+                                                        fontSize: 16.0)),
                                           ],
                                         ),
 

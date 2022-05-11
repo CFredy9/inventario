@@ -20,7 +20,7 @@ from django.template.loader import render_to_string
 import jwt
 #import api.correo
 
-
+from api.permission import IsAdmin, IsEmployee
 from api.models import Usuario
 from api.serializers import UsuarioSerializer, UsuarioRegistroSerializer
 
@@ -44,10 +44,12 @@ class UserViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        if self.action == "create" or self.action == "token":
+        if self.action == "token":
             permission_classes = [AllowAny]
+        elif self.action == "create" or self.action == "destroy":
+            permission_classes = [IsAdmin]
         else:
-            permission_classes = [AllowAny]
+            permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
 

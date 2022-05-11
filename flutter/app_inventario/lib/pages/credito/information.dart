@@ -1,6 +1,7 @@
 import 'package:app_inventario/pages/credito/detallecredito/registro.dart';
 import 'package:app_inventario/pages/credito/abonocredito/registro.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 //import 'package:firebase_database/firebase_database.dart';
 import '../../constants.dart';
@@ -233,12 +234,20 @@ class _CreditoInformationState extends State<CreditoInformation> {
                                                     fontSize: 18.0,
                                                   ),
                                                 ),
-                                                onTap: () =>
-                                                    _navigateUpdateDetalleCredito(
+                                                onTap: () => (rol ==
+                                                        "Administrador")
+                                                    ? _navigateUpdateDetalleCredito(
                                                         context,
                                                         detallecreditoT
                                                                 .todosDetalleCredito[
-                                                            position]),
+                                                            position])
+                                                    : Fluttertoast.showToast(
+                                                        msg:
+                                                            "No tiene los permisos requeridos\n para realizar esta acción",
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        textColor: Colors.white,
+                                                        fontSize: 16.0),
                                               ),
                                             ),
                                           ],
@@ -281,12 +290,20 @@ class _CreditoInformationState extends State<CreditoInformation> {
                                                     fontSize: 18.0,
                                                   ),
                                                 ),
-                                                onTap: () =>
-                                                    _navigateUpdateAbonoCredito(
+                                                onTap: () => (rol ==
+                                                        "Administrador")
+                                                    ? _navigateUpdateAbonoCredito(
                                                         context,
                                                         abonocreditoT
                                                                 .todosAbonoCredito[
-                                                            position]),
+                                                            position])
+                                                    : Fluttertoast.showToast(
+                                                        msg:
+                                                            "No tiene los permisos requeridos\n para realizar esta acción",
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        textColor: Colors.white,
+                                                        fontSize: 16.0),
                                               ),
                                             ),
                                           ],
@@ -362,12 +379,19 @@ class _CreditoInformationState extends State<CreditoInformation> {
       mini: true,
       child: Icon(Icons.monetization_on),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => RegistrationDetalleCredito(
-                  DetalleCreditoModel(), widget.credito)),
-        );
+        (rol == "Administrador")
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RegistrationDetalleCredito(
+                        DetalleCreditoModel(), widget.credito)),
+              )
+            : Fluttertoast.showToast(
+                msg:
+                    "No tiene los permisos requeridos\n para realizar esta acción",
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
       },
     )));
     children.add(UnicornButton(
@@ -376,12 +400,19 @@ class _CreditoInformationState extends State<CreditoInformation> {
       mini: true,
       child: Icon(Icons.monetization_on),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => RegistrationAbonoCredito(
-                  AbonoCreditoModel(), widget.credito)),
-        );
+        (rol == "Administrador")
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RegistrationAbonoCredito(
+                        AbonoCreditoModel(), widget.credito)),
+              )
+            : Fluttertoast.showToast(
+                msg:
+                    "No tiene los permisos requeridos\n para realizar esta acción",
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
       },
     )));
 

@@ -173,7 +173,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
           return null;
         },
         onSaved: (value) {
-          nameController.text = value!;
+          emailController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: const InputDecoration(
@@ -380,6 +380,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
     }
     _formKey.currentState!.save();
     if (nameController.text.isNotEmpty) {
+      print("VALOR:" + nameController.text);
       UsuarioModel usuario = UsuarioModel(
         first_name: nameController.text,
         last_name: lastnameController.text,

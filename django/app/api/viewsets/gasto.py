@@ -13,7 +13,7 @@ from django.db import transaction
 from django.db.models import Sum, Count
 
 #from api.permission import IsStaff
-
+from api.permission import IsAdmin
 from api.models import Gasto, DetalleGasto, Venta
 from api.serializers import GastoSerializer, GastoRegistroSerializer, DetalleGastoSerializer, DetalleGastoRegistroSerializer
 
@@ -36,7 +36,10 @@ class GastoViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        permission_classes = [IsAuthenticated]
+        if self.action == "create" or self.action == "update" or self.action == "destroy":
+            permission_classes = [IsAdmin]
+        else:
+            permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):
@@ -140,7 +143,10 @@ class DetalleGastoViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        permission_classes = [IsAuthenticated]
+        if self.action == "create" or self.action == "update" or self.action == "destroy":
+            permission_classes = [IsAdmin]
+        else:
+            permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):

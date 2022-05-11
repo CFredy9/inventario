@@ -1,6 +1,7 @@
 import 'package:app_inventario/widgets/search.dart';
 import 'package:app_inventario/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '/pages/home/home_screen.dart';
@@ -294,7 +295,14 @@ class _ListViewProductosState extends State<ListViewProductos> {
             color: Colors.white,
           ),
           backgroundColor: ColorF,
-          onPressed: () => _createNewProducto(context),
+          onPressed: () => (rol == "Administrador")
+              ? _createNewProducto(context)
+              : Fluttertoast.showToast(
+                  msg:
+                      "No tiene los permisos requeridos\n para realizar esta acción",
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0),
         ),
       ),
     );

@@ -12,7 +12,7 @@ import json
 from django.core.files import File
 
 #from api.permission import IsStaff
-
+from api.permission import IsAdmin
 from api.models import Categoria
 from api.serializers import CategoriaSerializer, CategoriaRegistroSerializer
 
@@ -35,7 +35,10 @@ class CategoriaViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        permission_classes = [AllowAny]
+        if self.action == "create" or self.action == "update" or self.action == "destroy":
+            permission_classes = [IsAdmin]
+        else:
+            permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
 

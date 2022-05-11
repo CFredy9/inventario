@@ -11,7 +11,7 @@ from django.db import transaction
 from django.db.models import Sum, Count
 
 #from api.permission import IsStaff
-
+from api.permission import IsAdmin
 from api.models import Credito, AbonoCredito
 from api.serializers import AbonoCreditoSerializer, AbonoCreditoRegistroSerializer
 
@@ -34,7 +34,10 @@ class AbonoCreditoViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        permission_classes = [AllowAny]
+        if self.action == "create" or self.action == "update" or self.action == "destroy":
+            permission_classes = [IsAdmin]
+        else:
+            permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):
