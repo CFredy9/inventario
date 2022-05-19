@@ -18,6 +18,24 @@ class ProductoSerializer(serializers.ModelSerializer):
         )
         depth=2
 
+class ProductoVendidosSerializer(serializers.ModelSerializer):
+    categoria = CategoriaSerializer()
+    existenciasT = serializers.IntegerField(default=0)
+    fardos = serializers.IntegerField(default=0)
+    ganancia = serializers.DecimalField(max_digits=8, decimal_places=2, default=0)
+    class Meta:
+        model = Producto
+        fields = (
+            'id',
+            'nombre',
+            'unidadesFardo',
+            'existenciasT',
+            'categoria',
+            'fardos',
+            'ganancia'
+        )
+        depth=2
+
 class VentaProductoSerializer(serializers.ModelSerializer):
     categoria = CategoriaSerializer()
     existenciasT = serializers.IntegerField(default=0)

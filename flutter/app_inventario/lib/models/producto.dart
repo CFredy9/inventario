@@ -3,6 +3,7 @@ class ProductoModel {
   String? nombre;
   int? unidadesFardo;
   int? existenciasT;
+  int? fardos;
   String? total_costo;
   String? total_venta;
   String? ganancia;
@@ -13,6 +14,7 @@ class ProductoModel {
       this.nombre,
       this.unidadesFardo,
       this.existenciasT,
+      this.fardos,
       this.total_costo,
       this.total_venta,
       this.ganancia,
@@ -24,6 +26,7 @@ class ProductoModel {
         nombre: json['nombre'],
         unidadesFardo: json['unidadesFardo'],
         existenciasT: json['existenciasT'],
+        fardos: json['fardos'],
         total_costo: json['total_costo'],
         total_venta: json['total_venta'],
         ganancia: json['ganancia'],
@@ -34,6 +37,7 @@ class ProductoModel {
   String? get Nombre => nombre;
   int? get UnidadesFardo => unidadesFardo;
   int? get ExistenciasT => existenciasT;
+  int? get Fardos => fardos;
   String? get Total_Costo => total_costo;
   String? get Total_Venta => total_venta;
   String? get Ganancia => ganancia;
@@ -43,6 +47,7 @@ class ProductoModel {
         'nombre': nombre,
         'unidadesFardo': unidadesFardo,
         'existenciasT': existenciasT,
+        'fardos': fardos,
         'total_costo': total_costo,
         'total_venta': total_venta,
         'ganancia': ganancia,

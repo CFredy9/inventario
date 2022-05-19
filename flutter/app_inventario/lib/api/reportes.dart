@@ -11,9 +11,19 @@ class ReportesProvider with ChangeNotifier {
   }
 
   List<ProductoModel> _ventaproducto = [];
+  List<ProductoModel> _productocantidad = [];
+  List<ProductoModel> _productoganancia = [];
 
   List<ProductoModel> get todosVentaProducto {
     return [..._ventaproducto];
+  }
+
+  List<ProductoModel> get todosProductosVendidosCantidad {
+    return [..._productocantidad];
+  }
+
+  List<ProductoModel> get todosProductosVendidosGanancia {
+    return [..._productoganancia];
   }
 
   var totales;
@@ -64,6 +74,54 @@ class ReportesProvider with ChangeNotifier {
       var data = json.decode(response.body);
       print(data);
       totales = data;
+      notifyListeners();
+    }
+  }
+
+  getProductoVendidoFardos(String start, String end) async {
+    _productocantidad = [];
+    var token = storage.getItem('token');
+    final url = Uri.parse(
+        'http://${apiUrl}:8000/api/ventaproducto/productoVendidoFardos');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'token $token',
+        'start': start,
+        'end': end,
+      },
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body) as List;
+      print(data);
+      _productocantidad = data
+          .map<ProductoModel>((json) => ProductoModel.fromJson(json))
+          .toList();
+      notifyListeners();
+    }
+  }
+
+  getProductoVendidoGanancia(String start, String end) async {
+    _productoganancia = [];
+    var token = storage.getItem('token');
+    final url = Uri.parse(
+        'http://${apiUrl}:8000/api/ventaproducto/productoVendidoGanancia');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'token $token',
+        'start': start,
+        'end': end,
+      },
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body) as List;
+      print(data);
+      _productoganancia = data
+          .map<ProductoModel>((json) => ProductoModel.fromJson(json))
+          .toList();
       notifyListeners();
     }
   }

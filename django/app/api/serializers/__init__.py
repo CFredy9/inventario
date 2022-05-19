@@ -3,7 +3,7 @@ from .gasto import GastoSerializer, GastoRegistroSerializer, DetalleGastoSeriali
 from .usuario import UsuarioSerializer, UsuarioRegistroSerializer
 from .ubicacion import UbicacionSerializer, UbicacionRegistroSerializer
 from .estanteria import EstanteriaSerializer, EstanteriaRegistroSerializer
-from .producto import ProductoSerializer, ProductoRegistroSerializer, VentaProductoSerializer
+from .producto import ProductoSerializer, ProductoRegistroSerializer, ProductoVendidosSerializer, VentaProductoSerializer
 from .detalleProducto import DetalleProductoSerializer, DetalleProductoRegistroSerializer
 from .venta import VentaSerializer, VentaRegistroSerializer
 from .credito import CreditoSerializer, CreditoRegistroSerializer

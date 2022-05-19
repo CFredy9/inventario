@@ -4,6 +4,7 @@ import 'package:app_inventario/api/categoria.dart';
 import 'package:app_inventario/api/producto.dart';
 import 'package:app_inventario/api/usuario.dart';
 import 'package:app_inventario/models/categoria.dart';
+import 'package:app_inventario/pages/reportes/productosVendidos/listview.dart';
 import 'package:app_inventario/widgets/animations.dart';
 import 'package:app_inventario/widgets/carga.dart';
 import 'package:app_inventario/widgets/category.dart';
@@ -44,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<CategoriaModel> items = <CategoriaModel>[];
   CategoriaProvider categoriaT = CategoriaProvider();
   late bool _isLoading;
+  bool reportes = false;
+  double espacio = 65.0;
   //bool bandera = false;
   //final User? user = FirebaseAuth.instance.currentUser;
   //UserModel loggedInUser = UserModel();
@@ -100,6 +103,39 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.white,
               fontSize: 18.0,
             )),
+        onTap: () {
+          setState(() {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => route));
+          });
+        },
+      );
+    }
+
+    ListTile _getSubItem(Icon icon, String description, Widget route) {
+      return ListTile(
+        tileColor: Colors.white,
+        leading: const Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.white,
+          size: 24,
+        ),
+        title: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                reportes = false;
+                setState(() {});
+              },
+              icon: icon,
+            ),
+            Text(description,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                )),
+          ],
+        ),
         onTap: () {
           setState(() {
             Navigator.push(
@@ -169,27 +205,84 @@ class _HomeScreenState extends State<HomeScreen> {
             ListViewCredito()),
         /*_getItem(
             const Icon(Icons.add_location), "Ubicación", ListViewUbicacion()),*/
-        _getItem(
-            const Icon(
+
+        ListTile(
+            leading: const Icon(
               Icons.receipt_long_outlined,
               color: Colors.white,
             ),
-            "Reportes - Ventas",
-            ListViewVentaProductos()),
-        _getItem(
-            const Icon(
-              Icons.receipt_long_outlined,
-              color: Colors.white,
+            title: Row(
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                const Text("Reportes",
+                    style: TextStyle(
+                      color: Colors.white,
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    )),
+                IconButton(
+                  onPressed: () {
+                    if (reportes == false) {
+                      reportes = true;
+                      espacio = 15;
+                    } else {
+                      reportes = false;
+                      espacio = 65;
+                    }
+                    setState(() {});
+                  },
+                  icon: const Icon(
+                    Icons.arrow_drop_down_circle_outlined,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                )
+              ],
             ),
-            "Reportes - Balance",
-            ListViewBalance()),
-        _getItem(
-            const Icon(
-              Icons.request_page_outlined,
-              color: Colors.white,
-            ),
-            "Reportes - Capital",
-            ListviewCapital()),
+            onTap: () {
+              if (reportes == false) {
+                reportes = true;
+                espacio = 15;
+              } else {
+                reportes = false;
+                espacio = 65;
+              }
+              setState(() {});
+            }),
+
+        if (reportes == true)
+          _getSubItem(
+              const Icon(
+                Icons.receipt_long_outlined,
+                color: Colors.white,
+              ),
+              "Ventas",
+              ListViewVentaProductos()),
+        if (reportes == true)
+          _getSubItem(
+              const Icon(
+                Icons.receipt_long_outlined,
+                color: Colors.white,
+              ),
+              "Balance",
+              ListViewBalance()),
+        if (reportes == true)
+          _getSubItem(
+              const Icon(
+                Icons.request_page_outlined,
+                color: Colors.white,
+              ),
+              "Capital",
+              ListviewCapital()),
+        if (reportes == true)
+          _getSubItem(
+              const Icon(
+                Icons.receipt_long_outlined,
+                color: Colors.white,
+              ),
+              "Productos \nVendidos",
+              ListViewProductosVendidos()),
         _getItem(
             const Icon(
               Icons.date_range_outlined,
@@ -198,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "Vencimiento",
             VencimientoProductos()),
         Divider(
-          height: 15,
+          height: espacio,
         ),
         Container(
           padding: EdgeInsets.all(10),
@@ -213,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
               border: Border.all(color: Colors.white, width: 2)),
           child: Column(
             children: [
-              Text(
+              const Text(
                 "PERFIL",
                 style: TextStyle(
                   color: Colors.black45,

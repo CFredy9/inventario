@@ -16,7 +16,7 @@ from django.db.models import Sum, Count, Avg
 #from api.permission import IsStaff
 from api.permission import IsAdmin
 from api.models import Producto, Categoria, Venta
-from api.serializers import ProductoSerializer, ProductoRegistroSerializer, VentaProductoSerializer
+from api.serializers import ProductoSerializer, ProductoRegistroSerializer, ProductoVendidosSerializer, VentaProductoSerializer
 
 """class ProductFilter(filters.FilterSet):
     class Meta:
@@ -141,12 +141,13 @@ class VentaProductoViewset(viewsets.ModelViewSet):
     queryset = Producto.objects.filter(activo=True)
     serializer = serializer_class(queryset)
 
+
     def get_permissions(self):
         """" Define permisos para este recurso """
         if self.action == "create" or self.action == "update" or self.action == "destroy":
-            permission_classes = [IsAdmin]
+            permission_classes = [AllowAny]
         else:
-            permission_classes = [IsAuthenticated]
+            permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
     def list (self, request, *args, **kwargs):
@@ -226,5 +227,96 @@ class VentaProductoViewset(viewsets.ModelViewSet):
         queryset['total_venta'] = str(round(queryset['total_venta'], 2))
         queryset['ganancia'] = str(round(queryset['ganancia'], 2))
         return Response(queryset, status=status.HTTP_200_OK)
+
+    @action(methods=["get"], detail=False)
+    def productoVendidoFardos(self, request, *args, **kwargs):
+        user = request.user
+        data = request.headers
+        
+        first_date = datetime.datetime.strptime(data['start'], "%Y/%m/%d").date()
+        last_date = datetime.datetime.strptime(data['end'], "%Y/%m/%d").date()
+
+        #first_date = first_date.strftime('%Y-%m-%d %H:%M:%S')
+        #last_date = last_date.strftime('%Y-%m-%d %H:%M:%S')
+
+
+        queryset = Producto.objects.filter(producto__producto_venta__creado__range=(first_date, last_date),
+            activo=True
+            ).annotate(
+                fardos=Sum('producto__producto_venta__fardos'),
+                ).order_by('-fardos')[:3]
+
+        """if(queryset['existenciasT'] == None):
+            queryset['existenciasT'] = 0
+
+        queryset['existenciasT'] = str(round(queryset['existenciasT'], 2))"""
+
+        serializer = ProductoVendidosSerializer(queryset, many=True)
+
+        page = request.GET.get('page')
+
+        try: 
+            page = self.paginate_queryset(queryset)
+            print('page', page)
+        except Exception as e:
+            page = []
+            data = page
+            return Response({
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'No more record.',
+                "data" : data
+                })
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            data = serializer.data
+            return self.get_paginated_response(data)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        #return Response(queryset, status=status.HTTP_200_OK)
+
+    @action(methods=["get"], detail=False)
+    def productoVendidoGanancia(self, request, *args, **kwargs):
+        user = request.user
+        data = request.headers
+        
+        first_date = datetime.datetime.strptime(data['start'], "%Y/%m/%d").date()
+        last_date = datetime.datetime.strptime(data['end'], "%Y/%m/%d").date()
+
+        #first_date = first_date.strftime('%Y-%m-%d %H:%M:%s')
+        #last_date = last_date.strftime('%Y-%m-%d %H:%M:%s')
+
+        queryset = Producto.objects.filter(producto__producto_venta__creado__range=(first_date, last_date),
+            activo=True 
+            ).annotate(
+                ganancia=Sum('producto__producto_venta__ganancia'),
+                ).order_by('-ganancia')[:3]
+        """if(queryset['existenciasT'] == None):
+            queryset['existenciasT'] = 0
+
+        queryset['existenciasT'] = str(round(queryset['existenciasT'], 2))
+        return Response(queryset, status=status.HTTP_200_OK)"""
+        serializer = ProductoVendidosSerializer(queryset, many=True)
+
+        page = request.GET.get('page')
+
+        try: 
+            page = self.paginate_queryset(queryset)
+            print('page', page)
+        except Exception as e:
+            page = []
+            data = page
+            return Response({
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'No more record.',
+                "data" : data
+                })
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            data = serializer.data
+            return self.get_paginated_response(data)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
