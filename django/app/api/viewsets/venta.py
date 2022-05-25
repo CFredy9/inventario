@@ -22,7 +22,7 @@ class VentaViewset(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filter_fields = ("creado",)
     search_fields = ("creado",)
-    ordering_fields = ("creado",)
+    ordering_fields = ("-creado",)
 
     def get_serializer_class(self):
         """Define serializer for API"""

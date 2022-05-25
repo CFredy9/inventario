@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   CategoriaProvider categoriaT = CategoriaProvider();
   late bool _isLoading;
   bool reportes = false;
-  double espacio = 65.0;
+  double espacio = 45.0;
   //bool bandera = false;
   //final User? user = FirebaseAuth.instance.currentUser;
   //UserModel loggedInUser = UserModel();
@@ -75,18 +75,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Drawer _getDrawer(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     var header = Container(
-        height: 130,
+        color: Colors.transparent,
+        height: 150,
         child: DrawerHeader(
-          child: Positioned(
+          child: /*Positioned(
             top: 20,
             right: 20,
-            child: Image.asset("assets/logoF.png", width: size.width * 0.15),
-          ), /*SizedBox(
-              height: 80,
-              child: Image.asset(
-                "assets/logoF.png",
-                fit: BoxFit.cover,
-              )),*/
+            child: Image.asset("assets/logoFF.png", width: size.width * 0.15),
+          ),*/
+              SizedBox(
+                  height: 80,
+                  child: Image.asset(
+                    "assets/logoFF.png",
+                    width: size.width * 0.15,
+                    //fit: BoxFit.cover,
+                  )),
         ));
     var info = const AboutListTile(
         child: Text("Información App"),
@@ -228,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       espacio = 15;
                     } else {
                       reportes = false;
-                      espacio = 65;
+                      espacio = 45;
                     }
                     setState(() {});
                   },
@@ -246,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 espacio = 15;
               } else {
                 reportes = false;
-                espacio = 65;
+                espacio = 45;
               }
               setState(() {});
             }),

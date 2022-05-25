@@ -40,7 +40,7 @@ class VentaProvider with ChangeNotifier {
   getVenta() async {
     var token = storage.getItem('token');
     _venta = [];
-    final url = Uri.parse('http://${apiUrl}:8000/api/venta/');
+    final url = Uri.parse('http://${apiUrl}:8000/api/venta/?ordering=-creado');
     final response =
         await http.get(url, headers: {'Authorization': 'token $token'});
 

@@ -105,15 +105,11 @@ class _ListViewProductosVendidosState extends State<ListViewProductosVendidos> {
         ),
         child: Center(
           child: _isLoading
-              ? Center(
-                  child: Expanded(
-                    child: ListView.separated(
-                      itemCount: 1,
-                      itemBuilder: (context, index) => const NewsCardSkelton(),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: defaultPadding),
-                    ),
-                  ),
+              ? ListView.separated(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => const NewsCardSkelton(),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: defaultPadding),
                 )
               : SlideInRight(
                   duration: const Duration(seconds: 1),

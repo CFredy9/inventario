@@ -189,14 +189,22 @@ class _ListViewProductosState extends State<ListViewProductos> {
           ),
           child: Center(
             child: _isLoading
-                ? Expanded(
-                    child: ListView.separated(
-                      itemCount: 10,
-                      itemBuilder: (context, index) => const NewsCardSkelton(),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: defaultPadding),
-                    ),
+                ? /*ListView.builder(
+                    itemCount: 10,
+                    padding: const EdgeInsets.only(top: 10.0),
+                    itemBuilder: (context, index) => const NewsCardSkelton(),
+                    
+                  )*/
+                //Expanded(
+                //child:
+                ListView.separated(
+                    itemCount: 10,
+                    itemBuilder: (context, index) => const NewsCardSkelton(),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: defaultPadding),
                   )
+                //)
+                //const Text("Cargando Datos")
                 : SlideInUp(
                     duration: const Duration(seconds: 1),
                     child: ListView.builder(

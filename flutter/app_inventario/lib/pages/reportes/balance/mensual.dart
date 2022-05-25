@@ -72,18 +72,14 @@ class _BalanceMensualState extends State<BalanceMensual> {
       child: Container(
         padding: const EdgeInsets.all(5.0),
         child: _isLoading
-            ? Center(
-                child: Expanded(
-                  child: ListView.separated(
-                    itemCount: 1,
-                    itemBuilder: (context, index) => const NewsCardSkelton(),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: defaultPadding),
-                  ),
-                ),
+            ? ListView.separated(
+                itemCount: 1,
+                itemBuilder: (context, index) => const NewsCardSkelton(),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: defaultPadding),
               )
             : SlideInUp(
-                duration: Duration(seconds: 1),
+                duration: const Duration(seconds: 1),
                 child: Column(
                   children: [
                     Row(
