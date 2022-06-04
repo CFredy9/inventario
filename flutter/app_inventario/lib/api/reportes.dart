@@ -36,7 +36,7 @@ class ReportesProvider with ChangeNotifier {
   getVentaProducto(String start, String end) async {
     _ventaproducto = [];
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/ventaproducto/');
+    final url = Uri.parse('http://${apiUrl}/api/ventaproducto/');
     final response = await http.get(
       url,
       headers: {
@@ -47,7 +47,8 @@ class ReportesProvider with ChangeNotifier {
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _ventaproducto = data
           .map<ProductoModel>((json) => ProductoModel.fromJson(json))
@@ -59,7 +60,7 @@ class ReportesProvider with ChangeNotifier {
   getTotales(String start, String end) async {
     totales = {'total_costo': 0, 'total_venta': 0, 'ganancia': 0};
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/ventaproducto/totales');
+    final url = Uri.parse('http://${apiUrl}/api/ventaproducto/totales');
     final response = await http.get(
       url,
       headers: {
@@ -71,7 +72,8 @@ class ReportesProvider with ChangeNotifier {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body);
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body);
       print(data);
       totales = data;
       notifyListeners();
@@ -81,8 +83,8 @@ class ReportesProvider with ChangeNotifier {
   getProductoVendidoFardos(String start, String end) async {
     _productocantidad = [];
     var token = storage.getItem('token');
-    final url = Uri.parse(
-        'http://${apiUrl}:8000/api/ventaproducto/productoVendidoFardos');
+    final url =
+        Uri.parse('http://${apiUrl}/api/ventaproducto/productoVendidoFardos');
     final response = await http.get(
       url,
       headers: {
@@ -93,7 +95,8 @@ class ReportesProvider with ChangeNotifier {
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _productocantidad = data
           .map<ProductoModel>((json) => ProductoModel.fromJson(json))
@@ -105,8 +108,8 @@ class ReportesProvider with ChangeNotifier {
   getProductoVendidoGanancia(String start, String end) async {
     _productoganancia = [];
     var token = storage.getItem('token');
-    final url = Uri.parse(
-        'http://${apiUrl}:8000/api/ventaproducto/productoVendidoGanancia');
+    final url =
+        Uri.parse('http://${apiUrl}/api/ventaproducto/productoVendidoGanancia');
     final response = await http.get(
       url,
       headers: {
@@ -117,7 +120,8 @@ class ReportesProvider with ChangeNotifier {
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _productoganancia = data
           .map<ProductoModel>((json) => ProductoModel.fromJson(json))

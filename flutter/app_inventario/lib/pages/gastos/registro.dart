@@ -212,7 +212,11 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
     if (descripcionController.text.isNotEmpty) {
       GastoModel gasto = GastoModel(descripcion: descripcionController.text);
       Provider.of<GastosProvider>(context, listen: false).addGasto(gasto);
-      Fluttertoast.showToast(msg: "Gasto creado exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Gasto creado exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => ListViewGastos()),
@@ -230,7 +234,11 @@ class _RegistrationGastoState extends State<RegistrationGasto> {
       GastoModel gasto = GastoModel(descripcion: descripcionController.text);
       Provider.of<GastosProvider>(context, listen: false)
           .updateGasto(gasto, id);
-      Fluttertoast.showToast(msg: "Gasto actualizado exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Gasto actualizado exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => ListViewGastos()),

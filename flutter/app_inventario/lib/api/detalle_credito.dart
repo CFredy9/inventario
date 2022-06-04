@@ -27,7 +27,7 @@ class DetalleCreditoProvider with ChangeNotifier {
       DetalleCreditoModel detallecredito, String idcredito) async {
     var token = storage.getItem('token');
     final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/detallecredito/"),
+        Uri.parse("http://${apiUrl}/api/detallecredito/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -50,7 +50,7 @@ class DetalleCreditoProvider with ChangeNotifier {
       DetalleCreditoModel detallecredito, int id, String idcredito) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/detallecredito/${id}/"),
+        Uri.parse("http://${apiUrl}/api/detallecredito/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -70,8 +70,7 @@ class DetalleCreditoProvider with ChangeNotifier {
     var token = storage.getItem('token');
     print("Entro");
     final response = await http.delete(
-      Uri.parse(
-          'http://${apiUrl}:8000/api/detallecredito/${detallecredito.id}/'),
+      Uri.parse('http://${apiUrl}/api/detallecredito/${detallecredito.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -84,11 +83,12 @@ class DetalleCreditoProvider with ChangeNotifier {
 
   getDetalleCredito(String? Id) async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/detallecredito/');
+    final url = Uri.parse('http://${apiUrl}/api/detallecredito/');
     final response = await http
         .get(url, headers: {'id': Id!, 'Authorization': 'token $token'});
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _detallecredito = data
           .map<DetalleCreditoModel>(

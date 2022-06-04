@@ -1,3 +1,4 @@
+import 'package:app_inventario/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +24,15 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
   String? SearchC = '';
   String orderC = '';
   int orderCNumber = 2;
+  late bool _isLoading;
   @override
   void initState() {
+    _isLoading = true;
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     super.initState();
     items = <CategoriaModel>[];
     //categoriaT = null;
@@ -286,5 +294,21 @@ class _ListViewCategoriasState extends State<ListViewCategorias> {
     setState(() {
       Navigator.of(context).pop();
     });
+  }
+}
+
+class NewsCardSkelton extends StatelessWidget {
+  const NewsCardSkelton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: const <Widget>[
+        Skeleton(height: 40, width: 300),
+        //const SizedBox(width: defaultPadding),
+      ],
+    );
   }
 }

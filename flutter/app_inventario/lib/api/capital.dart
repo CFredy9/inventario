@@ -16,7 +16,7 @@ class CapitalProvider with ChangeNotifier {
   getTotales() async {
     totales = {'total_costo': 0, 'total_credito': 0, 'capital': 0};
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/reportecapital/capital');
+    final url = Uri.parse('http://${apiUrl}/api/reportecapital/capital');
     final response = await http.get(
       url,
       headers: {

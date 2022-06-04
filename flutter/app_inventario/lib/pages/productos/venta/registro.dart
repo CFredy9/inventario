@@ -278,7 +278,11 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
         widget.__productModel.existenciasT =
             widget.__productModel.existenciasT! -
                 int.parse(existenciasController.text);
-        Fluttertoast.showToast(msg: "Venta creada exitosamente :) ");
+        Fluttertoast.showToast(
+            msg: "Venta creada exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(

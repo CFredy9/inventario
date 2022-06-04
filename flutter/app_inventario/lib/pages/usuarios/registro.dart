@@ -520,7 +520,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         password: confirmPasswordController.text,
       );
       Provider.of<UsuarioProvider>(context, listen: false).addUsuario(usuario);
-      Fluttertoast.showToast(msg: "Usuario creado exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Usuario creado exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => ListViewUsuarios()),
@@ -548,7 +552,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       widget.usuarioModel.phone = phoneController.text;
       Provider.of<UsuarioProvider>(context, listen: false)
           .updateUsuario(widget.usuarioModel, id);
-      Fluttertoast.showToast(msg: "Usuario actualizado exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Usuario actualizado exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(

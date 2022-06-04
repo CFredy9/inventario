@@ -119,7 +119,7 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
           return null;
         },
         onSaved: (value) {
-          nombreController.text = value!;
+          unidadesFardoController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: const InputDecoration(
@@ -358,7 +358,11 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
           categoria: valoresCat);
       Provider.of<ProductoProvider>(context, listen: false)
           .addProducto(producto);
-      Fluttertoast.showToast(msg: "Producto creado exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Producto creado exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(
@@ -385,7 +389,11 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
           items.todos.singleWhere((cate) => cate.id == int.parse(valoresCat!));
       var categoria = items.todos[items.todos.indexOf(ante)].toJson();
       producto.categoria = categoria;
-      Fluttertoast.showToast(msg: "Producto actualizado exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Producto actualizado exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:localstorage/localstorage.dart';
 import '../constants.dart';
 import '../models/producto.dart';
@@ -9,7 +10,7 @@ class ProductoProvider with ChangeNotifier {
   ProductoProvider() {
     getProducto("");
   }
-
+  bool bandera = false;
   List<ProductoModel> _producto = [];
 
   List<ProductoModel> get todosProducto {
@@ -21,7 +22,7 @@ class ProductoProvider with ChangeNotifier {
   void addProducto(ProductoModel producto) async {
     var token = storage.getItem('token');
     final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/producto/"),
+        Uri.parse("http://${apiUrl}/api/producto/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -38,7 +39,7 @@ class ProductoProvider with ChangeNotifier {
   void updateProducto(ProductoModel producto, int id) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/producto/${id}/"),
+        Uri.parse("http://${apiUrl}/api/producto/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -58,7 +59,7 @@ class ProductoProvider with ChangeNotifier {
   void delete(ProductoModel producto) async {
     var token = storage.getItem('token');
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/producto/${producto.id}/'),
+      Uri.parse('http://${apiUrl}/api/producto/${producto.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -70,19 +71,27 @@ class ProductoProvider with ChangeNotifier {
 
   Future<bool> getProducto(String? Id) async {
     var token = storage.getItem('token');
-    final url =
-        Uri.parse('http://${apiUrl}:8000/api/producto/?ordering=nombre');
+    final url = Uri.parse('http://${apiUrl}/api/producto/?ordering=nombre');
     final response = await http.get(
       url,
       headers: {'id': Id!, 'Authorization': 'token $token'},
     );
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _producto = data
           .map<ProductoModel>((json) => ProductoModel.fromJson(json))
           .toList();
       notifyListeners();
+      countProduct = _producto.length;
+      if (countProduct == 0) {
+        Fluttertoast.showToast(
+            msg: "No se encontraron datos",
+            backgroundColor: Colors.grey,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
       return true;
     }
     return false;
@@ -91,7 +100,7 @@ class ProductoProvider with ChangeNotifier {
   searchProducto(String? Id, String? query, String? ordering) async {
     var token = storage.getItem('token');
     final url = Uri.parse(
-        'http://${apiUrl}:8000/api/producto/?search=$query&ordering=$ordering');
+        'http://${apiUrl}/api/producto/?search=$query&ordering=$ordering');
     final response = await http.get(
       url,
       headers: {'id': Id!, 'Authorization': 'token $token'},
@@ -108,14 +117,14 @@ class ProductoProvider with ChangeNotifier {
 
   getProductoCategoria(String? Id) async {
     var token = storage.getItem('token');
-    final url =
-        Uri.parse('http://${apiUrl}:8000/api/producto/?ordering=nombre');
+    final url = Uri.parse('http://${apiUrl}/api/producto/?ordering=nombre');
     final response = await http.get(
       url,
       headers: {'id': Id!, 'Authorization': 'token $token'},
     );
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _producto = data
           .map<ProductoModel>((json) => ProductoModel.fromJson(json))

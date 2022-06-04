@@ -21,7 +21,7 @@ class UbicacionProvider with ChangeNotifier {
   void addUbicacion(UbicacionModel ubicacion) async {
     var token = storage.getItem('token');
     final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/ubicacion/"),
+        Uri.parse("http://${apiUrl}/api/ubicacion/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -36,7 +36,7 @@ class UbicacionProvider with ChangeNotifier {
   void updateUbicacion(UbicacionModel ubicacion, int id) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/ubicacion/${id}/"),
+        Uri.parse("http://${apiUrl}/api/ubicacion/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -56,7 +56,7 @@ class UbicacionProvider with ChangeNotifier {
   void delete(UbicacionModel ubicacion) async {
     var token = storage.getItem('token');
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/ubicacion/${ubicacion.id}/'),
+      Uri.parse('http://${apiUrl}/api/ubicacion/${ubicacion.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -69,7 +69,7 @@ class UbicacionProvider with ChangeNotifier {
 
   getUbicacion() async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/ubicacion/');
+    final url = Uri.parse('http://${apiUrl}/api/ubicacion/');
     final response = await http.get(
       url,
       headers: {'Authorization': 'token $token'},

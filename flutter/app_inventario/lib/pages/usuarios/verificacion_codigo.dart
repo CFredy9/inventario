@@ -148,9 +148,17 @@ class _VerificacionCodigoState extends State<VerificacionCodigo> {
             MaterialPageRoute(
                 builder: (context) => ResetPassword(widget.correo)),
             (route) => false);
-        Fluttertoast.showToast(msg: "Codigo correcto ");
+        Fluttertoast.showToast(
+            msg: "Código correcto",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
       } else {
-        Fluttertoast.showToast(msg: "Codigo incorrecto ");
+        Fluttertoast.showToast(
+            msg: "Código incorrecto",
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
     }
   }

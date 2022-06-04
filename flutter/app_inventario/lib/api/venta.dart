@@ -21,8 +21,7 @@ class VentaProvider with ChangeNotifier {
 
   Future<bool> addVenta(VentaModel venta) async {
     var token = storage.getItem('token');
-    final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/venta/"),
+    final response = await http.post(Uri.parse("http://${apiUrl}/api/venta/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -40,12 +39,13 @@ class VentaProvider with ChangeNotifier {
   getVenta() async {
     var token = storage.getItem('token');
     _venta = [];
-    final url = Uri.parse('http://${apiUrl}:8000/api/venta/?ordering=-creado');
+    final url = Uri.parse('http://${apiUrl}/api/venta/?ordering=-creado');
     final response =
         await http.get(url, headers: {'Authorization': 'token $token'});
 
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _venta =
           data.map<VentaModel>((json) => VentaModel.fromJson(json)).toList();

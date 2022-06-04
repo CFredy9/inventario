@@ -2,6 +2,7 @@ import 'dart:async';
 //import 'dart:ffi';
 
 import 'package:app_inventario/pages/productos/venta/registro.dart';
+import 'package:app_inventario/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,7 @@ class _ProductoInformationState extends State<ProductoInformation> {
   bool bandera = false;
   int banderaRegistro = 0;
   bool visualizar = false;
+  late bool _isLoading;
 
   /*void detalleproductoAdded(Event event) {
     setState(() {
@@ -59,6 +61,12 @@ class _ProductoInformationState extends State<ProductoInformation> {
 
   @override
   void initState() {
+    _isLoading = true;
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     super.initState();
     print(bandera);
     print(widget.producto.Id.toString());
@@ -186,156 +194,168 @@ class _ProductoInformationState extends State<ProductoInformation> {
           ),
         ),
         child: Center(
-          child: Container(
-            //height: 700,
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              children: [
-                Center(
-                  child: SlideInRight(
-                    duration: const Duration(seconds: 1),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(50),
-                          )),
-                      height: 160,
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
+          child: _isLoading
+              ? ListView.separated(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => const NewsCardSkelton(),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: defaultPadding),
+                )
+              : Container(
+                  //height: 700,
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: SlideInRight(
+                          duration: const Duration(seconds: 1),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
+                                )),
+                            height: 160,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              child: Center(
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          " ${widget.producto.Nombre}",
+                                          style: const TextStyle(
+                                              fontSize: 22.0,
+                                              color: ColorF,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                                icon: const Icon(
+                                                  Icons.inventory,
+                                                  color: ColorF,
+                                                  size: 18,
+                                                ),
+                                                onPressed: () {}),
+                                            Text(
+                                              " ${widget.producto.ExistenciasT}",
+                                              style: const TextStyle(
+                                                  fontSize: 22.0,
+                                                  color: ColorF,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            IconButton(
+                                                padding:
+                                                    EdgeInsets.only(top: 0),
+                                                icon: const Icon(
+                                                  Icons.category,
+                                                  color: ColorF,
+                                                  size: 18,
+                                                ),
+                                                onPressed: () {}),
+                                            Text(
+                                              "${widget.producto.categoria['nombre']}",
+                                              style: const TextStyle(
+                                                fontSize: 18.0,
+                                                color: ColorF,
+                                                //fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          "U/Fardos: ${widget.producto.UnidadesFardo}   ",
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            color: ColorF,
+                                            //fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        IconButton(
+                                            padding: EdgeInsets.only(top: 0),
+                                            icon: const Icon(
+                                              Icons.edit,
+                                              color: ColorF,
+                                              size: 22,
+                                            ),
+                                            onPressed: () {
+                                              (rol == "Administrador")
+                                                  ? _navigateToProducto(
+                                                      context, widget.producto)
+                                                  : Fluttertoast.showToast(
+                                                      msg:
+                                                          "No tiene los permisos requeridos\n para realizar esta acción",
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
+                                            }),
+                                        IconButton(
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: ColorF,
+                                              size: 22,
+                                            ),
+                                            onPressed: () {
+                                              (rol == "Administrador")
+                                                  ? _showDialog(context)
+                                                  : Fluttertoast.showToast(
+                                                      msg:
+                                                          "No tiene los permisos requeridos\n para realizar esta acción",
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      textColor: Colors.white,
+                                                      fontSize: 16.0);
+                                            }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                        child: Center(
+                      ),
+                      Center(
+                        child: SlideInLeft(
+                          duration: const Duration(seconds: 1),
                           child: Column(
                             children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    " ${widget.producto.Nombre}",
-                                    style: const TextStyle(
-                                        fontSize: 22.0,
-                                        color: ColorF,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                          icon: const Icon(
-                                            Icons.inventory,
-                                            color: ColorF,
-                                            size: 18,
-                                          ),
-                                          onPressed: () {}),
-                                      Text(
-                                        " ${widget.producto.ExistenciasT}",
-                                        style: const TextStyle(
-                                            fontSize: 22.0,
-                                            color: ColorF,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                              const Padding(
+                                padding: EdgeInsets.only(top: 5, bottom: 10),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      IconButton(
-                                          padding: EdgeInsets.only(top: 0),
-                                          icon: const Icon(
-                                            Icons.category,
-                                            color: ColorF,
-                                            size: 18,
-                                          ),
-                                          onPressed: () {}),
-                                      Text(
-                                        "${widget.producto.categoria['nombre']}",
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                          color: ColorF,
-                                          //fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    "U/Fardos: ${widget.producto.UnidadesFardo}   ",
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
-                                      color: ColorF,
-                                      //fontWeight: FontWeight.bold
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                      padding: EdgeInsets.only(top: 0),
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: ColorF,
-                                        size: 22,
-                                      ),
-                                      onPressed: () {
-                                        (rol == "Administrador")
-                                            ? _navigateToProducto(
-                                                context, widget.producto)
-                                            : Fluttertoast.showToast(
-                                                msg:
-                                                    "No tiene los permisos requeridos\n para realizar esta acción",
-                                                backgroundColor: Colors.red,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                      }),
-                                  IconButton(
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: ColorF,
-                                        size: 22,
-                                      ),
-                                      onPressed: () {
-                                        (rol == "Administrador")
-                                            ? _showDialog(context)
-                                            : Fluttertoast.showToast(
-                                                msg:
-                                                    "No tiene los permisos requeridos\n para realizar esta acción",
-                                                backgroundColor: Colors.red,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                      }),
-                                ],
-                              ),
+                              addDetalle,
                             ],
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: SlideInLeft(
-                    duration: const Duration(seconds: 1),
-                    child: Column(
-                      children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5, bottom: 10),
-                        ),
-                        addDetalle,
-                      ],
-                    ),
-                  ),
-                ),
-                //SizedBox(height: 20),
-                /*Row(
+                      //SizedBox(height: 20),
+                      /*Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     editar,
@@ -345,177 +365,195 @@ class _ProductoInformationState extends State<ProductoInformation> {
                     eliminar,
                   ],
                 ),*/
-                Expanded(
-                  child: SlideInRight(
-                    duration: const Duration(seconds: 1),
-                    child: Center(
-                      child: ListView.builder(
-                          itemCount: itemsDetalle.todosdetalleProducto.length,
-                          padding: EdgeInsets.only(top: 3.0),
-                          itemBuilder: (context, position) {
-                            //callStreamUbicacionEstan();
-                            return Column(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.all(3.0),
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        const Padding(
-                                          padding: EdgeInsets.only(top: 15.0),
-                                        ),
-                                        Text(
-                                          "Existencias: ${itemsDetalle.todosdetalleProducto[position].Existencias}",
-                                          style: const TextStyle(
-                                            fontSize: 18.0,
-                                            color: ColorF,
-                                            fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: SlideInRight(
+                          duration: const Duration(seconds: 1),
+                          child: Center(
+                            child: ListView.builder(
+                                itemCount:
+                                    itemsDetalle.todosdetalleProducto.length,
+                                padding: EdgeInsets.only(top: 3.0),
+                                itemBuilder: (context, position) {
+                                  //callStreamUbicacionEstan();
+                                  return Column(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.all(3.0),
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  "Tienda: ${itemsDetalle.todosdetalleProducto[position].ExistenciasT}",
-                                                  style: const TextStyle(
-                                                    fontSize: 18.0,
-                                                    color: ColorF,
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                    icon: const Icon(
-                                                      Icons.add_circle,
-                                                      color: ColorF,
-                                                      size: 30,
-                                                    ),
-                                                    onPressed: () => (rol ==
-                                                            "Administrador")
-                                                        ? _navigateToDetalleProducto(
-                                                            context,
-                                                            itemsDetalle
-                                                                    .todosdetalleProducto[
-                                                                position],
-                                                            widget.producto,
-                                                            banderaRegistro = 1)
-                                                        : Fluttertoast.showToast(
-                                                            msg:
-                                                                "No tiene los permisos requeridos\n para realizar esta acción",
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                            textColor:
-                                                                Colors.white,
-                                                            fontSize: 16.0)),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  "Bodega: ${itemsDetalle.todosdetalleProducto[position].ExistenciasB}",
-                                                  style: const TextStyle(
-                                                    fontSize: 18.0,
-                                                    color: ColorF,
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                    icon: const Icon(
-                                                      Icons.add_circle,
-                                                      color: ColorF,
-                                                      size: 30,
-                                                    ),
-                                                    onPressed: () => (rol ==
-                                                            "Administrador")
-                                                        ? _navigateToDetalleProducto(
-                                                            context,
-                                                            itemsDetalle
-                                                                    .todosdetalleProducto[
-                                                                position],
-                                                            widget.producto,
-                                                            banderaRegistro = 2)
-                                                        : Fluttertoast.showToast(
-                                                            msg:
-                                                                "No tiene los permisos requeridos\n para realizar esta acción",
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                            textColor:
-                                                                Colors.white,
-                                                            fontSize: 16.0)),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                IconButton(
-                                                    icon: const Icon(
-                                                      Icons
-                                                          .arrow_circle_down_sharp,
-                                                      color: Colors.red,
-                                                      size: 24,
-                                                    ),
-                                                    onPressed: () {}),
-                                                Text(
-                                                  "Costo: ${itemsDetalle.todosdetalleProducto[position].Precio_Costo}",
-                                                  style: const TextStyle(
-                                                      fontSize: 16.0,
-                                                      color: Colors.red),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                IconButton(
-                                                    icon: const Icon(
-                                                      Icons
-                                                          .arrow_circle_up_outlined,
-                                                      color: Colors.green,
-                                                      size: 24,
-                                                    ),
-                                                    onPressed: () {}),
-                                                Text(
-                                                  "Venta: ${itemsDetalle.todosdetalleProducto[position].Precio_Venta}",
-                                                  style: const TextStyle(
-                                                      fontSize: 16.0,
-                                                      color: Colors.green),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            IconButton(
-                                                icon: const Icon(
-                                                  Icons.date_range,
-                                                  color: ColorF,
-                                                  size: 24,
-                                                ),
-                                                onPressed: () {}),
-                                            Text(
-                                              "${itemsDetalle.todosdetalleProducto[position].Vencimiento}",
-                                              style: const TextStyle(
-                                                fontSize: 18.0,
-                                                color: ColorF,
+                                          child: Column(
+                                            children: <Widget>[
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 15.0),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        /*Divider(),
+                                              Text(
+                                                "Existencias: ${itemsDetalle.todosdetalleProducto[position].Existencias}",
+                                                style: const TextStyle(
+                                                  fontSize: 18.0,
+                                                  color: ColorF,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Text(
+                                                        "Tienda: ${itemsDetalle.todosdetalleProducto[position].ExistenciasT}",
+                                                        style: const TextStyle(
+                                                          fontSize: 18.0,
+                                                          color: ColorF,
+                                                        ),
+                                                      ),
+                                                      IconButton(
+                                                          icon: const Icon(
+                                                            Icons.add_circle,
+                                                            color: ColorF,
+                                                            size: 30,
+                                                          ),
+                                                          onPressed: () => (rol ==
+                                                                  "Administrador")
+                                                              ? _navigateToDetalleProducto(
+                                                                  context,
+                                                                  itemsDetalle
+                                                                          .todosdetalleProducto[
+                                                                      position],
+                                                                  widget
+                                                                      .producto,
+                                                                  banderaRegistro =
+                                                                      1)
+                                                              : Fluttertoast.showToast(
+                                                                  msg:
+                                                                      "No tiene los permisos requeridos\n para realizar esta acción",
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  textColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  fontSize:
+                                                                      16.0)),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Text(
+                                                        "Bodega: ${itemsDetalle.todosdetalleProducto[position].ExistenciasB}",
+                                                        style: const TextStyle(
+                                                          fontSize: 18.0,
+                                                          color: ColorF,
+                                                        ),
+                                                      ),
+                                                      IconButton(
+                                                          icon: const Icon(
+                                                            Icons.add_circle,
+                                                            color: ColorF,
+                                                            size: 30,
+                                                          ),
+                                                          onPressed: () => (rol ==
+                                                                  "Administrador")
+                                                              ? _navigateToDetalleProducto(
+                                                                  context,
+                                                                  itemsDetalle
+                                                                          .todosdetalleProducto[
+                                                                      position],
+                                                                  widget
+                                                                      .producto,
+                                                                  banderaRegistro =
+                                                                      2)
+                                                              : Fluttertoast.showToast(
+                                                                  msg:
+                                                                      "No tiene los permisos requeridos\n para realizar esta acción",
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  textColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  fontSize:
+                                                                      16.0)),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      IconButton(
+                                                          icon: const Icon(
+                                                            Icons
+                                                                .arrow_circle_down_sharp,
+                                                            color: Colors.red,
+                                                            size: 24,
+                                                          ),
+                                                          onPressed: () {}),
+                                                      Text(
+                                                        "Costo: ${itemsDetalle.todosdetalleProducto[position].Precio_Costo}",
+                                                        style: const TextStyle(
+                                                            fontSize: 16.0,
+                                                            color: Colors.red),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      IconButton(
+                                                          icon: const Icon(
+                                                            Icons
+                                                                .arrow_circle_up_outlined,
+                                                            color: Colors.green,
+                                                            size: 24,
+                                                          ),
+                                                          onPressed: () {}),
+                                                      Text(
+                                                        "Venta: ${itemsDetalle.todosdetalleProducto[position].Precio_Venta}",
+                                                        style: const TextStyle(
+                                                            fontSize: 16.0,
+                                                            color:
+                                                                Colors.green),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  IconButton(
+                                                      icon: const Icon(
+                                                        Icons.date_range,
+                                                        color: ColorF,
+                                                        size: 24,
+                                                      ),
+                                                      onPressed: () {}),
+                                                  Text(
+                                                    "${itemsDetalle.todosdetalleProducto[position].Vencimiento}",
+                                                    style: const TextStyle(
+                                                      fontSize: 18.0,
+                                                      color: ColorF,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              /*Divider(),
                                         Text(
                                           "Almacén : ${itemsDetalle.todosdetalleProducto[position].almacen['almacen']}",
                                           style: TextStyle(fontSize: 18.0),
@@ -525,76 +563,80 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                           "Estanteria : ${itemsDetalle.todosdetalleProducto[position].estanteria['estanteria']}",
                                           style: TextStyle(fontSize: 18.0),
                                         ),*/
-                                        //onPressed: () => _deleteProduct(context, items[position],position)),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            IconButton(
-                                                icon: const Icon(
-                                                  Icons.edit,
-                                                  color: ColorF,
-                                                ),
-                                                onPressed: () => (rol ==
-                                                        "Administrador")
-                                                    ? _navigateToDetalleProducto(
-                                                        context,
-                                                        itemsDetalle
-                                                                .todosdetalleProducto[
-                                                            position],
-                                                        widget.producto,
-                                                        banderaRegistro = 10)
-                                                    : Fluttertoast.showToast(
-                                                        msg:
-                                                            "No tiene los permisos requeridos\n para realizar esta acción",
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        textColor: Colors.white,
-                                                        fontSize: 16.0)),
-                                            IconButton(
-                                                icon: const Icon(
-                                                  Icons.add_shopping_cart_sharp,
-                                                  color: ColorF,
-                                                ),
-                                                onPressed: () => (rol ==
-                                                        "Administrador")
-                                                    ? _navigateToVenta(
-                                                        context,
-                                                        itemsDetalle
-                                                                .todosdetalleProducto[
-                                                            position],
-                                                        widget.producto)
-                                                    : Fluttertoast.showToast(
-                                                        msg:
-                                                            "No tiene los permisos requeridos\n para realizar esta acción",
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        textColor: Colors.white,
-                                                        fontSize: 16.0)),
-                                          ],
-                                        ),
+                                              //onPressed: () => _deleteProduct(context, items[position],position)),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  IconButton(
+                                                      icon: const Icon(
+                                                        Icons.edit,
+                                                        color: ColorF,
+                                                      ),
+                                                      onPressed: () => (rol ==
+                                                              "Administrador")
+                                                          ? _navigateToDetalleProducto(
+                                                              context,
+                                                              itemsDetalle
+                                                                      .todosdetalleProducto[
+                                                                  position],
+                                                              widget.producto,
+                                                              banderaRegistro =
+                                                                  10)
+                                                          : Fluttertoast.showToast(
+                                                              msg:
+                                                                  "No tiene los permisos requeridos\n para realizar esta acción",
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                              textColor:
+                                                                  Colors.white,
+                                                              fontSize: 16.0)),
+                                                  IconButton(
+                                                      icon: const Icon(
+                                                        Icons
+                                                            .add_shopping_cart_sharp,
+                                                        color: ColorF,
+                                                      ),
+                                                      onPressed: () => (rol ==
+                                                              "Administrador")
+                                                          ? _navigateToVenta(
+                                                              context,
+                                                              itemsDetalle
+                                                                      .todosdetalleProducto[
+                                                                  position],
+                                                              widget.producto)
+                                                          : Fluttertoast.showToast(
+                                                              msg:
+                                                                  "No tiene los permisos requeridos\n para realizar esta acción",
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                              textColor:
+                                                                  Colors.white,
+                                                              fontSize: 16.0)),
+                                                ],
+                                              ),
 
-                                        /*IconButton(
+                                              /*IconButton(
                                     icon: const Icon(
                                       Icons.delete,
                                       color: Colors.red,
                                     ),
                                     onPressed: () => _showDialog(context, position),
                                   ),*/
-                                      ],
-                                    ),
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                    ),
+                                            ],
+                                          ),
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
         ),
       ),
     );
@@ -673,5 +715,26 @@ class _ProductoInformationState extends State<ProductoInformation> {
         );
       });
     });*/
+  }
+}
+
+class NewsCardSkelton extends StatelessWidget {
+  const NewsCardSkelton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const <Widget>[
+        Skeleton(height: 120, width: 315),
+        SizedBox(height: 10),
+        Skeleton(height: 50, width: 315),
+        SizedBox(height: 10),
+        Skeleton(height: 150, width: 315),
+        SizedBox(height: 10),
+        Skeleton(height: 150, width: 315),
+      ],
+    );
   }
 }

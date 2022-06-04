@@ -176,11 +176,16 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
     } else {
-      showDialog(
+      Fluttertoast.showToast(
+          msg: "Las credenciales ingresadas\n no son correctas",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      /*showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text("Something is wrong.Try Again"),
+              title: Text("Las credenciales son incorrectas"),
               actions: [
                 ElevatedButton(
                   onPressed: () {
@@ -190,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 )
               ],
             );
-          });
+          });*/
     }
   }
 

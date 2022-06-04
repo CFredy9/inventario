@@ -1,3 +1,4 @@
+import 'package:app_inventario/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:firebase_database/firebase_database.dart';
@@ -22,8 +23,15 @@ class ListviewCapital extends StatefulWidget {
 class _ListviewCapitalState extends State<ListviewCapital> {
   CapitalProvider capitalT = CapitalProvider();
   bool bandera = false;
+  late bool _isLoading;
   @override
   void initState() {
+    _isLoading = true;
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     super.initState();
   }
 
@@ -77,127 +85,159 @@ class _ListviewCapitalState extends State<ListviewCapital> {
           ),
         ),
         child: Center(
-          child: SlideInRight(
-            duration: const Duration(seconds: 1),
-            child: Container(
-              //height: 250,
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(50),
-                          )),
-                      height: 300,
-                      padding: const EdgeInsets.all(5.0),
-                      child: Column(
-                        children: [
-                          Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 10.0),
+          child: _isLoading
+              ? ListView.separated(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => const NewsCardSkelton(),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: defaultPadding),
+                )
+              : SlideInRight(
+                  duration: const Duration(seconds: 1),
+                  child: Container(
+                    //height: 250,
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
+                                )),
+                            height: 300,
+                            padding: const EdgeInsets.all(5.0),
+                            child: Column(
+                              children: [
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
                                   ),
-                                  Column(
-                                    children: [
-                                      const Text(
-                                        'Capital',
-                                        style: TextStyle(
-                                            fontSize: 22.0, color: Colors.blue),
-                                      ),
-                                      Text(
-                                        'Q. ${capitalT.totales['capital']}',
-                                        style: TextStyle(
-                                            fontSize: 22.0, color: Colors.blue),
-                                      ),
-                                    ],
+                                  child: Center(
+                                    child: Column(
+                                      children: <Widget>[
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 10.0),
+                                        ),
+                                        Column(
+                                          children: [
+                                            const Text(
+                                              'Capital',
+                                              style: TextStyle(
+                                                  fontSize: 22.0,
+                                                  color: Colors.blue),
+                                            ),
+                                            Text(
+                                              'Q. ${capitalT.totales['capital']}',
+                                              style: TextStyle(
+                                                  fontSize: 22.0,
+                                                  color: Colors.blue),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                const Divider(
+                                  height: 30,
+                                ),
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Center(
+                                    child: Column(
+                                      children: <Widget>[
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 10.0),
+                                        ),
+                                        Column(
+                                          children: [
+                                            const Text(
+                                              'Total en Productos',
+                                              style: TextStyle(
+                                                  fontSize: 22.0,
+                                                  color: Colors.green),
+                                            ),
+                                            Text(
+                                              'Q. ${capitalT.totales['total_costo']}',
+                                              style: const TextStyle(
+                                                  fontSize: 22.0,
+                                                  color: Colors.green),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const Divider(
+                                  height: 30,
+                                ),
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Center(
+                                    child: Column(
+                                      children: <Widget>[
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 10.0),
+                                        ),
+                                        Column(
+                                          children: [
+                                            const Text(
+                                              'Total en Créditos',
+                                              style: TextStyle(
+                                                  fontSize: 22.0,
+                                                  color: Colors.red),
+                                            ),
+                                            Text(
+                                              'Q. ${capitalT.totales['total_credito']}',
+                                              style: TextStyle(
+                                                  fontSize: 22.0,
+                                                  color: Colors.red),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const Divider(
-                            height: 30,
-                          ),
-                          Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 10.0),
-                                  ),
-                                  Column(
-                                    children: [
-                                      const Text(
-                                        'Total en Productos',
-                                        style: TextStyle(
-                                            fontSize: 22.0,
-                                            color: Colors.green),
-                                      ),
-                                      Text(
-                                        'Q. ${capitalT.totales['total_costo']}',
-                                        style: const TextStyle(
-                                            fontSize: 22.0,
-                                            color: Colors.green),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(
-                            height: 30,
-                          ),
-                          Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 10.0),
-                                  ),
-                                  Column(
-                                    children: [
-                                      const Text(
-                                        'Total en Créditos',
-                                        style: TextStyle(
-                                            fontSize: 22.0, color: Colors.red),
-                                      ),
-                                      Text(
-                                        'Q. ${capitalT.totales['total_credito']}',
-                                        style: TextStyle(
-                                            fontSize: 22.0, color: Colors.red),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
         ),
       ),
+    );
+  }
+}
+
+class NewsCardSkelton extends StatelessWidget {
+  const NewsCardSkelton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const <Widget>[
+        Skeleton(height: 100, width: 315),
+        SizedBox(height: 10),
+        Skeleton(height: 100, width: 315),
+        SizedBox(height: 10),
+        Skeleton(height: 100, width: 315),
+        SizedBox(height: 10),
+        Skeleton(height: 100, width: 315),
+      ],
     );
   }
 }

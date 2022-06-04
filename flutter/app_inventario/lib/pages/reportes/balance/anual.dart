@@ -76,7 +76,7 @@ class _BalanceAnualState extends State<BalanceAnual> {
               separatorBuilder: (context, index) =>
                   const SizedBox(height: defaultPadding),
             )
-          : SlideInUp(
+          : SlideInRight(
               duration: const Duration(seconds: 1),
               child: Column(
                 children: [

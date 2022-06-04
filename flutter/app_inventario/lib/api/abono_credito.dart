@@ -27,7 +27,7 @@ class AbonoCreditoProvider with ChangeNotifier {
       AbonoCreditoModel abonocredito, String idcredito) async {
     var token = storage.getItem('token');
     final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/abonocredito/"),
+        Uri.parse("http://${apiUrl}/api/abonocredito/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -50,7 +50,7 @@ class AbonoCreditoProvider with ChangeNotifier {
       AbonoCreditoModel abonocredito, int id, String idcredito) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/abonocredito/${id}/"),
+        Uri.parse("http://${apiUrl}/api/abonocredito/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -70,7 +70,7 @@ class AbonoCreditoProvider with ChangeNotifier {
     var token = storage.getItem('token');
     print("Entro");
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/abonocredito/${abonocredito.id}/'),
+      Uri.parse('http://${apiUrl}/api/abonocredito/${abonocredito.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -83,7 +83,7 @@ class AbonoCreditoProvider with ChangeNotifier {
 
   getAbonoCredito(String? Id) async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/abonocredito/');
+    final url = Uri.parse('http://${apiUrl}/api/abonocredito/');
     final response = await http
         .get(url, headers: {'id': Id!, 'Authorization': 'token $token'});
     if (response.statusCode == 200) {

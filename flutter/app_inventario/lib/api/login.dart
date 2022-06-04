@@ -10,7 +10,7 @@ class LoginProvider with ChangeNotifier {
 
   Future<bool> login(String email, String password) async {
     final response =
-        await http.post(Uri.parse("http://${apiUrl}:8000/api/usuario/token/"),
+        await http.post(Uri.parse("http://${apiUrl}/api/usuario/token/"),
             headers: {
               "Access-Control-Allow-Origin":
                   "*", // Required for CORS support to work
@@ -35,7 +35,7 @@ class LoginProvider with ChangeNotifier {
   Future<bool> logOut() async {
     var token = storage.getItem('token');
     final response = await http.post(
-      Uri.parse("http://${apiUrl}:8000/api/usuario/logout/"),
+      Uri.parse("http://${apiUrl}/api/usuario/logout/"),
       headers: {'Authorization': 'token $token'},
     );
     storage.deleteItem('token');

@@ -225,7 +225,11 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
           CategoriaModel(nombre: nameController.text, imagen: imagenubi);
       Provider.of<CategoriaProvider>(context, listen: false)
           .addCategoria(categoria);
-      Fluttertoast.showToast(msg: "Categoria creada exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Categoría creada exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => ListViewCategorias()),
@@ -244,7 +248,11 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
           CategoriaModel(nombre: nameController.text, imagen: imagenubi);
       Provider.of<CategoriaProvider>(context, listen: false)
           .updateCategoria(categoria, id);
-      Fluttertoast.showToast(msg: "Categoria actualizada exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Categoría actualizada exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => ListViewCategorias()),
@@ -265,7 +273,11 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
       'nombre': cateModel.nombre,
       'id': cateModel.Id,
     }).then((value) => null);*/
-    Fluttertoast.showToast(msg: "Categoria creada exitosamente :) ");
+    Fluttertoast.showToast(
+        msg: "Categoría creada exitosamente",
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0);
     Navigator.pushAndRemoveUntil(
         (context),
         MaterialPageRoute(builder: (context) => ListViewCategorias()),
@@ -284,7 +296,11 @@ class _RegistrationCategoriaState extends State<RegistrationCategoria> {
     /*await categoriaReference.reference().child(Id).update({
       'nombre': cateModel.nombre,
     }).then((value) => null);*/
-    Fluttertoast.showToast(msg: "Cambios guardados ");
+    Fluttertoast.showToast(
+        msg: "Categoría actualizada exitosamente",
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0);
     Navigator.pushAndRemoveUntil(
         (context),
         MaterialPageRoute(builder: (context) => ListViewCategorias()),

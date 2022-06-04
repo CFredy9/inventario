@@ -24,8 +24,7 @@ class GastosProvider with ChangeNotifier {
 
   void addGasto(GastoModel gasto) async {
     var token = storage.getItem('token');
-    final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/gasto/"),
+    final response = await http.post(Uri.parse("http://${apiUrl}/api/gasto/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -44,7 +43,7 @@ class GastosProvider with ChangeNotifier {
   void updateGasto(GastoModel gasto, int id) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/gasto/${id}/"),
+        Uri.parse("http://${apiUrl}/api/gasto/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -65,7 +64,7 @@ class GastosProvider with ChangeNotifier {
     var token = storage.getItem('token');
     print("Entro");
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/gasto/${gasto.id}/'),
+      Uri.parse('http://${apiUrl}/api/gasto/${gasto.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -78,7 +77,7 @@ class GastosProvider with ChangeNotifier {
 
   getGasto() async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/gasto/');
+    final url = Uri.parse('http://${apiUrl}/api/gasto/');
     final response = await http.get(
       url,
       headers: {
@@ -87,7 +86,8 @@ class GastosProvider with ChangeNotifier {
       },
     );
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _gasto =
           data.map<GastoModel>((json) => GastoModel.fromJson(json)).toList();
@@ -97,7 +97,7 @@ class GastosProvider with ChangeNotifier {
 
   getGastoBalance(String start, String end) async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/gasto/');
+    final url = Uri.parse('http://${apiUrl}/api/gasto/');
     final response = await http.get(
       url,
       headers: {
@@ -107,7 +107,8 @@ class GastosProvider with ChangeNotifier {
       },
     );
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _gasto =
           data.map<GastoModel>((json) => GastoModel.fromJson(json)).toList();
@@ -118,7 +119,7 @@ class GastosProvider with ChangeNotifier {
   getTotalBalance(String start, String end) async {
     total = {'total': 0};
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/gasto/totalBalance');
+    final url = Uri.parse('http://${apiUrl}/api/gasto/totalBalance');
     final response = await http.get(
       url,
       headers: {
@@ -130,7 +131,8 @@ class GastosProvider with ChangeNotifier {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body);
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body);
       print(data);
       total = data;
       notifyListeners();
@@ -140,7 +142,7 @@ class GastosProvider with ChangeNotifier {
   getSaldoBalance(String start, String end) async {
     saldo = {'total': 0};
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/gasto/saldoBalance');
+    final url = Uri.parse('http://${apiUrl}/api/gasto/saldoBalance');
     final response = await http.get(
       url,
       headers: {
@@ -152,7 +154,8 @@ class GastosProvider with ChangeNotifier {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body);
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body);
       print(data);
       double valor = double.parse(data['total']);
       data['total'] = valor.toStringAsFixed(2);

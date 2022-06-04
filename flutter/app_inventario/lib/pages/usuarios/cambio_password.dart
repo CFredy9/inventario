@@ -223,6 +223,11 @@ class _CambioPasswordState extends State<CambioPassword> {
         password: contrasenia,
       );
       Provider.of<MeProvider>(context, listen: false).updateContra(usuario);
+      Fluttertoast.showToast(
+          msg: "Contraseña actualizada exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => HomeScreen()),

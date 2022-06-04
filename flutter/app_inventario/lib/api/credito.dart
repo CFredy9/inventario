@@ -22,8 +22,7 @@ class CreditoProvider with ChangeNotifier {
 
   void addCredito(CreditoModel credito) async {
     var token = storage.getItem('token');
-    final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/credito/"),
+    final response = await http.post(Uri.parse("http://${apiUrl}/api/credito/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -39,7 +38,7 @@ class CreditoProvider with ChangeNotifier {
   void updateCredito(CreditoModel credito, int id) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/credito/${id}/"),
+        Uri.parse("http://${apiUrl}/api/credito/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -59,7 +58,7 @@ class CreditoProvider with ChangeNotifier {
   void delete(CreditoModel credito) async {
     var token = storage.getItem('token');
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/credito/${credito.id}/'),
+      Uri.parse('http://${apiUrl}/api/credito/${credito.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -72,7 +71,7 @@ class CreditoProvider with ChangeNotifier {
 
   getCredito() async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/credito/');
+    final url = Uri.parse('http://${apiUrl}/api/credito/');
     final response = await http.get(
       url,
       headers: {
@@ -81,7 +80,8 @@ class CreditoProvider with ChangeNotifier {
       },
     );
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _credito = data
           .map<CreditoModel>((json) => CreditoModel.fromJson(json))

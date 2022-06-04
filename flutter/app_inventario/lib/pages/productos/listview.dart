@@ -83,6 +83,7 @@ class _ListViewProductosState extends State<ListViewProductos> {
     print('Prueba para ver que lleva');
     print(widget.filterCategoria.Id);
     if (widget.filterCategoria.Id != null && bandera == false) {
+      bP = false;
       productoT.getProducto(widget.filterCategoria.Id.toString());
       bandera = true;
     } else if (widget.filterCategoria.Id == null && bandera == false) {
@@ -95,8 +96,8 @@ class _ListViewProductosState extends State<ListViewProductos> {
         backgroundColor: ColorF,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(125.0),
-          child: SlideInDown(
-            duration: const Duration(seconds: 2),
+          child: SlideInLeft(
+            duration: const Duration(seconds: 1),
             child: Column(
               children: [
                 AppBar(
@@ -205,7 +206,7 @@ class _ListViewProductosState extends State<ListViewProductos> {
                   )
                 //)
                 //const Text("Cargando Datos")
-                : SlideInUp(
+                : SlideInRight(
                     duration: const Duration(seconds: 1),
                     child: ListView.builder(
                         itemCount: productoT.todosProducto.length,

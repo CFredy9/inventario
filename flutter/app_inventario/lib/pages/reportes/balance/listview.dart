@@ -64,8 +64,8 @@ class _ListViewBalanceState extends State<ListViewBalance>
           backgroundColor: ColorF,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(110.0),
-            child: SlideInDown(
-              duration: Duration(seconds: 2),
+            child: SlideInLeft(
+              duration: Duration(seconds: 1),
               child: AppBar(
                 elevation: 0,
                 title: const Text('BALANCE'),

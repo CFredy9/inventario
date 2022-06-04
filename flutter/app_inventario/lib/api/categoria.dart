@@ -23,7 +23,7 @@ class CategoriaProvider with ChangeNotifier {
   void addCategoria(CategoriaModel categoria) async {
     var token = storage.getItem('token');
     final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/categoria/"),
+        Uri.parse("http://${apiUrl}/api/categoria/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -43,7 +43,7 @@ class CategoriaProvider with ChangeNotifier {
   void updateCategoria(CategoriaModel categoria, int id) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/categoria/${id}/"),
+        Uri.parse("http://${apiUrl}/api/categoria/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -64,7 +64,7 @@ class CategoriaProvider with ChangeNotifier {
   void deleteTodo(CategoriaModel categoria) async {
     var token = storage.getItem('token');
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/categoria/${categoria.id}/'),
+      Uri.parse('http://${apiUrl}/api/categoria/${categoria.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -78,14 +78,15 @@ class CategoriaProvider with ChangeNotifier {
   Future<bool> getCategoria() async {
     _categoria = [];
     var token = storage.getItem('token');
-    final url = Uri.parse(
-        'http://${apiUrl}:8000/api/categoria/?search=&ordering=nombre');
+    final url =
+        Uri.parse('http://${apiUrl}/api/categoria/?search=&ordering=nombre');
     final response = await http.get(
       url,
       headers: {'Authorization': 'token $token'},
     );
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _categoria = data
           .map<CategoriaModel>((json) => CategoriaModel.fromJson(json))
@@ -99,7 +100,7 @@ class CategoriaProvider with ChangeNotifier {
   searchCategoria(String? query, String? ordering) async {
     var token = storage.getItem('token');
     final url = Uri.parse(
-        'http://${apiUrl}:8000/api/categoria/?search=$query&ordering=$ordering');
+        'http://${apiUrl}/api/categoria/?search=$query&ordering=$ordering');
     final response = await http.get(
       url,
       headers: {'Authorization': 'token $token'},

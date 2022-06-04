@@ -196,7 +196,11 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
             double.parse(cantidadController.text);
         String valor = suma.toStringAsFixed(2);
         widget.__gastoModel.total = valor;*/
-        Fluttertoast.showToast(msg: "Gasto creado exitosamente :) ");
+        Fluttertoast.showToast(
+            msg: "Gasto creado exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
@@ -222,7 +226,11 @@ class _RegistrationDetalleGastoState extends State<RegistrationDetalleGasto> {
                   detallegasto, id, widget.__gastoModel.Id.toString());
       if (istoken) {
         //Provider.of<GastosProvider>(context, listen: false).getGasto();
-        Fluttertoast.showToast(msg: "Gasto actualizado exitosamente :) ");
+        Fluttertoast.showToast(
+            msg: "Gasto actualizado exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(

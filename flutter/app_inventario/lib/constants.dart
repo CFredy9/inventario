@@ -11,11 +11,17 @@ const PrimaryLightColor = Color(0xFFE0E0F8);
 //const ColorF = Colors.indigo;
 const ColorF = Color(0xFF517edc);
 
+var countProduct = 0;
+var bP = false;
+
 var ColorCategoryCard = Colors.transparent;
 
-const apiUrl = '192.168.1.36';
-//const apiUrl = '192.168.0.10';
-//const apiUrl = '192.168.0.23';
+//const apiUrl = 'tienda-kairos.xyz';
+const apiUrl = '157.245.249.5';
+//const apiUrl = '157.245.249.5:8000';
+//const apiUrl = '192.168.1.36:8000';
+//const apiUrl = '192.168.0.10:8000';
+//const apiUrl = '192.168.0.23:8000';
 
 double valorC = 0.0;
 

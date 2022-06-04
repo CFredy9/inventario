@@ -24,7 +24,7 @@ class DetalleProductoProvider with ChangeNotifier {
       DetalleProductoModel detalleproducto, String idproducto) async {
     var token = storage.getItem('token');
     final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/detalleproducto/"),
+        Uri.parse("http://${apiUrl}/api/detalleproducto/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -45,7 +45,7 @@ class DetalleProductoProvider with ChangeNotifier {
     var token = storage.getItem('token');
     print(id);
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/detalleproducto/${id}/"),
+        Uri.parse("http://${apiUrl}/api/detalleproducto/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -69,7 +69,7 @@ class DetalleProductoProvider with ChangeNotifier {
   void delete(DetalleProductoModel detalle) async {
     var token = storage.getItem('token');
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/detalleproducto/${detalle.id}/'),
+      Uri.parse('http://${apiUrl}/api/detalleproducto/${detalle.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -81,11 +81,12 @@ class DetalleProductoProvider with ChangeNotifier {
 
   getdetalleProducto(String? Id) async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/detalleproducto/');
+    final url = Uri.parse('http://${apiUrl}/api/detalleproducto/');
     final response = await http
         .get(url, headers: {'id': Id!, 'Authorization': 'token $token'});
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _detalleproducto = data
           .map<DetalleProductoModel>(

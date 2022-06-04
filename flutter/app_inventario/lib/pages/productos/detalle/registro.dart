@@ -684,7 +684,10 @@ class _RegistrationDetalleProductoState
         widget.__productModel.existenciasT =
             widget.__productModel.existenciasT! + existenciasTotal;
         Fluttertoast.showToast(
-            msg: "Detalle de Producto creado exitosamente :) ");
+            msg: "Detalle de Producto creado exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
@@ -746,7 +749,10 @@ class _RegistrationDetalleProductoState
         widget.__productModel.existenciasT =
             widget.__productModel.existenciasT! + existenciasTotal;
         Fluttertoast.showToast(
-            msg: "Detalle de Producto actualizado exitosamente :) ");
+            msg: "Detalle de Producto actualizado exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(

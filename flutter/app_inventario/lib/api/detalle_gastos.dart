@@ -27,7 +27,7 @@ class DetalleGastosProvider with ChangeNotifier {
       DetalleGastoModel detallegasto, String idgasto) async {
     var token = storage.getItem('token');
     final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/detallegasto/"),
+        Uri.parse("http://${apiUrl}/api/detallegasto/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -50,7 +50,7 @@ class DetalleGastosProvider with ChangeNotifier {
       DetalleGastoModel detallegasto, int id, String idgasto) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/detallegasto/${id}/"),
+        Uri.parse("http://${apiUrl}/api/detallegasto/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -73,7 +73,7 @@ class DetalleGastosProvider with ChangeNotifier {
     var token = storage.getItem('token');
     print("Entro");
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/detallegasto/${detallegasto.id}/'),
+      Uri.parse('http://${apiUrl}/api/detallegasto/${detallegasto.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -86,11 +86,12 @@ class DetalleGastosProvider with ChangeNotifier {
 
   getDetalleGasto(String? Id) async {
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/detallegasto/');
+    final url = Uri.parse('http://${apiUrl}/api/detallegasto/');
     final response = await http
         .get(url, headers: {'id': Id!, 'Authorization': 'token $token'});
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _detallegasto = data
           .map<DetalleGastoModel>((json) => DetalleGastoModel.fromJson(json))
@@ -102,7 +103,7 @@ class DetalleGastosProvider with ChangeNotifier {
   getTotales(String? Id) async {
     total = {'total': 0};
     var token = storage.getItem('token');
-    final url = Uri.parse('http://${apiUrl}:8000/api/detallegasto/total');
+    final url = Uri.parse('http://${apiUrl}/api/detallegasto/total');
     final response = await http.get(
       url,
       headers: {
@@ -112,7 +113,8 @@ class DetalleGastosProvider with ChangeNotifier {
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body);
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body);
       print(data);
       total = data;
       notifyListeners();

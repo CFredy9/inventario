@@ -23,7 +23,7 @@ class EstanteriaProvider with ChangeNotifier {
   void addEstanteria(EstanteriaModel estanteria) async {
     var token = storage.getItem('token');
     final response = await http.post(
-        Uri.parse("http://${apiUrl}:8000/api/estanteria/"),
+        Uri.parse("http://${apiUrl}/api/estanteria/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -40,7 +40,7 @@ class EstanteriaProvider with ChangeNotifier {
   void updateEstanteria(EstanteriaModel estanteria, int id) async {
     var token = storage.getItem('token');
     final response = await http.put(
-        Uri.parse("http://${apiUrl}:8000/api/estanteria/${id}/"),
+        Uri.parse("http://${apiUrl}/api/estanteria/${id}/"),
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'token $token'
@@ -60,7 +60,7 @@ class EstanteriaProvider with ChangeNotifier {
   void delete(EstanteriaModel estanteria) async {
     var token = storage.getItem('token');
     final response = await http.delete(
-      Uri.parse('http://${apiUrl}:8000/api/estanteria/${estanteria.id}/'),
+      Uri.parse('http://${apiUrl}/api/estanteria/${estanteria.id}/'),
       headers: {'Authorization': 'token $token'},
     );
     print(response.statusCode);
@@ -73,7 +73,7 @@ class EstanteriaProvider with ChangeNotifier {
   getEstanteria(String? Id) async {
     var token = storage.getItem('token');
     _estanteria = [];
-    final url = Uri.parse('http://${apiUrl}:8000/api/estanteria/');
+    final url = Uri.parse('http://${apiUrl}/api/estanteria/');
     final response = await http
         .get(url, headers: {'id': Id!, 'Authorization': 'token $token'});
 

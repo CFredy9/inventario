@@ -139,7 +139,11 @@ class _VerificarCorreoState extends State<VerificarCorreo> {
   void enviarCorreo(String correo) {
     if (correo.isNotEmpty) {
       Provider.of<MeProvider>(context, listen: false).enviarCorreo(correo);
-      Fluttertoast.showToast(msg: "Correo enviado ");
+      Fluttertoast.showToast(
+          msg: "Correo enviado",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => VerificacionCodigo(correo)),

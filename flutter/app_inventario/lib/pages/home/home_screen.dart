@@ -209,52 +209,53 @@ class _HomeScreenState extends State<HomeScreen> {
         /*_getItem(
             const Icon(Icons.add_location), "Ubicación", ListViewUbicacion()),*/
 
-        ListTile(
-            leading: const Icon(
-              Icons.receipt_long_outlined,
-              color: Colors.white,
-            ),
-            title: Row(
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                const Text("Reportes",
-                    style: TextStyle(
+        if (rol == "Administrador")
+          ListTile(
+              leading: const Icon(
+                Icons.receipt_long_outlined,
+                color: Colors.white,
+              ),
+              title: Row(
+                //crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  const Text("Reportes",
+                      style: TextStyle(
+                        color: Colors.white,
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      )),
+                  IconButton(
+                    onPressed: () {
+                      if (reportes == false) {
+                        reportes = true;
+                        espacio = 15;
+                      } else {
+                        reportes = false;
+                        espacio = 45;
+                      }
+                      setState(() {});
+                    },
+                    icon: const Icon(
+                      Icons.arrow_drop_down_circle_outlined,
                       color: Colors.white,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    )),
-                IconButton(
-                  onPressed: () {
-                    if (reportes == false) {
-                      reportes = true;
-                      espacio = 15;
-                    } else {
-                      reportes = false;
-                      espacio = 45;
-                    }
-                    setState(() {});
-                  },
-                  icon: const Icon(
-                    Icons.arrow_drop_down_circle_outlined,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                )
-              ],
-            ),
-            onTap: () {
-              if (reportes == false) {
-                reportes = true;
-                espacio = 15;
-              } else {
-                reportes = false;
-                espacio = 45;
-              }
-              setState(() {});
-            }),
+                      size: 24,
+                    ),
+                  )
+                ],
+              ),
+              onTap: () {
+                if (reportes == false) {
+                  reportes = true;
+                  espacio = 15;
+                } else {
+                  reportes = false;
+                  espacio = 45;
+                }
+                setState(() {});
+              }),
 
-        if (reportes == true)
+        if (reportes == true && rol == "Administrador")
           _getSubItem(
               const Icon(
                 Icons.receipt_long_outlined,
@@ -262,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               "Ventas",
               ListViewVentaProductos()),
-        if (reportes == true)
+        if (reportes == true && rol == "Administrador")
           _getSubItem(
               const Icon(
                 Icons.receipt_long_outlined,
@@ -270,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               "Balance",
               ListViewBalance()),
-        if (reportes == true)
+        if (reportes == true && rol == "Administrador")
           _getSubItem(
               const Icon(
                 Icons.request_page_outlined,
@@ -278,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               "Capital",
               ListviewCapital()),
-        if (reportes == true)
+        if (reportes == true && rol == "Administrador")
           _getSubItem(
               const Icon(
                 Icons.receipt_long_outlined,

@@ -264,6 +264,11 @@ class _ResetPasswordState extends State<ResetPassword> {
       );
       Provider.of<MeProvider>(context, listen: false)
           .recuperacionContra(usuario);
+      Fluttertoast.showToast(
+          msg: "Contraseña actualizada exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => LoginScreen()),

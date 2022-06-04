@@ -195,7 +195,11 @@ class _RegistrationAbonoCreditoState extends State<RegistrationAbonoCredito> {
             double.parse(cantidadController.text);
         String valor = resta.toStringAsFixed(2);
         widget.__creditoModel.total = valor;
-        Fluttertoast.showToast(msg: "Abono de crédito creado exitosamente :) ");
+        Fluttertoast.showToast(
+            msg: "Abono de Crédito creado exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
@@ -227,7 +231,10 @@ class _RegistrationAbonoCreditoState extends State<RegistrationAbonoCredito> {
         String valor = actualizacion.toStringAsFixed(2);
         widget.__creditoModel.total = valor;
         Fluttertoast.showToast(
-            msg: "Abono de Crédito actualizado exitosamente :) ");
+            msg: "Abono de Crédito actualizado exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(

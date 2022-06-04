@@ -213,7 +213,11 @@ class _RegistrationCreditoState extends State<RegistrationCredito> {
       CreditoModel credito =
           CreditoModel(nombreCredito: nombreCreditoController.text);
       Provider.of<CreditoProvider>(context, listen: false).addCredito(credito);
-      Fluttertoast.showToast(msg: "Crédito creado exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Crédito creado exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => ListViewCredito()),
@@ -232,7 +236,11 @@ class _RegistrationCreditoState extends State<RegistrationCredito> {
           CreditoModel(nombreCredito: nombreCreditoController.text);
       Provider.of<CreditoProvider>(context, listen: false)
           .updateCredito(gasto, id);
-      Fluttertoast.showToast(msg: "Crédito actualizado exitosamente :) ");
+      Fluttertoast.showToast(
+          msg: "Crédito actualizado exitosamente",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => ListViewCredito()),

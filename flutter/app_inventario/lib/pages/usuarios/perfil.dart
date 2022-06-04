@@ -391,7 +391,11 @@ class _PerfilScreenState extends State<PerfilScreen> {
         //password: confirmPasswordController.text,
       );
       Provider.of<MeProvider>(context, listen: false).updateMe(usuario, id);
-      Fluttertoast.showToast(msg: "Cambios Guardados ");
+      Fluttertoast.showToast(
+          msg: "Perfil actualizado",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => HomeScreen()),

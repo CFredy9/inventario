@@ -26,6 +26,8 @@ SECRET_KEY = '7j1@%5#*$oigxeh*y95vc)7&$#mg9dqjct&b^2ogu3qyq1qc)d'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '157.245.249.5',
+    'tienda-kairos.xyz'
     '10.0.2.2',
     '127.0.0.1',
     '192.168.43.83',

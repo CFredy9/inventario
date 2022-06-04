@@ -26,8 +26,7 @@ class VencimientoProvider with ChangeNotifier {
   getVencimientoProducto(String start, String end) async {
     _vencimientoProducto = [];
     var token = storage.getItem('token');
-    final url =
-        Uri.parse('http://${apiUrl}:8000/api/vencimientodetalleproducto/');
+    final url = Uri.parse('http://${apiUrl}/api/vencimientodetalleproducto/');
     final response = await http.get(
       url,
       headers: {
@@ -38,7 +37,8 @@ class VencimientoProvider with ChangeNotifier {
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _vencimientoProducto = data
           .map<DetalleProductoModel>(

@@ -198,7 +198,10 @@ class _RegistrationDetalleCreditoState
         String valor = suma.toStringAsFixed(2);
         widget.__creditoModel.total = valor;
         Fluttertoast.showToast(
-            msg: "Detalle de crédito creado exitosamente :) ");
+            msg: "Detalle de Crédito creado exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
@@ -230,7 +233,10 @@ class _RegistrationDetalleCreditoState
         String valor = actualizacion.toStringAsFixed(2);
         widget.__creditoModel.total = valor;
         Fluttertoast.showToast(
-            msg: "Detalle de Crédito actualizado exitosamente :) ");
+            msg: "Detalle de Crédito actualizado exitosamente",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
