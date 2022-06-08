@@ -1,6 +1,7 @@
 import 'dart:async';
 //import 'dart:ffi';
 
+import 'package:app_inventario/pages/productos/transfer/registro.dart';
 import 'package:app_inventario/pages/productos/venta/registro.dart';
 import 'package:app_inventario/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
@@ -613,6 +614,27 @@ class _ProductoInformationState extends State<ProductoInformation> {
                                                               textColor:
                                                                   Colors.white,
                                                               fontSize: 16.0)),
+                                                  IconButton(
+                                                      icon: const Icon(
+                                                        Icons.loop,
+                                                        color: ColorF,
+                                                      ),
+                                                      onPressed: () => (rol ==
+                                                              "Administrador")
+                                                          ? _navigateToTransfer(
+                                                              context,
+                                                              itemsDetalle
+                                                                      .todosdetalleProducto[
+                                                                  position],
+                                                              widget.producto)
+                                                          : Fluttertoast.showToast(
+                                                              msg:
+                                                                  "No tiene los permisos requeridos\n para realizar esta acción",
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                              textColor:
+                                                                  Colors.white,
+                                                              fontSize: 16.0)),
                                                 ],
                                               ),
 
@@ -665,6 +687,15 @@ class _ProductoInformationState extends State<ProductoInformation> {
       context,
       MaterialPageRoute(
           builder: (context) => RegistrationVenta(detalle, producto)),
+    );
+  }
+
+  void _navigateToTransfer(BuildContext context, DetalleProductoModel detalle,
+      ProductoModel producto) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => TransferExistencias(detalle, producto)),
     );
   }
 
@@ -727,6 +758,7 @@ class NewsCardSkelton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: const <Widget>[
+        SizedBox(height: 40),
         Skeleton(height: 120, width: 315),
         SizedBox(height: 10),
         Skeleton(height: 50, width: 315),

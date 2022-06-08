@@ -115,6 +115,52 @@ class ProductoProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> getProductosAgotados(String? Id) async {
+    var token = storage.getItem('token');
+    final url = Uri.parse('http://${apiUrl}/api/producto/productosAgotados');
+    final response = await http.get(
+      url,
+      headers: {'id': Id!, 'Authorization': 'token $token'},
+    );
+    if (response.statusCode == 200) {
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
+      print(data);
+      _producto = data
+          .map<ProductoModel>((json) => ProductoModel.fromJson(json))
+          .toList();
+      notifyListeners();
+      countProduct = _producto.length;
+      if (countProduct == 0) {
+        Fluttertoast.showToast(
+            msg: "No se encontraron datos",
+            backgroundColor: Colors.grey,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  searchProductosAgotados(String? Id, String? query, String? ordering) async {
+    var token = storage.getItem('token');
+    final url = Uri.parse(
+        'http://${apiUrl}/api/producto/productosAgotados/?search=$query');
+    final response = await http.get(
+      url,
+      headers: {'id': Id!, 'Authorization': 'token $token'},
+    );
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body) as List;
+      print(data);
+      _producto = data
+          .map<ProductoModel>((json) => ProductoModel.fromJson(json))
+          .toList();
+      notifyListeners();
+    }
+  }
+
   getProductoCategoria(String? Id) async {
     var token = storage.getItem('token');
     final url = Uri.parse('http://${apiUrl}/api/producto/?ordering=nombre');

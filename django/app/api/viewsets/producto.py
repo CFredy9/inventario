@@ -135,6 +135,40 @@ class ProductoViewset(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'detail':str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(methods=["get"], detail=False)
+    def productosAgotados(self, request, *args, **kwargs):
+        user = request.user
+        data = request.headers
+
+        queryset = self.filter_queryset(Producto.objects.filter(
+            activo=True
+            ).annotate(existenciasT=Sum('producto__existencias')
+            ).filter(existenciasT__lte=5
+            ).order_by('existenciasT', 'nombre'))
+
+        serializer = ProductoSerializer(queryset, many=True)
+
+        page = request.GET.get('page')
+
+        try: 
+            page = self.paginate_queryset(queryset)
+            print('page', page)
+        except Exception as e:
+            page = []
+            data = page
+            return Response({
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'No more record.',
+                "data" : data
+                })
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            data = serializer.data
+            return self.get_paginated_response(data)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class VentaProductoViewset(viewsets.ModelViewSet):
 
     serializer_class = VentaProductoSerializer
@@ -318,5 +352,7 @@ class VentaProductoViewset(viewsets.ModelViewSet):
             return self.get_paginated_response(data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    
 
 
