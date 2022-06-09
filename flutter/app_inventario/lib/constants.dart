@@ -17,9 +17,9 @@ var bP = false;
 var ColorCategoryCard = Colors.transparent;
 
 //const apiUrl = 'tienda-kairos.xyz';
-const apiUrl = '157.245.249.5';
+//const apiUrl = '157.245.249.5';
 //const apiUrl = '157.245.249.5:8000';
-//const apiUrl = '192.168.1.36:8000';
+const apiUrl = '192.168.1.36:8000';
 //const apiUrl = '192.168.0.10:8000';
 //const apiUrl = '192.168.0.23:8000';
 

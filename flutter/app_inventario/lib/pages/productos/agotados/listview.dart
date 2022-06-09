@@ -12,8 +12,7 @@ import '../../../api/producto.dart';
 import 'package:animate_do/animate_do.dart';
 
 class ListViewProductosAgotados extends StatefulWidget {
-  final CategoriaModel filterCategoria;
-  ListViewProductosAgotados(this.filterCategoria);
+  ListViewProductosAgotados();
   @override
   _ListViewProductosAgotadosState createState() =>
       _ListViewProductosAgotadosState();
@@ -65,26 +64,13 @@ class _ListViewProductosAgotadosState extends State<ListViewProductosAgotados> {
           border: InputBorder.none,
         ),
         onChanged: (value) {
-          if (widget.filterCategoria.Id != null) {
-            productoT.searchProducto(
-                widget.filterCategoria.Id.toString(), value, '');
-            searchB = value;
-          } else {
-            productoT.searchProducto('', value, '');
-            searchB = value;
-          }
+          productoT.searchProductosAgotados(value);
+          searchB = value;
         },
       ),
     );
-
-    print('Prueba para ver que lleva');
-    print(widget.filterCategoria.Id);
-    if (widget.filterCategoria.Id != null && bandera == false) {
-      bP = false;
-      productoT.getProducto(widget.filterCategoria.Id.toString());
-      bandera = true;
-    } else if (widget.filterCategoria.Id == null && bandera == false) {
-      productoT.getProducto('');
+    if (bandera == false) {
+      productoT.getProductosAgotados();
       bandera = true;
     }
     return MaterialApp(
@@ -127,24 +113,7 @@ class _ListViewProductosAgotadosState extends State<ListViewProductosAgotados> {
                   children: [
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.65,
-                        //child: SearchBar()),
                         child: Buscador),
-                    /*IconButton(
-                        icon: const Icon(
-                          Icons.filter_list,
-                          color: Colors.white,
-                          size: 28,
-                        ),
-                        onPressed: () {
-                          if (widget.filterCategoria.Id != null) {
-                            productoT.searchProducto(
-                                widget.filterCategoria.Id.toString(),
-                                searchB,
-                                '-nombre');
-                          } else {
-                            productoT.searchProducto('', searchB, '-nombre');
-                          }
-                        }),*/
                   ],
                 ),
               ],

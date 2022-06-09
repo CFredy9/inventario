@@ -68,10 +68,8 @@ class _TransferExistenciasState extends State<TransferExistencias> {
   @override
   Widget build(BuildContext context) {
     //Campo Existencias
-    final existenciasTField = Container(
-      color: PrimaryLightColor,
-      child: Expanded(
-          child: TextFormField(
+    final existenciasTField = Expanded(
+      child: TextFormField(
         controller: existenciasTController,
         enabled: false,
         decoration: const InputDecoration(
@@ -80,13 +78,11 @@ class _TransferExistenciasState extends State<TransferExistencias> {
             borderRadius: BorderRadius.circular(20),
           ),*/
         ),
-      )),
+      ),
     );
 
-    final existenciasBField = Container(
-      color: PrimaryLightColor,
-      child: Expanded(
-          child: TextFormField(
+    final existenciasBField = Expanded(
+      child: TextFormField(
         controller: existenciasBController,
         enabled: false,
         decoration: const InputDecoration(
@@ -95,7 +91,7 @@ class _TransferExistenciasState extends State<TransferExistencias> {
             borderRadius: BorderRadius.circular(20),
           ),*/
         ),
-      )),
+      ),
     );
 
     final registrarButton = Material(

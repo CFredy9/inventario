@@ -4,6 +4,7 @@ import 'package:app_inventario/api/categoria.dart';
 import 'package:app_inventario/api/producto.dart';
 import 'package:app_inventario/api/usuario.dart';
 import 'package:app_inventario/models/categoria.dart';
+import 'package:app_inventario/pages/productos/agotados/listview.dart';
 import 'package:app_inventario/pages/reportes/productosVendidos/listview.dart';
 import 'package:app_inventario/widgets/animations.dart';
 import 'package:app_inventario/widgets/carga.dart';
@@ -46,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   CategoriaProvider categoriaT = CategoriaProvider();
   late bool _isLoading;
   bool reportes = false;
+  bool utilidades = false;
   double espacio = 45.0;
   //bool bandera = false;
   //final User? user = FirebaseAuth.instance.currentUser;
@@ -287,13 +289,64 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               "Productos \nVendidos",
               ListViewProductosVendidos()),
-        _getItem(
-            const Icon(
-              Icons.date_range_outlined,
+        ListTile(
+            leading: const Icon(
+              Icons.receipt_long_outlined,
               color: Colors.white,
             ),
-            "Vencimiento",
-            VencimientoProductos()),
+            title: Row(
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                const Text("Utilidades",
+                    style: TextStyle(
+                      color: Colors.white,
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    )),
+                IconButton(
+                  onPressed: () {
+                    if (utilidades == false) {
+                      utilidades = true;
+                    } else {
+                      utilidades = false;
+                    }
+                    setState(() {});
+                  },
+                  icon: const Icon(
+                    Icons.arrow_drop_down_circle_outlined,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                )
+              ],
+            ),
+            onTap: () {
+              if (utilidades == false) {
+                utilidades = true;
+              } else {
+                utilidades = false;
+              }
+              setState(() {});
+            }),
+
+        if (utilidades == true)
+          _getSubItem(
+              const Icon(
+                Icons.receipt_long_outlined,
+                color: Colors.white,
+              ),
+              "Productos \nAgotados",
+              ListViewProductosAgotados()),
+        if (utilidades == true)
+          _getSubItem(
+              const Icon(
+                Icons.receipt_long_outlined,
+                color: Colors.white,
+              ),
+              "Vencimiento \nde Productos",
+              VencimientoProductos()),
+
         Divider(
           height: espacio,
         ),

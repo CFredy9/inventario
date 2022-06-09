@@ -136,6 +136,7 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
           padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
+            print("Aqui entra?");
             onAdd();
           },
           child: (widget._detalleproductoModel.Id != null)
@@ -261,6 +262,8 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
         double.parse(widget._detalleproductoModel.precio_venta!);
 
     double ganancia = total_venta - total_costo;
+    String inString = ganancia.toStringAsFixed(2); // '2.35'
+    ganancia = double.parse(inString);
 
     if (int.parse(existenciasController.text) != 0) {
       VentaModel venta = VentaModel(

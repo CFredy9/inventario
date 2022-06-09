@@ -106,7 +106,8 @@ class ProductoProvider with ChangeNotifier {
       headers: {'id': Id!, 'Authorization': 'token $token'},
     );
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _producto = data
           .map<ProductoModel>((json) => ProductoModel.fromJson(json))
@@ -115,12 +116,12 @@ class ProductoProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> getProductosAgotados(String? Id) async {
+  Future<bool> getProductosAgotados() async {
     var token = storage.getItem('token');
     final url = Uri.parse('http://${apiUrl}/api/producto/productosAgotados');
     final response = await http.get(
       url,
-      headers: {'id': Id!, 'Authorization': 'token $token'},
+      headers: {'Authorization': 'token $token'},
     );
     if (response.statusCode == 200) {
       String body = const Utf8Decoder().convert(response.bodyBytes);
@@ -143,16 +144,17 @@ class ProductoProvider with ChangeNotifier {
     return false;
   }
 
-  searchProductosAgotados(String? Id, String? query, String? ordering) async {
+  searchProductosAgotados(String? query) async {
     var token = storage.getItem('token');
     final url = Uri.parse(
         'http://${apiUrl}/api/producto/productosAgotados/?search=$query');
     final response = await http.get(
       url,
-      headers: {'id': Id!, 'Authorization': 'token $token'},
+      headers: {'Authorization': 'token $token'},
     );
     if (response.statusCode == 200) {
-      var data = json.decode(response.body) as List;
+      String body = const Utf8Decoder().convert(response.bodyBytes);
+      var data = json.decode(body) as List;
       print(data);
       _producto = data
           .map<ProductoModel>((json) => ProductoModel.fromJson(json))

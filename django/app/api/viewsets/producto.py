@@ -143,7 +143,7 @@ class ProductoViewset(viewsets.ModelViewSet):
         queryset = self.filter_queryset(Producto.objects.filter(
             activo=True
             ).annotate(existenciasT=Sum('producto__existencias')
-            ).filter(existenciasT__lte=5
+            ).filter(existenciasT__lte=1
             ).order_by('existenciasT', 'nombre'))
 
         serializer = ProductoSerializer(queryset, many=True)

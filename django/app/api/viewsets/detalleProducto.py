@@ -64,7 +64,7 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
                 data = request.data
                 print(data)
 
-                vencimiento = datetime.datetime.strptime(data.get('vencimiento'), "%Y/%m/%d").date()
+                vencimiento = datetime.datetime.strptime(data.get('vencimiento'), "%Y-%m-%d").date()
 
                 #serializer = CatedraticoRegistroSerializer(data=request.data)
                 verify = DetalleProductoRegistroSerializer(data=data)
@@ -99,7 +99,9 @@ class DetalleProductoViewset(viewsets.ModelViewSet):
             with transaction.atomic():
                 #user = request.data
                 data = request.data
+                print(data.get('vencimiento'))
                 vencimiento = datetime.datetime.strptime(data.get('vencimiento'), "%Y-%m-%d").date()
+                print(vencimiento)
                 verify = DetalleProductoRegistroSerializer(data=data)
                 if verify.is_valid():
                     detalleproducto = DetalleProducto.objects.get(pk=pk)

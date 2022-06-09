@@ -638,9 +638,9 @@ class _RegistrationDetalleProductoState
       setState(() {
         selectedDate = selected;
         vencimientoController.text = selected.year.toString() +
-            '/' +
+            '-' +
             selected.month.toString() +
-            '/' +
+            '-' +
             selected.day.toString();
       });
   }
@@ -721,7 +721,6 @@ class _RegistrationDetalleProductoState
       existenciasTotal = int.parse(existenciasTController.text) +
           int.parse(existenciasBController.text);
     }
-
     if (precioCostoController.text.isNotEmpty &&
         precioVentaController.text.isNotEmpty &&
         existenciasTController.text.isNotEmpty &&
