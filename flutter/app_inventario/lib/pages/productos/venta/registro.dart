@@ -16,7 +16,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 class RegistrationVenta extends StatefulWidget {
   final DetalleProductoModel _detalleproductoModel;
   final ProductoModel __productModel;
-  RegistrationVenta(this._detalleproductoModel, this.__productModel);
+  final CategoriaModel cateFilterRV;
+  RegistrationVenta(
+      this._detalleproductoModel, this.__productModel, this.cateFilterRV);
   @override
   _RegistrationVentaState createState() => _RegistrationVentaState();
 }
@@ -208,7 +210,8 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ProductoInformation(
-                                    widget.__productModel)));
+                                    widget.__productModel,
+                                    widget.cateFilterRV)));
                       } else {
                         // passing this to our root
                         Navigator.of(context).pop();
@@ -289,8 +292,8 @@ class _RegistrationVentaState extends State<RegistrationVenta> {
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
-                builder: (context) =>
-                    ProductoInformation(widget.__productModel)),
+                builder: (context) => ProductoInformation(
+                    widget.__productModel, widget.cateFilterRV)),
             (route) => false);
       }
     } else {

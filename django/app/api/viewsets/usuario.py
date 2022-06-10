@@ -47,9 +47,9 @@ class UserViewset(viewsets.ModelViewSet):
         if self.action == "token":
             permission_classes = [AllowAny]
         elif self.action == "create" or self.action == "destroy":
-            permission_classes = [IsAdmin]
+            permission_classes = [AllowAny]
         else:
-            permission_classes = [IsAuthenticated]
+            permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
 
@@ -208,13 +208,13 @@ class UserViewset(viewsets.ModelViewSet):
             ha = jwt.decode(encoded_jwt, "secret", algorithms=["HS256"])
             #{'some': 'payload'}
             print(ha)
-            
+            print("UNO")
             
             mailServer = smtplib.SMTP('smtp.gmail.com',587)
             mailServer.ehlo()
             mailServer.starttls()
             mailServer.ehlo()
-            mailServer.login("tiendakairos7@gmail.com","tienda123")
+            mailServer.login("tiendakairos7@gmail.com","yhbovuhhfjsgbkbp")
 
 
             # Construimos el mensaje simple

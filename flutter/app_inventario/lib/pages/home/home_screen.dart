@@ -419,7 +419,7 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: Size.fromHeight(80.0),
         child: AppBar(
           elevation: 0,
-          title: const Text("Welcome"),
+          title: const Text("Bienvenido"),
           centerTitle: true,
           /*flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -509,7 +509,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Image.asset("assets/logo.png", fit: BoxFit.contain),
                 ),*/
                 const Text(
-                  "Welcome Back",
+                  "Tienda Kairos",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -532,7 +532,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 15,
                 ),
                 ActionChip(
-                    label: Text("Logout"),
+                    label: const Text("Cerrar Sesión"),
                     onPressed: () {
                       logout(context);
                     }),

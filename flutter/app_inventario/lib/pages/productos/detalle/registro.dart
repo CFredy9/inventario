@@ -18,9 +18,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 class RegistrationDetalleProducto extends StatefulWidget {
   final DetalleProductoModel _detalleproductoModel;
   final ProductoModel __productModel;
+  final CategoriaModel cateFilterRD;
   int valor;
-  RegistrationDetalleProducto(
-      this._detalleproductoModel, this.__productModel, this.valor);
+  RegistrationDetalleProducto(this._detalleproductoModel, this.__productModel,
+      this.cateFilterRD, this.valor);
   @override
   _RegistrationDetalleProductoState createState() =>
       _RegistrationDetalleProductoState();
@@ -488,7 +489,8 @@ class _RegistrationDetalleProductoState
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProductoInformation(
-                                      widget.__productModel)));
+                                      widget.__productModel,
+                                      widget.cateFilterRD)));
                         } else {
                           // passing this to our root
                           Navigator.of(context).pop();
@@ -661,9 +663,7 @@ class _RegistrationDetalleProductoState
         int.parse(existenciasBController.text);
     if (precioCostoController.text.isNotEmpty &&
         precioVentaController.text.isNotEmpty &&
-        existenciasTController.text.isNotEmpty &&
-        existenciasTController.text.isNotEmpty &&
-        vencimientoController.text.isNotEmpty) {
+        existenciasTController.text.isNotEmpty) {
       DetalleProductoModel detalleproducto = DetalleProductoModel(
         producto: widget.__productModel.Id,
         precio_costo: precioCostoController.text,
@@ -691,8 +691,8 @@ class _RegistrationDetalleProductoState
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
-                builder: (context) =>
-                    ProductoInformation(widget.__productModel)),
+                builder: (context) => ProductoInformation(
+                    widget.__productModel, widget.cateFilterRD)),
             (route) => false);
       }
     }
@@ -723,8 +723,7 @@ class _RegistrationDetalleProductoState
     }
     if (precioCostoController.text.isNotEmpty &&
         precioVentaController.text.isNotEmpty &&
-        existenciasTController.text.isNotEmpty &&
-        vencimientoController.text.isNotEmpty) {
+        existenciasTController.text.isNotEmpty) {
       DetalleProductoModel detalleproducto = DetalleProductoModel(
         producto: widget.__productModel.Id,
         precio_costo: precioCostoController.text,
@@ -755,8 +754,8 @@ class _RegistrationDetalleProductoState
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
-                builder: (context) =>
-                    ProductoInformation(widget.__productModel)),
+                builder: (context) => ProductoInformation(
+                    widget.__productModel, widget.cateFilterRD)),
             (route) => false);
       }
     }

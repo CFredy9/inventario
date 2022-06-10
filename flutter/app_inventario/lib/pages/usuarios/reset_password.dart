@@ -14,11 +14,19 @@ class VerificarCorreo extends StatefulWidget {
 }
 
 class _VerificarCorreoState extends State<VerificarCorreo> {
+  String? errorMessage;
   // form key
   final _formKey = GlobalKey<FormState>();
   String? _email;
   TextEditingController emailController = TextEditingController();
   //final auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     //email field
@@ -34,7 +42,7 @@ class _VerificarCorreoState extends State<VerificarCorreo> {
           // reg expression for email validation
           if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
               .hasMatch(value)) {
-            return ("Please Enter a valid email");
+            return ("Ingrese un correo válido");
           }
           return null;
         },
@@ -82,72 +90,80 @@ class _VerificarCorreoState extends State<VerificarCorreo> {
       ),*/
       body: Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                children: [
-                  SizedBox(height: size.height * 0.18),
-                  IconButton(
-                    icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
-                    onPressed: () {
-                      // passing this to our root
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.08),
-              const Text(
-                'RESTABLECER CONTRASEÑA',
-                style: TextStyle(
-                    fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: size.height * 0.08),
-              const Text(
-                'Email',
-                style: TextStyle(fontSize: 14, color: ColorF),
-                textAlign: TextAlign.left,
-              ),
-              //SizedBox(height: 5),
-              SizedBox(
-                child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: PrimaryLightColor,
-                      borderRadius: BorderRadius.circular(29),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Column(
+                  children: [
+                    SizedBox(height: size.height * 0.18),
+                    IconButton(
+                      icon:
+                          Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
+                      onPressed: () {
+                        // passing this to our root
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    child: emailField),
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                child: ButtonReset,
-                width: size.width * 0.75,
-              ),
-              SizedBox(height: 15),
-            ],
+                  ],
+                ),
+                SizedBox(height: size.height * 0.08),
+                const Text(
+                  'RESTABLECER CONTRASEÑA',
+                  style: TextStyle(
+                      fontSize: 18, color: ColorF, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: size.height * 0.08),
+                const Text(
+                  'Email',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
+                ),
+                //SizedBox(height: 5),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: emailField),
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  child: ButtonReset,
+                  width: size.width * 0.75,
+                ),
+                SizedBox(height: 15),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  void enviarCorreo(String correo) {
+  Future<void> enviarCorreo(String correo) async {
+    var isvalid = _formKey.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _formKey.currentState!.save();
     if (correo.isNotEmpty) {
-      Provider.of<MeProvider>(context, listen: false).enviarCorreo(correo);
-      Fluttertoast.showToast(
-          msg: "Correo enviado",
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      Navigator.pushAndRemoveUntil(
-          (context),
-          MaterialPageRoute(builder: (context) => VerificacionCodigo(correo)),
-          (route) => false);
+      bool istoken = await Provider.of<MeProvider>(context, listen: false)
+          .enviarCorreo(correo);
+      if (istoken) {
+        Navigator.pushAndRemoveUntil(
+            (context),
+            MaterialPageRoute(builder: (context) => VerificacionCodigo(correo)),
+            (route) => false);
+      }
     }
   }
 }

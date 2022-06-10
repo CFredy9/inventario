@@ -211,7 +211,7 @@ class MeProvider with ChangeNotifier {
     }
   }
 
-  void enviarCorreo(String correo) async {
+  Future<bool> enviarCorreo(String correo) async {
     bool bandera = false;
     //var token = storage.getItem('token');
     final url = Uri.parse('http://${apiUrl}/api/usuario/');
@@ -243,7 +243,7 @@ class MeProvider with ChangeNotifier {
       }
       print(c);
       codigoT.deleteItem('codigo');
-      codigoT.setItem("codigo", c);
+      //codigoT.setItem("codigo", c);
       List aux = [correo, c];
       final response = await http.post(
           Uri.parse("http://${apiUrl}/api/usuario/enviarCorreo/"),
@@ -253,14 +253,25 @@ class MeProvider with ChangeNotifier {
           },
           body: json.encode(aux));
       //print(response.statusCode);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         //getMe();
         notifyListeners();
-        Fluttertoast.showToast(msg: "Contraseña actualizada ");
+        Fluttertoast.showToast(
+            msg: "Correo enviado",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        return true;
       }
     } else {
-      Fluttertoast.showToast(msg: "Ingrese un correo válido ");
+      Fluttertoast.showToast(
+          msg: "El correo ingresado no se  \n encuentra registrado",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return false;
     }
+    return false;
   }
 
   void verificarCodigo(String codigo) async {

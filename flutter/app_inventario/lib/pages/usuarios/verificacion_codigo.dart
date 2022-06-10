@@ -28,7 +28,7 @@ class _VerificacionCodigoState extends State<VerificacionCodigo> {
     final codigoField = TextFormField(
         autofocus: false,
         controller: codigoController,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.number,
         cursorColor: ColorF,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{6,}$');
@@ -94,7 +94,12 @@ class _VerificacionCodigoState extends State<VerificacionCodigo> {
                     icon: Icon(Icons.reply_all_sharp, color: ColorF, size: 30),
                     onPressed: () {
                       // passing this to our root
-                      Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
+                      Navigator.pushAndRemoveUntil(
+                          (context),
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                          (route) => false);
                     },
                   ),
                 ],

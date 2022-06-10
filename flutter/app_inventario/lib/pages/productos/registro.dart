@@ -17,7 +17,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class RegistrationProducto extends StatefulWidget {
   final ProductoModel __productoModel;
-  RegistrationProducto(this.__productoModel);
+  final CategoriaModel cateFilterR;
+  RegistrationProducto(this.__productoModel, this.cateFilterR);
   @override
   _RegistrationProductoState createState() => _RegistrationProductoState();
 }
@@ -366,7 +367,7 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(
-              builder: (context) => ListViewProductos(CategoriaModel())),
+              builder: (context) => ListViewProductos(widget.cateFilterR)),
           (route) => false);
     }
   }
@@ -397,7 +398,8 @@ class _RegistrationProductoState extends State<RegistrationProducto> {
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(
-              builder: (context) => ProductoInformation(producto)),
+              builder: (context) =>
+                  ProductoInformation(producto, widget.cateFilterR)),
           (route) => false);
     }
   }

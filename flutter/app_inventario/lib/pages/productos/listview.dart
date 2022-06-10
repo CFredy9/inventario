@@ -359,7 +359,9 @@ class _ListViewProductosState extends State<ListViewProductos> {
   ) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ProductoInformation(producto)),
+      MaterialPageRoute(
+          builder: (context) =>
+              ProductoInformation(producto, widget.filterCategoria)),
     );
   }
 
@@ -367,7 +369,8 @@ class _ListViewProductosState extends State<ListViewProductos> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => RegistrationProducto(ProductoModel())),
+          builder: (context) =>
+              RegistrationProducto(ProductoModel(), widget.filterCategoria)),
     );
   }
 

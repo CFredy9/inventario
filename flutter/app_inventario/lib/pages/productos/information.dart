@@ -22,10 +22,10 @@ import 'package:animate_do/animate_do.dart';
 
 class ProductoInformation extends StatefulWidget {
   final ProductoModel producto;
-  //final CategoriaModel __cateModel;
+  final CategoriaModel cateFilter;
   //final UbicacionModel __ubiModel;
   //final EstanteriaModel __estanteriaModel;
-  ProductoInformation(this.producto);
+  ProductoInformation(this.producto, this.cateFilter);
   @override
   _ProductoInformationState createState() => _ProductoInformationState();
 }
@@ -178,7 +178,7 @@ class _ProductoInformationState extends State<ProductoInformation> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ListViewProductos(CategoriaModel())));
+                            ListViewProductos(widget.cateFilter)));
               },
             ),
           ),
@@ -667,7 +667,9 @@ class _ProductoInformationState extends State<ProductoInformation> {
   void _navigateToProducto(BuildContext context, ProductoModel producto) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => RegistrationProducto(producto)),
+      MaterialPageRoute(
+          builder: (context) =>
+              RegistrationProducto(producto, widget.cateFilter)),
     );
   }
 
@@ -676,8 +678,8 @@ class _ProductoInformationState extends State<ProductoInformation> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) =>
-              RegistrationDetalleProducto(detalle, producto, valor)),
+          builder: (context) => RegistrationDetalleProducto(
+              detalle, producto, widget.cateFilter, valor)),
     );
   }
 
@@ -686,7 +688,8 @@ class _ProductoInformationState extends State<ProductoInformation> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => RegistrationVenta(detalle, producto)),
+          builder: (context) =>
+              RegistrationVenta(detalle, producto, widget.cateFilter)),
     );
   }
 
@@ -695,7 +698,8 @@ class _ProductoInformationState extends State<ProductoInformation> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => TransferExistencias(detalle, producto)),
+          builder: (context) =>
+              TransferExistencias(detalle, producto, widget.cateFilter)),
     );
   }
 

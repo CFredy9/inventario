@@ -16,7 +16,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 class TransferExistencias extends StatefulWidget {
   final DetalleProductoModel _detalleproductoModel;
   final ProductoModel __productModel;
-  TransferExistencias(this._detalleproductoModel, this.__productModel);
+  final CategoriaModel cateFilterRT;
+  TransferExistencias(
+      this._detalleproductoModel, this.__productModel, this.cateFilterRT);
   @override
   _TransferExistenciasState createState() => _TransferExistenciasState();
 }
@@ -68,7 +70,8 @@ class _TransferExistenciasState extends State<TransferExistencias> {
   @override
   Widget build(BuildContext context) {
     //Campo Existencias
-    final existenciasTField = Expanded(
+    final existenciasTField = Container(
+      color: PrimaryLightColor,
       child: TextFormField(
         controller: existenciasTController,
         enabled: false,
@@ -81,7 +84,8 @@ class _TransferExistenciasState extends State<TransferExistencias> {
       ),
     );
 
-    final existenciasBField = Expanded(
+    final existenciasBField = Container(
+      color: PrimaryLightColor,
       child: TextFormField(
         controller: existenciasBController,
         enabled: false,
@@ -165,7 +169,8 @@ class _TransferExistenciasState extends State<TransferExistencias> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ProductoInformation(
-                                    widget.__productModel)));
+                                    widget.__productModel,
+                                    widget.cateFilterRT)));
                       } else {
                         // passing this to our root
                         Navigator.of(context).pop();
@@ -339,8 +344,8 @@ class _TransferExistenciasState extends State<TransferExistencias> {
         Navigator.pushAndRemoveUntil(
             (context),
             MaterialPageRoute(
-                builder: (context) =>
-                    ProductoInformation(widget.__productModel)),
+                builder: (context) => ProductoInformation(
+                    widget.__productModel, widget.cateFilterRT)),
             (route) => false);
       }
     }
