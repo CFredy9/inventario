@@ -1,3 +1,4 @@
+import 'package:app_inventario/pages/reportes/balance/diario.dart';
 import 'package:app_inventario/pages/reportes/information.dart';
 import '../../../constants.dart';
 import '../../../utils.dart';
@@ -37,7 +38,7 @@ class _ListViewBalanceState extends State<ListViewBalance>
   void initState() {
     super.initState();
     items = <ProductoModel>[];
-    tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    tabController = TabController(length: 3, vsync: this, initialIndex: 0);
   }
 
   @override
@@ -102,6 +103,9 @@ class _ListViewBalanceState extends State<ListViewBalance>
                   indicatorWeight: 5,
                   controller: tabController,
                   tabs: const <Widget>[
+                    Tab(
+                      text: 'Diario',
+                    ),
                     Tab(text: 'Mensual'),
                     Tab(text: 'Anual'),
                   ],
@@ -127,6 +131,7 @@ class _ListViewBalanceState extends State<ListViewBalance>
               child: TabBarView(
                 controller: tabController,
                 children: [
+                  BalanceDiario(),
                   BalanceMensual(),
                   BalanceAnual(),
                 ],

@@ -243,7 +243,7 @@ class MeProvider with ChangeNotifier {
       }
       print(c);
       codigoT.deleteItem('codigo');
-      //codigoT.setItem("codigo", c);
+      codigoT.setItem("codigo", c);
       List aux = [correo, c];
       final response = await http.post(
           Uri.parse("http://${apiUrl}/api/usuario/enviarCorreo/"),

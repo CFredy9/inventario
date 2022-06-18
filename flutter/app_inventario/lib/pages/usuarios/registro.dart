@@ -1,5 +1,6 @@
 import 'package:app_inventario/api/usuario.dart';
 import 'package:app_inventario/widgets/background.dart';
+import 'package:app_inventario/widgets/background2.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -43,6 +44,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         TextEditingController(text: widget.usuarioModel.Last_Name);
     phoneController = TextEditingController(text: widget.usuarioModel.Phone);
     emailController = TextEditingController(text: widget.usuarioModel.Email);
+    valores = widget.usuarioModel.Rol;
     if (widget.usuarioModel.Id != null) {
       bandera = false;
     }
@@ -391,29 +393,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: phoneField),
                   width: size.width * 0.75,
                 ),
-                Visibility(
-                  visible: bandera,
-                  child: const Text(
-                    'Rol',
-                    style: TextStyle(fontSize: 14, color: ColorF),
-                    textAlign: TextAlign.left,
-                  ),
+                const Text(
+                  'Rol',
+                  style: TextStyle(fontSize: 14, color: ColorF),
+                  textAlign: TextAlign.left,
                 ),
-                Visibility(
-                  visible: bandera,
-                  child: SizedBox(
-                    child: Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                        width: size.width * 0.8,
-                        decoration: BoxDecoration(
-                          color: PrimaryLightColor,
-                          borderRadius: BorderRadius.circular(29),
-                        ),
-                        child: rolField),
-                    width: size.width * 0.75,
-                  ),
+                SizedBox(
+                  child: Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: PrimaryLightColor,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: rolField),
+                  width: size.width * 0.75,
                 ),
                 Visibility(
                   visible: bandera,
@@ -544,12 +540,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         //email: emailController.text,
         //username: emailController.text,
         phone: phoneController.text,
-        //rol: valores,
+        rol: valores,
         //password: confirmPasswordController.text,
       );
       widget.usuarioModel.first_name = nameController.text;
       widget.usuarioModel.last_name = lastnameController.text;
       widget.usuarioModel.phone = phoneController.text;
+      widget.usuarioModel.rol = valores;
       Provider.of<UsuarioProvider>(context, listen: false)
           .updateUsuario(widget.usuarioModel, id);
       Fluttertoast.showToast(

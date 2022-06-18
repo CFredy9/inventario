@@ -86,7 +86,7 @@ class UserViewset(viewsets.ModelViewSet):
                 usuario.last_name = data.get('last_name')
                 #usuario.email = data.get('email')
                 usuario.phone = data.get('phone')
-                #usuario.rol = data.get('rol')
+                usuario.rol = data.get('rol')
                 usuario.save()
                 #else:
                 #    return Response({"detail":str(verify.errors)}, status=status.HTTP_400_BAD_REQUEST)

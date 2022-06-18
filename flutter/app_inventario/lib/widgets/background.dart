@@ -18,11 +18,11 @@ class Background extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: <Widget>[
           Positioned(
-            top: -70,
-            left: -10,
+            top: -80,
+            left: -80,
             child: Image.asset(
               "assets/main_top2.png",
-              width: size.width * 0.9,
+              width: size.width,
               color: ColorF,
             ),
           ),

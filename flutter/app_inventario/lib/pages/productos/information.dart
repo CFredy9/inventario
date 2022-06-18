@@ -760,16 +760,17 @@ class NewsCardSkelton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Column(
-      children: const <Widget>[
-        SizedBox(height: 40),
-        Skeleton(height: 120, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 50, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 150, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 150, width: 315),
+      children: <Widget>[
+        const SizedBox(height: 40),
+        Skeleton(height: 120, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 50, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 150, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 150, width: size.width * 0.9),
       ],
     );
   }

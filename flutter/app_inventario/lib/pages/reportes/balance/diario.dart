@@ -11,12 +11,12 @@ import '../../../api/reportes.dart';
 import '../../../api/gastos.dart';
 import 'package:animate_do/animate_do.dart';
 
-class BalanceMensual extends StatefulWidget {
+class BalanceDiario extends StatefulWidget {
   @override
-  _BalanceMensualState createState() => _BalanceMensualState();
+  _BalanceDiarioState createState() => _BalanceDiarioState();
 }
 
-class _BalanceMensualState extends State<BalanceMensual> {
+class _BalanceDiarioState extends State<BalanceDiario> {
   List<ProductoModel> items = <ProductoModel>[];
   ReportesProvider productoT = ReportesProvider();
   GastosProvider gastoT = GastosProvider();
@@ -39,10 +39,10 @@ class _BalanceMensualState extends State<BalanceMensual> {
     super.initState();
     items = <ProductoModel>[];
 
-    int dia = DateTime.now().day;
-    dateTime = dateTime.subtract(Duration(days: (dia - 1)));
-    print(posFecha);
-    dateBandera = true;
+    //int dia = DateTime.now().day;
+    //dateTime = dateTime.subtract(Duration(days: (dia - 1)));
+    //print(posFecha);
+    dateBandera = false;
     nombreMes();
   }
 
@@ -59,9 +59,9 @@ class _BalanceMensualState extends State<BalanceMensual> {
       String fechaInicio = DateFormat('yyyy/MM/dd').format(dateTime).toString();
       var fechaFinal = dateTime.year.toString() +
           '/' +
-          (dateTime.month + 1).toString() +
+          (dateTime.month).toString() +
           '/' +
-          dateTime.day.toString();
+          (dateTime.day + 1).toString();
       productoT.getVentaProducto(fechaInicio, fechaFinal.toString());
       productoT.getTotales(fechaInicio, fechaFinal.toString());
       gastoT.getGastoBalance(fechaInicio, fechaFinal.toString());
@@ -91,15 +91,11 @@ class _BalanceMensualState extends State<BalanceMensual> {
                             context,
                             child: buildDatePicker(),
                             onClicked: () {
-                              int dia = dateTime.day;
-                              dateTime =
-                                  dateTime.subtract(Duration(days: (dia - 1)));
                               final value =
                                   DateFormat('yyyy/MM/dd').format(dateTime);
                               //Utils.showSnackBar(context, 'Selected "$value"');
 
                               var fechaFinal;
-
                               setState(() {
                                 posFecha = dateTime.month;
                                 nombreMes();
@@ -113,9 +109,9 @@ class _BalanceMensualState extends State<BalanceMensual> {
                                 } else {
                                   fechaFinal = dateTime.year.toString() +
                                       '/' +
-                                      (dateTime.month + 1).toString() +
+                                      (dateTime.month).toString() +
                                       '/' +
-                                      dateTime.day.toString();
+                                      (dateTime.day + 1).toString();
                                 }
                               });
 
@@ -385,7 +381,11 @@ class _BalanceMensualState extends State<BalanceMensual> {
       'Diciembre'
     ];
 
-    valorFecha = mes[posFecha - 1] + ' ' + dateTime.year.toString();
+    valorFecha = dateTime.day.toString() +
+        ' ' +
+        mes[posFecha - 1] +
+        ' ' +
+        dateTime.year.toString();
   }
 
   Widget buildDatePicker() => SizedBox(

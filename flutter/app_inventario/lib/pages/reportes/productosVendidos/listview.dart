@@ -451,26 +451,27 @@ class NewsCardSkelton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Column(
-      children: const <Widget>[
-        Skeleton(height: 60, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 100, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 40, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 40, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 40, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 40, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 40, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 40, width: 315),
-        SizedBox(height: 10),
-        Skeleton(height: 40, width: 315),
-        SizedBox(height: 10),
+      children: <Widget>[
+        Skeleton(height: 60, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 100, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 40, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 40, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 40, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 40, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 40, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 40, width: size.width * 0.9),
+        const SizedBox(height: 10),
+        Skeleton(height: 40, width: size.width * 0.9),
+        const SizedBox(height: 10),
         Skeleton(height: 40, width: 315),
       ],
     );

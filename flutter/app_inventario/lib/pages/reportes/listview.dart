@@ -1,4 +1,5 @@
 import 'package:app_inventario/pages/reportes/information.dart';
+import 'package:app_inventario/pages/reportes/ventas/diario.dart';
 import '../../utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,7 +39,7 @@ class _ListViewVentaProductosState extends State<ListViewVentaProductos>
   void initState() {
     super.initState();
     items = <ProductoModel>[];
-    tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    tabController = TabController(length: 3, vsync: this, initialIndex: 0);
   }
 
   @override
@@ -104,6 +105,7 @@ class _ListViewVentaProductosState extends State<ListViewVentaProductos>
                   indicatorWeight: 5,
                   controller: tabController,
                   tabs: const <Widget>[
+                    Tab(text: 'Diario'),
                     Tab(text: 'Mensual'),
                     Tab(text: 'Anual'),
                   ],
@@ -129,6 +131,7 @@ class _ListViewVentaProductosState extends State<ListViewVentaProductos>
               child: TabBarView(
                 controller: tabController,
                 children: [
+                  ReporteDiario(),
                   ReporteMensual(),
                   ReporteAnual(),
                 ],

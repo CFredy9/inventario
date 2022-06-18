@@ -11,12 +11,12 @@ import 'package:provider/provider.dart';
 import '../../../utils.dart';
 import 'package:animate_do/animate_do.dart';
 
-class ReporteMensual extends StatefulWidget {
+class ReporteDiario extends StatefulWidget {
   @override
-  _ReporteMensualState createState() => _ReporteMensualState();
+  _ReporteDiarioState createState() => _ReporteDiarioState();
 }
 
-class _ReporteMensualState extends State<ReporteMensual> {
+class _ReporteDiarioState extends State<ReporteDiario> {
   List<ProductoModel> items = <ProductoModel>[];
   ReportesProvider productoT = ReportesProvider();
   bool bandera = false;
@@ -37,10 +37,10 @@ class _ReporteMensualState extends State<ReporteMensual> {
     super.initState();
     items = <ProductoModel>[];
 
-    int dia = DateTime.now().day;
-    dateTime = dateTime.subtract(Duration(days: (dia - 1)));
-    print(posFecha);
-    dateBandera = true;
+    //int dia = DateTime.now().day;
+    //dateTime = dateTime.subtract(Duration(days: (dia - 1)));
+    //print(posFecha);
+    dateBandera = false;
     nombreMes();
   }
 
@@ -56,9 +56,9 @@ class _ReporteMensualState extends State<ReporteMensual> {
       String fechaInicio = DateFormat('yyyy/MM/dd').format(dateTime).toString();
       var fechaFinal = dateTime.year.toString() +
           '/' +
-          (dateTime.month + 1).toString() +
+          (dateTime.month).toString() +
           '/' +
-          dateTime.day.toString();
+          (dateTime.day + 1).toString();
       productoT.getVentaProducto(fechaInicio, fechaFinal.toString());
       productoT.getTotales(fechaInicio, fechaFinal.toString());
       bandera = true;
@@ -85,9 +85,6 @@ class _ReporteMensualState extends State<ReporteMensual> {
                             context,
                             child: buildDatePicker(),
                             onClicked: () {
-                              int dia = dateTime.day;
-                              dateTime =
-                                  dateTime.subtract(Duration(days: (dia - 1)));
                               final value =
                                   DateFormat('yyyy/MM/dd').format(dateTime);
                               //Utils.showSnackBar(context, 'Selected "$value"');
@@ -106,9 +103,9 @@ class _ReporteMensualState extends State<ReporteMensual> {
                                 } else {
                                   fechaFinal = dateTime.year.toString() +
                                       '/' +
-                                      (dateTime.month + 1).toString() +
+                                      (dateTime.month).toString() +
                                       '/' +
-                                      dateTime.day.toString();
+                                      (dateTime.day + 1).toString();
                                 }
                               });
 
@@ -307,7 +304,11 @@ class _ReporteMensualState extends State<ReporteMensual> {
       'Diciembre'
     ];
 
-    valorFecha = mes[posFecha - 1] + ' ' + dateTime.year.toString();
+    valorFecha = dateTime.day.toString() +
+        ' ' +
+        mes[posFecha - 1] +
+        ' ' +
+        dateTime.year.toString();
   }
 
   Widget buildDatePicker() => SizedBox(
@@ -324,7 +325,7 @@ class _ReporteMensualState extends State<ReporteMensual> {
           ),
           child: CupertinoDatePicker(
             backgroundColor: Colors.white,
-            minimumYear: 2015,
+            minimumYear: 2019,
             maximumYear: DateTime.now().year,
             initialDateTime: dateTime,
             mode: CupertinoDatePickerMode.date,
